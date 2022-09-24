@@ -5,11 +5,6 @@
     "jest": true
   },
   "extends": ["plugin:react/recommended", "standard-with-typescript"],
-  "overrides": [],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
   "plugins": ["react"],
   "rules": {
     "react/react-in-jsx-scope": "off",
@@ -17,17 +12,71 @@
     "react/prop-types": "warn",
     "import/prefer-default-export": [0],
     "react/jsx-filename-extension": [0],
-    "import/extensions": "off",
-    "no-unused-vars": "warn",
+    "import/extensions": "error",
+    "no-unused-vars": "error",
     "unused-imports/no-unused-imports": "error",
-    "react/require-default-props": [0]
+    "react/require-default-props": [0],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "no-restricted-imports": ["error"],
+    "no-extra-semi": "off"
   },
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "requireConfigFile": false,
+    "project": "./tsconfig.json"
   },
-  "parser": "@babel/eslint-parser"
+  "parser": "@babel/eslint-parser",
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "env": { "browser": true, "es6": true, "node": true },
+      "extends": ["plugin:react/recommended", "standard-with-typescript"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaFeatures": { "jsx": true },
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "plugins": [
+        "react",
+        "@typescript-eslint",
+        "prettier",
+        "jest",
+        "rxjs",
+        "unused-imports",
+        "react-hooks"
+      ],
+      "settings": { "react": { "version": "detect" } },
+      "rules": {
+        "prettier/prettier": ["error"],
+        "react/prop-types": "warn",
+        "import/prefer-default-export": [0],
+        "@typescript-eslint/prefer-optional-chain": ["error"],
+        "react-hooks/exhaustive-deps": ["error", {}],
+        "@typescript-eslint/no-unused-vars": "warn",
+        "no-unused-vars": "off",
+        "react/jsx-props-no-spreading": ["off"],
+        "unused-imports/no-unused-imports": "error",
+        "import/no-cycle": [0],
+        "react/display-name": [0],
+        "@typescript-eslint/explicit-module-boundary-types": [0],
+        "no-bitwise": [0],
+        "no-restricted-imports": "error",
+        "react/destructuring-assignment": "off",
+        "@typescript-eslint/consistent-type-imports": "error",
+        "react/require-default-props": [0],
+        "semi": "off",
+        "@typescript-eslint/semi": "off",
+        "@typescript-eslint/space-before-function-paren": "off",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
+        // "react/react-in-jsx-scope": [0]
+      }
+    }
+  ]
 }

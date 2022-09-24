@@ -12,6 +12,22 @@
   },
   "plugins": ["react"],
   "rules": {
-    "react/react-in-jsx-scope": "off"
-  }
+    "react/react-in-jsx-scope": "off",
+    "prettier/prettier": ["error"],
+    "react/prop-types": "warn",
+    "import/prefer-default-export": [0],
+    "react/jsx-filename-extension": [0],
+    "import/extensions": "off",
+    "no-unused-vars": "warn",
+    "unused-imports/no-unused-imports": "error",
+    "react/require-default-props": [0]
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "parser": "@babel/eslint-parser"
 }

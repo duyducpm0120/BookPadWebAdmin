@@ -1,7 +1,11 @@
+import './App.css';
+import { Topbar } from './components/topbar/Topbar';
+// import { Topbar } from './components/topbar/Topbar';
+
 function App(): JSX.Element {
   return (
-    <div className="App">
-      <header className="App-header"></header>
+    <div className="app">
+      <Topbar />
     </div>
   );
 }

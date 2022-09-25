@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -20,8 +20,16 @@
     "paths": {
       "@source": ["./src"],
       "@source/*": ["./src/*"]
-    }
+    },
+    "sourceMap": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js", "modules"]
+  "exclude": [
+    "node_modules",
+    "babel.config.js",
+    "metro.config.js",
+    "jest.config.js",
+    "modules",
+    "webpack.config.js"
+  ]
 }

@@ -4,7 +4,7 @@ export const Topbar = (): JSX.Element => (
   <div className="topbar">
     <div className="topbarWrapper">
       <div className="topLeft">
-        <img src={appName}></img>
+        <img src={appName} className="logo" alt="BookPad" width={160}></img>
       </div>
       <div className="topRight">right</div>
     </div>

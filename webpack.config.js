@@ -1,5 +1,6 @@
 /* eslint-disable semi */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -29,7 +30,8 @@ module.exports = {
                 }
               ],
               '@babel/preset-typescript'
-            ]
+            ],
+            plugins: ['lodash']
           }
         }
       },
@@ -58,7 +60,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       title: 'Development'
-    })
+    }),
+    new LodashModuleReplacementPlugin()
   ],
   mode: 'development',
   devtool: 'inline-source-map'

@@ -1,0 +1,30 @@
+@use '../../scss/images';
+@use '../../scss/sizes';
+
+.signIn {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(images.$background);
+  // background-color: red;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.signInWrapper {
+  width: 30vw;
+  height: 30vw;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 6px;
+  padding: sizes.$spacing16;
+}
+
+.signInTextField {
+  margin-left: 10px;
+  color: red;
+}

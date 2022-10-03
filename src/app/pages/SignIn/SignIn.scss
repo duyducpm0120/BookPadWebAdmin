@@ -1,5 +1,6 @@
-@use '../../scss/images';
-@use '../../scss/sizes';
+@use '../../../core/scss/sizes';
+@use '../../../core/scss/colors';
+@use '../../../core/scss/images';
 
 .signIn {
   width: 100vw;
@@ -16,15 +17,21 @@
 
 .signInWrapper {
   width: 30vw;
-  height: 30vw;
+  height: auto;
   justify-content: center;
   align-items: center;
   background-color: white;
   border-radius: 6px;
-  padding: sizes.$spacing16;
+  padding: sizes.$spacing24;
 }
 
 .signInTextField {
   margin-left: 10px;
   color: red;
+}
+
+.signInHeader {
+  color: colors.$primary;
+  font-size: 32px;
+  margin-bottom: 32px;
 }

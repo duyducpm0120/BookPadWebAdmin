@@ -1,10 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material';
 import './App.scss';
-import { appTheme } from './const';
-import { SignIn } from './pages/SignIn';
-import './scss/styles.scss';
-
-// import { Topbar } from './components/topbar/Topbar';
+import { appTheme } from './core/const';
+import { SignIn } from './app/pages/SignIn';
+import './core/scss/styles.scss';
 const theme = createTheme(appTheme);
 function App(): JSX.Element {
   return (

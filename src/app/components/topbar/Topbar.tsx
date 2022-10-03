@@ -1,4 +1,4 @@
-import { appLogo } from '@source/assets/images';
+import { appLogo } from '@core/assets/images';
 import './Topbar.scss';
 export const Topbar = (): JSX.Element => (
   <div className="topbar">

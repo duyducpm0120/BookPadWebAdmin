@@ -18,8 +18,10 @@
     "strictNullChecks": true,
     "noImplicitAny": false,
     "paths": {
-      "@source": ["./src"],
-      "@source/*": ["./src/*"]
+      "@app": ["./src/app"],
+      "@app/*": ["./src/app/*"],
+      "@core": ["./src/core"],
+      "@core/*": ["./src/core/*"]
     },
     "sourceMap": true
   },

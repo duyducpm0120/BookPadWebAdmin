@@ -4,7 +4,7 @@
     "es2021": true,
     "jest": true
   },
-  "extends": ["plugin:react/recommended", "standard-with-typescript"],
+  "extends": ["plugin:react/recommended", "standard-with-typescript", "eslint:recommended"],
   "plugins": ["react"],
   "rules": {
     "react/react-in-jsx-scope": "off",
@@ -74,7 +74,11 @@
         "@typescript-eslint/semi": "off",
         "@typescript-eslint/space-before-function-paren": "off",
         "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off"
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/member-delimiter-style": "off"
         // "react/react-in-jsx-scope": [0]
       }
     }

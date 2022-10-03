@@ -22,9 +22,9 @@ const palette = {
     dark: '#509817'
   },
   secondary: {
-    main: '#fff',
-    light: '#fff',
-    dark: '#fff'
+    main: '#ffffff',
+    light: '#ffffff',
+    dark: '#ffffff'
   },
   background: {
     default: '#ffffff',
@@ -37,7 +37,23 @@ const palette = {
   },
   divider: 'rgba(49,44,44,0.12)'
 };
+const typography = {
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+    'Montserrat'
+  ].join(',')
+};
 
 export const appTheme: Theme = {
-  palette
+  palette,
+  typography
 };

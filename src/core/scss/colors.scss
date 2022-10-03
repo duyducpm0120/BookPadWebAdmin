@@ -1,0 +1,19 @@
+$primary: #67be23;
+$background: white;
+$stroke: #cbcbcb;
+$light_text: #ffffff;
+$dark_text: #626262;
+$black: #000000;
+$primary_2: #aedb8e;
+$primary_3: #eef7e7;
+
+:export {
+  primary: $primary;
+  background: $background;
+  stroke: $stroke;
+  light_text: $light_text;
+  dark_text: $dark_text;
+  black: $black;
+  primary_2: $primary_2;
+  primary_3: $primary_3;
+}

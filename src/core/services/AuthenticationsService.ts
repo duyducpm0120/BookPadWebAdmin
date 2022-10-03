@@ -1,4 +1,4 @@
-import type { AxiosResponse } from 'axios';
+import { SignInModel } from '@core/models';
 import axios from 'axios';
 export const signIn = async ({
   email,
@@ -6,10 +6,10 @@ export const signIn = async ({
 }: {
   email: string;
   password: string;
-}): Promise<AxiosResponse> => {
+}): Promise<SignInModel> => {
   const response = await axios.post('http://localhost:4000/auth/login', {
     Email: email,
     Password: password
   });
-  return response;
+  return SignInModel.instantiate(response);
 };

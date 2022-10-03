@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { signIn } from '@core/services';
 import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
 import { useState } from 'react';

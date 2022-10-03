@@ -6,6 +6,7 @@
   },
   "extends": ["plugin:react/recommended", "standard-with-typescript", "eslint:recommended"],
   "plugins": ["react"],
+  "settings": { "react": { "version": "detect" } },
   "rules": {
     "react/react-in-jsx-scope": "off",
     "prettier/prettier": ["error"],
@@ -34,7 +35,7 @@
     {
       "files": ["**/*.ts", "**/*.tsx"],
       "env": { "browser": true, "es6": true, "node": true },
-      "extends": ["plugin:react/recommended", "standard-with-typescript"],
+      "extends": ["plugin:react/recommended", "standard-with-typescript", "eslint:recommended"],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "ecmaFeatures": { "jsx": true },
@@ -78,7 +79,8 @@
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-misused-promises": "off",
-        "@typescript-eslint/member-delimiter-style": "off"
+        "@typescript-eslint/member-delimiter-style": "off",
+        "no-undef": "off"
         // "react/react-in-jsx-scope": [0]
       }
     }

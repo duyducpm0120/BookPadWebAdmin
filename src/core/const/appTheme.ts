@@ -8,9 +8,10 @@ export interface Theme {
   zIndex?: any;
   transitions?: any;
   components?: any;
+  overrides?: any;
 }
 
-const palette = {
+export const palette = {
   type: 'light',
   common: {
     black: '#000000',
@@ -32,28 +33,24 @@ const palette = {
   },
   text: {
     primary: '#626262',
-    light: '#ffffff',
+    light: '#9F9F9F',
     dark: '#000000'
   },
   divider: 'rgba(49,44,44,0.12)'
 };
 const typography = {
-  fontFamily: [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    'Roboto',
-    '"Helvetica Neue"',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',
-    'Montserrat'
-  ].join(',')
+  fontFamily: 'Montserrat'
+};
+const components = {
+  MuiButton: {
+    styleOverrides: {
+      root: { color: 'white', fontSize: 14 }
+    }
+  }
 };
 
 export const appTheme: Theme = {
   palette,
-  typography
+  typography,
+  components
 };

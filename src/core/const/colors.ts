@@ -1,9 +1,27 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import variables from '../scss/colors.scss';
+export const TEXT_COLOTR = {
+  primary: '#626262',
+  light: '#9F9F9F',
+  dark: '#000000'
+};
 
-// const { primary, background, stroke, light_text, dark_text, black, primary_2, primary_3 } =
-//   variables;
+export const COMMON_CORLOR = {
+  black: '#000000',
+  white: '#ffffff'
+};
 
-// export { primary, background, stroke, light_text, dark_text, black, primary_2, primary_3 };
-console.log('variables', variables);
-export { variables };
+export const APP_THEME = {
+  primary: {
+    main: '#67be23',
+    light: 'AEDB8E',
+    dark: '#509817'
+  },
+  secondary: {
+    main: '#ffffff',
+    light: '#ffffff',
+    dark: '#ffffff'
+  },
+  background: {
+    default: '#ffffff',
+    paper: '#ffffff'
+  }
+};

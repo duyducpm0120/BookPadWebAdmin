@@ -1,5 +1,6 @@
+import { palette, RADIUS, SPACE } from '@core/const';
 import { signIn } from '@core/services';
-import { Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Link, TextField } from '@mui/material';
 import { useState } from 'react';
 import './SignIn.scss';
 
@@ -31,7 +32,7 @@ export const SignIn = (): JSX.Element => {
           fullWidth
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          InputProps={{ style: { borderRadius: 6 } }}
+          InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
         />
         <TextField
           margin="normal"
@@ -44,20 +45,30 @@ export const SignIn = (): JSX.Element => {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
         />
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="Remember me"
-          color="primary.dark"
-        />
+        <div className="rememberWrapper">
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+            color="primary"
+            componentsProps={{ typography: { color: palette.text.primary } }}
+          />
+          <Link href="#">Forgot password?</Link>
+        </div>
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-          onClick={onSignInButtonClick}>
+          sx={{ height: SPACE.spacing40 }}
+          onClick={onSignInButtonClick}
+          color={'primary'}>
           Sign In
         </Button>
+        {/* <BlankSpacer height={SPACE.spacing12} />
+        <Link href="#" variant="body2">
+          {"Don't have an account? Sign Up"}
+        </Link> */}
       </div>
     </div>
   );

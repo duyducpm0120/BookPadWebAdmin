@@ -1,23 +1,44 @@
 import { palette, RADIUS, SPACE } from '@core/const';
 import { signIn } from '@core/services';
-import { Button, Checkbox, FormControlLabel, Link, TextField } from '@mui/material';
+import {
+  Backdrop,
+  Button,
+  Checkbox,
+  CircularProgress,
+  FormControlLabel,
+  Link,
+  TextField
+} from '@mui/material';
 import { useState } from 'react';
 import './SignIn.scss';
+import { useNavigate } from 'react-router-dom';
 
 export const SignIn = (): JSX.Element => {
   const [email, setEmail] = useState('vuong.dt.23@gmail.com');
   const [password, setPassword] = useState('emmawatson');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const onSignInButtonClick = async (): Promise<void> => {
     try {
+      setIsLoading(true);
       const result = await signIn({ email, password });
       console.log('Sign in success', result);
+      setIsLoading(false);
+      navigate('/home');
     } catch (err) {
+      setIsLoading(false);
       console.log('signin err', err);
     }
   };
   return (
     <div className="signIn">
       <div className="signInWrapper">
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+          onClick={() => {}}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
         <span className="signInHeader">SIGN IN</span>
         <TextField
           margin="normal"

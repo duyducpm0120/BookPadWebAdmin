@@ -11,5 +11,7 @@ export const signIn = async ({
     Email: email,
     Password: password
   });
+
+  console.log('response', response);
   return SignInModel.instantiate(response);
 };

@@ -7,7 +7,8 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'index.bundle.js'
+    filename: 'index.bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -74,5 +75,8 @@ module.exports = {
     new LodashModuleReplacementPlugin()
   ],
   mode: 'development',
-  devtool: 'inline-source-map'
+  devtool: 'inline-source-map',
+  devServer: {
+    historyApiFallback: true
+  }
 };

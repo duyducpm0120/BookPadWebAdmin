@@ -1,23 +1,31 @@
-.topbar{
-    width: 100%;
-    height: 50px;
-    background-color: white;
-    padding-top: 12px;
+.topbar {
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  padding-top: 12px;
 }
 
-.topbarWrapper{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    padding: 0px 16px;
+.topbarWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0px 16px;
 }
 
-.topLeft{
+.topLeft {
 }
 
-.logo{
- max-width: 100%;
- height: auto;
+.topRight {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  max-width: 100%;
+  height: auto;
 }

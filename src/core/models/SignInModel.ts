@@ -1,14 +1,17 @@
 import { safeGetString } from '@core/utils/CommonUtils';
+import { safeGet } from '@core/utils';
 
 export class SignInModel {
-  data: { token: string };
+  token: string;
 
-  constructor(data: { token: string }) {
-    this.data = data;
+  constructor(token: string) {
+    this.token = token;
   }
 
   public static instantiate = (json: any) => {
-    const token = safeGetString(json, 'token', '');
-    return new SignInModel({ token });
+    console.log('json', json);
+    const data = safeGet(json, 'data', { token: '' });
+    const token = safeGetString(data, 'token', '');
+    return new SignInModel(token);
   };
 }

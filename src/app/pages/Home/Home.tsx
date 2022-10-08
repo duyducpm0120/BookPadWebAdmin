@@ -1,12 +1,17 @@
 import { Topbar } from '@app/components';
-import { useMount } from '@core/hooks';
+import { useAuthToken } from '@core';
 import { getAllPublisher } from '@core/services';
+import { useEffect } from 'react';
 import './Home.scss';
 
 export const Home = () => {
   const { data, loading, error } = getAllPublisher();
   console.log(data, loading, error);
-  useMount(async () => {});
+  const { authToken } = useAuthToken();
+  console.log('authToken', authToken);
+  useEffect(() => {
+    if (!loading) console.log('data', data);
+  }, [data, loading]);
   return (
     <div
       style={{

@@ -24,10 +24,10 @@ export const SignIn = (): JSX.Element => {
     try {
       setIsLoading(true);
       const result = await signIn({ email, password });
-      console.log('Sign in success', result);
+
       setIsLoading(false);
       // navigate('home');
-      setAuthToken(result.data.token);
+      setAuthToken(result.token);
     } catch (err) {
       setIsLoading(false);
       console.log('signin err', err);

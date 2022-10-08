@@ -1,0 +1,19 @@
+.sideBarAndContentWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  padding: 0px 16px;
+}
+.sideBarWrapper {
+  display: flex;
+  flex: 1;
+  background-color: yellow;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 4;
+  background-color: green;
+}

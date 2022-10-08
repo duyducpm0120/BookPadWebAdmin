@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.7.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@material-ui/core": "^4.12.4",
@@ -22,11 +23,13 @@
     "babel-loader": "^8.2.5",
     "babel-plugin-lodash": "^3.3.4",
     "css-loader": "^6.7.1",
+    "graphql": "^16.6.0",
     "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.0",
     "lodash": "^4.17.21",
     "lodash-webpack-plugin": "^0.11.6",
     "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1",
     "react-scripts": "5.0.1",
@@ -40,6 +43,7 @@
     "webpack-cli": "^4.10.0"
   },
   "scripts": {
+    "all": "watchman watch-del-all && rm -rf yarn.lock && rm -rf node_modules/ && rm -fr $TMPDIR/metro* && yarn install",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

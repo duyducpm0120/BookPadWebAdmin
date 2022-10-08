@@ -1,3 +1,5 @@
+/* eslint-disable multiline-ternary */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { createTheme, ThemeProvider } from '@mui/material';
 import './App.scss';
 import { appTheme } from './core/const';
@@ -6,25 +8,35 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignIn } from '@app/pages/SignIn';
 import Layout from '@app/pages/Layouts/Layout';
 import { Home } from '@app/pages';
+import { ApolloProvider } from '@apollo/client';
+import { useAppApolloClient, useAuthToken } from '@core/hooks';
 const theme = createTheme(appTheme);
-function App(): JSX.Element {
+const App = () => {
+  const client = useAppApolloClient();
+  const { authToken } = useAuthToken();
+  console.log('authToken', authToken);
   return (
-    <ThemeProvider theme={theme}>
-      <div className="app">
-        {/* <Topbar /> */}
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<SignIn />} />
-              <Route path="home" element={<Home />} />
-              {/* <Route path="contact" element={<Contact />} />
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <div className="app">
+          {/* <Topbar /> */}
+          <BrowserRouter>
+            <Routes>
+              {authToken === undefined ? (
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<SignIn />} />
+                  {/* <Route path="contact" element={<Contact />} />
               <Route path="*" element={<NoPage />} /> */}
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </ThemeProvider>
+                </Route>
+              ) : (
+                <Route path="/" element={<Home />} />
+              )}
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ThemeProvider>
+    </ApolloProvider>
   );
-}
+};
 
 export default App;

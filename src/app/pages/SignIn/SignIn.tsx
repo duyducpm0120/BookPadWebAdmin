@@ -12,11 +12,13 @@ import {
 import { useState } from 'react';
 import './SignIn.scss';
 import { useNavigate } from 'react-router-dom';
+import { useAuthToken } from '@core';
 
 export const SignIn = (): JSX.Element => {
   const [email, setEmail] = useState('vuong.dt.23@gmail.com');
   const [password, setPassword] = useState('emmawatson');
   const [isLoading, setIsLoading] = useState(false);
+  const { authToken, setAuthToken } = useAuthToken();
   const navigate = useNavigate();
   const onSignInButtonClick = async (): Promise<void> => {
     try {
@@ -24,10 +26,12 @@ export const SignIn = (): JSX.Element => {
       const result = await signIn({ email, password });
       console.log('Sign in success', result);
       setIsLoading(false);
-      navigate('/home');
+      // navigate('home');
+      setAuthToken(result.data.token);
     } catch (err) {
       setIsLoading(false);
       console.log('signin err', err);
+      // navigate('home');
     }
   };
   return (

@@ -1,4 +1,4 @@
-export const TEXT_COLOTR = {
+export const TEXT_COLOR = {
   primary: '#626262',
   light: '#9F9F9F',
   dark: '#000000'

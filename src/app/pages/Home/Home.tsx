@@ -1,6 +1,7 @@
-import { SideBar, Topbar } from '@app/components';
+import { BlankSpacer, SideBar, Topbar } from '@app/components';
 import { useAuthToken } from '@core';
 import { getAllPublisher } from '@core/services';
+import { Divider } from '@mui/material';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import './Home.scss';
@@ -21,6 +22,8 @@ export const Home = () => {
         justifyContent: 'flex-start'
       }}>
       <Topbar />
+      <Divider />
+      <BlankSpacer height={12} />
       <div className="sideBarAndContentWrapper">
         <div className="sideBarWrapper">
           <SideBar />

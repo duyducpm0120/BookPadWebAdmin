@@ -1,0 +1,30 @@
+@use '../../../core/scss/sizes';
+@use '../../../core/scss/colors';
+@use '../../../core/scss/images';
+.informationWrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.contentInfoWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 16px;
+  // background-color: yellow;
+}
+
+.contentDataWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  // width: 100%;
+  padding: 0px 16px;
+}
+
+.contentHeader {
+  font-size: 24px;
+  color: colors.$dark_text;
+}

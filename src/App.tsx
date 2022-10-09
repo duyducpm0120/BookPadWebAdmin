@@ -7,7 +7,7 @@ import './core/scss/styles.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignIn } from '@app/pages/SignIn';
 import Layout from '@app/pages/Layouts/Layout';
-import { Home } from '@app/pages';
+import { Books, Home, Information } from '@app/pages';
 import { ApolloProvider } from '@apollo/client';
 import { useAppApolloClient, useAuthToken } from '@core/hooks';
 const theme = createTheme(appTheme);
@@ -29,7 +29,10 @@ const App = () => {
               <Route path="*" element={<NoPage />} /> */}
                 </Route>
               ) : (
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home />}>
+                  <Route index element={<Information />} />
+                  <Route path="/Books" element={<Books />} />
+                </Route>
               )}
             </Routes>
           </BrowserRouter>

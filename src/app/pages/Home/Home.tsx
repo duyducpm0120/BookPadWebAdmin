@@ -1,7 +1,8 @@
-import { Topbar } from '@app/components';
+import { SideBar, Topbar } from '@app/components';
 import { useAuthToken } from '@core';
 import { getAllPublisher } from '@core/services';
 import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import './Home.scss';
 
 export const Home = () => {
@@ -22,10 +23,10 @@ export const Home = () => {
       <Topbar />
       <div className="sideBarAndContentWrapper">
         <div className="sideBarWrapper">
-          <span>aaaaa</span>
+          <SideBar />
         </div>
         <div className="contentWrapper">
-          <span>aaaaasdasdas</span>
+          <Outlet />
         </div>
       </div>
     </div>

@@ -1,1 +1,29 @@
+@use '../../../core/scss/sizes';
+@use '../../../core/scss/colors';
+@use '../../../core/scss/images';
 
+.sideBarWrapper {
+  display: flex;
+  flex-direction: column;
+  //   background-color: blueviolet;
+}
+
+.sideBarItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  //   background-color: red;
+  padding: 16px 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.sideBarItemText {
+  color: colors.$dark_text;
+  font-size: 14px;
+}
+
+.selected {
+  background-color: colors.$primary_3;
+}

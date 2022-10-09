@@ -80,7 +80,8 @@
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/member-delimiter-style": "off",
-        "no-undef": "off"
+        "no-undef": "off",
+        "import/extensions": "off"
         // "react/react-in-jsx-scope": [0]
       }
     }

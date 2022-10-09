@@ -1,8 +1,10 @@
-import { Select, MenuItem } from '@mui/material';
+/* eslint-disable react/jsx-no-undef */
+import { BlankSpacer } from '@app/components';
+import { Select, MenuItem, CircularProgress } from '@mui/material';
 import { useState } from 'react';
 import './Information.scss';
+import { useViewModel } from './Information.ViewModel';
 import { Publisher } from './Publisher';
-
 export interface InformartionContentType {
   name: string;
   value: string;
@@ -10,7 +12,26 @@ export interface InformartionContentType {
 
 export const Information = (): JSX.Element => {
   const content: string[] = ['Authors', 'Books', 'Publishers'];
-  const [selectedContent, setSelectedContent] = useState<string>('Author');
+  const [selectedContent, setSelectedContent] = useState<string>('Publishers');
+  const { selector } = useViewModel();
+  const { publisherData, isLoading } = selector;
+
+  const renderContent = () => {
+    if (isLoading) {
+      return (
+        <div className="contentDataWrapper">
+          <CircularProgress color="primary" />
+        </div>
+      );
+    }
+    return (
+      <div className="contentDataWrapper">
+        {selectedContent === 'Authors' && <span>Author</span>}
+        {selectedContent === 'Books' && <span>Books</span>}
+        {selectedContent === 'Publishers' && <Publisher />}
+      </div>
+    );
+  };
   return (
     <div className="informationWrapper">
       <div className="contentInfoWrapper">
@@ -24,7 +45,8 @@ export const Information = (): JSX.Element => {
             console.log('event value', event.target);
             setSelectedContent(event.target.value);
           }}
-          style={{ width: '30%' }}>
+          style={{ width: '30%' }}
+          defaultValue={selectedContent}>
           {content.map((item, index) => {
             return (
               <MenuItem value={item} key={-index}>
@@ -34,15 +56,8 @@ export const Information = (): JSX.Element => {
           })}
         </Select>
       </div>
-      <div className="contentDataWrapper">
-        {selectedContent === 'Authors' && <span>Author</span>}
-        {selectedContent === 'Books' && <span>Books</span>}
-        {selectedContent === 'Publishers' && (
-          <span>
-            <Publisher />
-          </span>
-        )}
-      </div>
+      <BlankSpacer height={16} />
+      {renderContent()}
     </div>
   );
 };

@@ -25,6 +25,10 @@
   font-size: 14px;
 }
 
-.selected {
+.selectedWrapper {
   background-color: colors.$primary_3;
+}
+
+.selectedItemName {
+  font-weight: bold;
 }

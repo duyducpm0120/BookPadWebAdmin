@@ -18,7 +18,10 @@ export const SideBar = (): JSX.Element => {
     }
   ];
   const sideBarItemClassName = (name: string) => {
-    return `sideBarItem ${selectedItem === name ? 'selected' : ''}`;
+    return `sideBarItem ${selectedItem === name ? 'selectedWrapper' : ''}`;
+  };
+  const sideBarItemNameClassName = (name: string) => {
+    return `sideBarItemText ${selectedItem === name ? 'selectedItemName' : ''}`;
   };
   return (
     <div className="sideBar">
@@ -34,7 +37,7 @@ export const SideBar = (): JSX.Element => {
               }}>
               {item.icon}
               <BlankSpacer width={12} />
-              <span className="sideBarItemText">{item.name}</span>
+              <span className={sideBarItemNameClassName(item.name)}>{item.name}</span>
             </div>
           );
         })}

@@ -2,6 +2,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -72,7 +73,8 @@ module.exports = {
       template: './src/index.html',
       title: 'Development'
     }),
-    new LodashModuleReplacementPlugin()
+    new LodashModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ],
   mode: 'development',
   devtool: 'inline-source-map',

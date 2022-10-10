@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-undef */
-import { BlankSpacer } from '@app/components';
-import { Select, MenuItem, CircularProgress } from '@mui/material';
+import { BlankSpacer, EnhancedTable } from '@app/components';
+import { Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import './Information.scss';
 import { useViewModel } from './Information.ViewModel';
@@ -12,21 +12,21 @@ export interface InformartionContentType {
 
 export const Information = (): JSX.Element => {
   const content: string[] = ['Authors', 'Books', 'Publishers'];
-  const [selectedContent, setSelectedContent] = useState<string>('Publishers');
+  const [selectedContent, setSelectedContent] = useState<string>('Authors');
   const { selector } = useViewModel();
   const { publisherData, isLoading } = selector;
 
   const renderContent = () => {
-    if (isLoading) {
-      return (
-        <div className="contentDataWrapper">
-          <CircularProgress color="primary" />
-        </div>
-      );
-    }
+    // if (isLoading) {
+    //   return (
+    //     <div className="contentDataWrapper">
+    //       <CircularProgress color="primary" />
+    //     </div>
+    //   );
+    // }
     return (
       <div className="contentDataWrapper">
-        {selectedContent === 'Authors' && <span>Author</span>}
+        {selectedContent === 'Authors' && <EnhancedTable tableHeader={selectedContent} />}
         {selectedContent === 'Books' && <span>Books</span>}
         {selectedContent === 'Publishers' && <Publisher publisherData={publisherData} />}
       </div>
@@ -35,7 +35,7 @@ export const Information = (): JSX.Element => {
   return (
     <div className="informationWrapper">
       <div className="contentInfoWrapper">
-        <span className="contentHeader">{selectedContent}</span>
+        {/* <span className="contentHeader">{selectedContent}</span> */}
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

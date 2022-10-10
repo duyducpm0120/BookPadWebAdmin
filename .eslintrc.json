@@ -81,7 +81,8 @@
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/member-delimiter-style": "off",
         "no-undef": "off",
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "multiline-ternary": "off"
         // "react/react-in-jsx-scope": [0]
       }
     }

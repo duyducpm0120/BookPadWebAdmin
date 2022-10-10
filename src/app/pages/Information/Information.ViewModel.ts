@@ -7,7 +7,6 @@ export const useViewModel = () => {
     loading: getAllPublisherLoading,
     error: getAllPublisherError
   } = getAllPublisher();
-
   const isLoading = getAllPublisherLoading;
   useEffect(() => {
     if (!getAllPublisherLoading) console.log('data', publisherData);

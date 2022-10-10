@@ -4,7 +4,7 @@ import { Select, MenuItem, CircularProgress } from '@mui/material';
 import { useState } from 'react';
 import './Information.scss';
 import { useViewModel } from './Information.ViewModel';
-import { Publisher } from './Publisher';
+import { Publisher } from './Publisher/Publisher';
 export interface InformartionContentType {
   name: string;
   value: string;
@@ -28,7 +28,7 @@ export const Information = (): JSX.Element => {
       <div className="contentDataWrapper">
         {selectedContent === 'Authors' && <span>Author</span>}
         {selectedContent === 'Books' && <span>Books</span>}
-        {selectedContent === 'Publishers' && <Publisher />}
+        {selectedContent === 'Publishers' && <Publisher publisherData={publisherData} />}
       </div>
     );
   };

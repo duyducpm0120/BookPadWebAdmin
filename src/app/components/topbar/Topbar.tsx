@@ -1,11 +1,11 @@
 import { appLogo } from '@core/assets/images';
 import { SPACE } from '@core/const';
-import { Avatar } from '@mui/material';
+import { Avatar, Paper } from '@mui/material';
 import { BlankSpacer } from '../BlankSpacer';
 import './Topbar.scss';
 export const Topbar = (): JSX.Element => {
   return (
-    <div className="topbar">
+    <Paper elevation={3} className="topbar" sx={{ zIndex: 2, borderRadius: 0 }}>
       <div className="topbarWrapper">
         <div className="topLeft">
           <img src={appLogo} className="logo" alt="BookPad" width={160}></img>
@@ -30,6 +30,7 @@ export const Topbar = (): JSX.Element => {
           />
         </div>
       </div>
-    </div>
+      <BlankSpacer height={SPACE.spacing12} />
+    </Paper>
   );
 };

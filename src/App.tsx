@@ -11,6 +11,7 @@ import { Books, Home, Information } from '@app/pages';
 import { ApolloProvider } from '@apollo/client';
 import { useAppApolloClient, useAuthToken } from '@core/hooks';
 const theme = createTheme(appTheme);
+theme.shape.borderRadius = 0;
 const App = () => {
   const client = useAppApolloClient();
   const { authToken } = useAuthToken();

@@ -13,7 +13,8 @@ import Switch from '@mui/material/Switch';
 import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
 import type { Data, TableProps } from './Table.types';
-import DeleteIcon from '@mui/icons-material/Delete';
+import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import { IconButton } from '@mui/material';
 
 function createData(name: string, active: boolean, action: any): Data {
   return {
@@ -166,7 +167,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      //
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -179,14 +180,17 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                           inputProps={{
                             'aria-labelledby': labelId
                           }}
+                          onClick={(event) => handleClick(event, row.name)}
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.active.toString()}</TableCell>
-                      <TableCell align="right">
-                        <DeleteIcon />
+                      <TableCell align="center">{row.active.toString()}</TableCell>
+                      <TableCell align="center">
+                        <IconButton>
+                          <BorderColorRoundedIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );

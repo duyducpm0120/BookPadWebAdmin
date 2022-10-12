@@ -1,3 +1,6 @@
+@use '../../../core/scss/sizes';
+@use '../../../core/scss/colors';
+@use '../../../core/scss/images';
 .sideBarAndContentWrapper {
   display: flex;
   flex-direction: row;
@@ -14,4 +17,7 @@
 .contentWrapper {
   display: flex;
   flex: 4;
+  background-color: colors.$background_dark;
+  height: auto;
+  min-height: 100vh;
 }

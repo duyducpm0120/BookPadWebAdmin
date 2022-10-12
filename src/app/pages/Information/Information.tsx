@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-undef */
 import { BlankSpacer, EnhancedTable } from '@app/components';
+import { COMMON_CORLOR } from '@core';
 import { Select, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import './Information.scss';
@@ -34,6 +35,7 @@ export const Information = (): JSX.Element => {
   };
   return (
     <div className="informationWrapper">
+      <BlankSpacer height={12} />
       <div className="contentInfoWrapper">
         {/* <span className="contentHeader">{selectedContent}</span> */}
         <Select
@@ -45,7 +47,7 @@ export const Information = (): JSX.Element => {
             console.log('event value', event.target);
             setSelectedContent(event.target.value);
           }}
-          style={{ width: '30%' }}
+          style={{ width: '30%', backgroundColor: COMMON_CORLOR.white }}
           defaultValue={selectedContent}>
           {content.map((item, index) => {
             return (

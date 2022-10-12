@@ -1,6 +1,7 @@
 .topbar {
   width: 100%;
   height: 50px;
+  // background-color: red;
 }
 
 .topbarWrapper {
@@ -8,8 +9,10 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 16px;
+  padding: 0px 20px;
   height: 100%;
+
+  // background-color: red;
 }
 
 .topLeft {

@@ -4,7 +4,7 @@ export const TEXT_COLOR = {
   dark: '#000000'
 };
 
-export const COMMON_CORLOR = {
+export const COMMON_COLOR = {
   black: '#000000',
   white: '#ffffff'
 };

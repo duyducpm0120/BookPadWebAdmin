@@ -65,7 +65,7 @@ function getComparator<Key extends keyof any>(
 // need to support IE11, you can use Array.prototype.sort() directly
 function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  console.log('stabilizedThis', stabilizedThis.length);
+  // console.log('stabilizedThis', stabilizedThis.length);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {

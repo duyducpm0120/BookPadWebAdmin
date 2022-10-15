@@ -3,3 +3,4 @@ export * from './appTheme';
 export * from './colors';
 export * from './space';
 export * from './radius';
+export * from './pages';

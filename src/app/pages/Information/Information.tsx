@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 import { BlankSpacer, EnhancedTable } from '@app/components';
-import { COMMON_CORLOR } from '@core';
-import { Select, MenuItem } from '@mui/material';
-import { useId, useState } from 'react';
+import { SPACE, useGlobalDispatch, useGlobalState } from '@core';
+import { useId } from 'react';
 import './Information.scss';
 import { useViewModel } from './Information.ViewModel';
 import { Publisher } from './Publisher/Publisher';
@@ -14,9 +13,10 @@ export interface InformartionContentType {
 export const Information = (): JSX.Element => {
   const id = useId();
   const content: string[] = ['Authors', 'Books', 'Publishers'];
-  const [selectedContent, setSelectedContent] = useState<string>('Authors');
   const { selector } = useViewModel();
   const { publisherData, isLoading } = selector;
+  const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
+  const globalDispatch = useGlobalDispatch();
 
   const renderContent = () => {
     // if (isLoading) {
@@ -28,38 +28,14 @@ export const Information = (): JSX.Element => {
     // }
     return (
       <div className="contentDataWrapper">
-        {selectedContent === 'Authors' && <EnhancedTable tableHeader={selectedContent} />}
-        {selectedContent === 'Books' && <span>Books</span>}
-        {selectedContent === 'Publishers' && <Publisher publisherData={publisherData} />}
+        <BlankSpacer height={SPACE.spacing16} />
+        {CURRENT_PAGE_INDEX === 0 && (
+          <EnhancedTable tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]} />
+        )}
+        {CURRENT_PAGE_INDEX === 1 && <span>Books</span>}
+        {CURRENT_PAGE_INDEX === 2 && <Publisher publisherData={publisherData} />}
       </div>
     );
   };
-  return (
-    <div className="informationWrapper">
-      <BlankSpacer height={12} />
-      <div className="contentInfoWrapper">
-        {/* <span className="contentHeader">{selectedContent}</span> */}
-        <Select
-          id="demo-simple-select"
-          value={selectedContent}
-          label=""
-          onChange={(event) => {
-            console.log('event value', event.target);
-            setSelectedContent(event.target.value);
-          }}
-          style={{ width: '30%', backgroundColor: COMMON_CORLOR.white }}
-          defaultValue={selectedContent}>
-          {content.map((item, index) => {
-            return (
-              <MenuItem value={item} key={id + index.toString()}>
-                {item}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </div>
-      <BlankSpacer height={16} />
-      {renderContent()}
-    </div>
-  );
+  return <div className="informationWrapper">{renderContent()}</div>;
 };

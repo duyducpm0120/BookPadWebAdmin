@@ -5,7 +5,6 @@
 .sideBarWrapper {
   display: flex;
   flex-direction: column;
-  //   background-color: blueviolet;
 }
 
 .sideBarItem {
@@ -14,15 +13,29 @@
   justify-content: flex-start;
   align-items: center;
   //   background-color: red;
-  padding: 16px 8px;
-  margin-bottom: 16px;
+  padding: 16px 24px;
+  // margin-bottom: 16px;
   cursor: pointer;
-  padding-left: 16px;
+  // padding-left: 16px;
+  // background-color: red;
+}
+
+.sideBarItemAcordition {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  //   background-color: red;
+  padding: 8px 24px;
+  // margin-bottom: 16px;
+  cursor: pointer;
+  // padding-left: 16px;
+  // background-color: blueviolet;
 }
 
 .sideBarItemText {
   color: colors.$dark_text;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .selectedWrapper {
@@ -31,4 +44,17 @@
 
 .selectedItemName {
   font-weight: bold;
+}
+
+.sideBarItemSummary {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.sideBarItemDetail {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 16px;
 }

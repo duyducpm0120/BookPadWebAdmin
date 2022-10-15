@@ -5,7 +5,7 @@ import { BlankSpacer } from '../BlankSpacer';
 import './Topbar.scss';
 export const Topbar = (): JSX.Element => {
   return (
-    <Paper elevation={3} className="topbar" sx={{ zIndex: 2, borderRadius: 0 }}>
+    <Paper elevation={1} className="topbar" sx={{ zIndex: 2, borderRadius: 0 }}>
       <div className="topbarWrapper">
         <div className="topLeft">
           <img src={appLogo} className="logo" alt="BookPad" width={160}></img>

@@ -2,7 +2,7 @@
 import { BlankSpacer, EnhancedTable } from '@app/components';
 import { COMMON_CORLOR } from '@core';
 import { Select, MenuItem } from '@mui/material';
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import './Information.scss';
 import { useViewModel } from './Information.ViewModel';
 import { Publisher } from './Publisher/Publisher';
@@ -12,6 +12,7 @@ export interface InformartionContentType {
 }
 
 export const Information = (): JSX.Element => {
+  const id = useId();
   const content: string[] = ['Authors', 'Books', 'Publishers'];
   const [selectedContent, setSelectedContent] = useState<string>('Authors');
   const { selector } = useViewModel();
@@ -39,7 +40,6 @@ export const Information = (): JSX.Element => {
       <div className="contentInfoWrapper">
         {/* <span className="contentHeader">{selectedContent}</span> */}
         <Select
-          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={selectedContent}
           label=""
@@ -51,7 +51,7 @@ export const Information = (): JSX.Element => {
           defaultValue={selectedContent}>
           {content.map((item, index) => {
             return (
-              <MenuItem value={item} key={-index}>
+              <MenuItem value={item} key={id + index.toString()}>
                 {item}
               </MenuItem>
             );

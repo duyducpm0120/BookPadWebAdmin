@@ -38,6 +38,7 @@
     "style-loader": "^3.3.1",
     "styled-components": "^5.3.5",
     "ts-loader": "^9.4.1",
+    "typesafe-actions": "^5.1.0",
     "typescript": "*",
     "web-vitals": "^2.1.4",
     "webpack": "^5.74.0",

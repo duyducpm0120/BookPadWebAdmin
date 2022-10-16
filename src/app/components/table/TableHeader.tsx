@@ -1,31 +1,28 @@
 import { TableHead, TableRow, TableCell, Checkbox, TableSortLabel, Box } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import type { HeadCell, Data, EnhancedTableProps } from './Table.types';
-
-const headCells: readonly HeadCell[] = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Name'
-  },
-  {
-    id: 'active',
-    numeric: true,
-    disablePadding: false,
-    label: 'Active'
-  },
-  {
-    id: 'action',
-    numeric: true,
-    disablePadding: false,
-    label: 'Action'
-  }
-];
+import type { EnhancedTableProps } from './Table.types';
 export const EnhancedTableHeader = (props: EnhancedTableProps) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, object } = props;
+  const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
+  };
+  const objectToHeaderCells = (obj: any) => {
+    const keys = Object.keys(obj);
+    const headerCells = keys.map((key) => {
+      return {
+        id: key.toLowerCase(),
+        numeric: false,
+        disablePadding: false,
+        label: key
+      };
+    });
+    headerCells.push({
+      id: 'action',
+      numeric: false,
+      disablePadding: false,
+      label: 'Action'
+    });
+    return headerCells;
   };
 
   return (
@@ -42,12 +39,13 @@ export const EnhancedTableHeader = (props: EnhancedTableProps) => {
             }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {objectToHeaderCells(object).map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'center' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}>
+            align="center"
+            padding="none"
+            sortDirection={orderBy === headCell.id ? order : false}
+            scope="row">
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}

@@ -12,33 +12,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
-import type { Data, TableProps } from './Table.types';
+import type { TableProps } from './Table.types';
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
 import { IconButton } from '@mui/material';
-
-function createData(name: string, active: boolean, action: any): Data {
-  return {
-    name,
-    active,
-    action
-  };
-}
-
-const rows: readonly Data[] = [
-  createData('Cupcake', true, 3.7),
-  createData('Donut', true, 25.0),
-  createData('Eclair', true, 16.0),
-  createData('Frozen yoghurt', true, 5.5),
-  createData('Gingerbread', true, 16.0),
-  createData('Honeycomb', true, 3.2),
-  createData('Ice cream sandwich', true, 9.0),
-  createData('Jelly Bean', true, 0.0),
-  createData('KitKat', true, 26.0),
-  createData('Lollipop', true, 0.2),
-  createData('Marshmallow', true, 0),
-  createData('Nougat', true, 19.0),
-  createData('Oreo', true, 18.0)
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -77,15 +53,18 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
-  const { tableHeader } = props;
+  const { tableHeader, tableData } = props;
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
+  const [orderBy, setOrderBy] = React.useState<string>('name');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  console.log('tableData', tableData);
+  const tableDataKeys = Object.keys(tableData[0]);
+  console.log('tableDataKeys', tableDataKeys);
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -93,7 +72,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = tableData.map((n) => n[tableDataKeys[0]]);
       setSelected(newSelected);
       return;
     }
@@ -136,7 +115,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
   const isSelected = (name: string) => selected.includes(name);
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - tableData.length) : 0;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -153,15 +132,16 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={tableData.length}
+              object={tableData[0]}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(tableData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row[tableDataKeys[0]]);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -171,7 +151,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row[tableDataKeys[0]]}
                       selected={isItemSelected}>
                       <TableCell padding="checkbox">
                         <Checkbox
@@ -180,13 +160,22 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                           inputProps={{
                             'aria-labelledby': labelId
                           }}
-                          onClick={(event) => handleClick(event, row.name)}
+                          onClick={(event) => handleClick(event, row[tableDataKeys[0]])}
                         />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="center">{row.active.toString()}</TableCell>
+                      {tableDataKeys.map((key, index) => {
+                        return (
+                          <TableCell
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                            key={-index}
+                            align="center">
+                            {row[key]}
+                          </TableCell>
+                        );
+                      })}
+
                       <TableCell align="center">
                         <IconButton>
                           <BorderColorRoundedIcon />
@@ -209,7 +198,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={tableData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

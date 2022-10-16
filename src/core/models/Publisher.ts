@@ -4,19 +4,17 @@ import { safeGetString } from '@core/utils/CommonUtils';
 export class PublisherModel {
   PublisherId: string;
   PublisherName: string;
-  _typename: string;
 
-  constructor(PublisherId: string, PublisherName: string, _typename: string) {
+  constructor(PublisherId: string, PublisherName: string) {
     this.PublisherId = PublisherId;
     this.PublisherName = PublisherName;
-    this._typename = _typename;
   }
 
   public static instantiate = (json: any) => {
     const PublisherId = safeGetString(json, 'PublisherId', '');
     const PublisherName = safeGetString(json, 'PublisherName', '');
-    const _typename = safeGetString(json, '_typename', '');
-    return new PublisherModel(PublisherId, PublisherName, _typename);
+
+    return new PublisherModel(PublisherId, PublisherName);
   };
 
   public static instantiateList = (data: any) => {

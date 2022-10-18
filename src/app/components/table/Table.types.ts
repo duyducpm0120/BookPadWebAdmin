@@ -1,11 +1,14 @@
 export interface TableProps {
   tableHeader: string;
   tableData: any[];
+  rightDrawerContent: JSX.Element;
 }
 
 export interface EnhancedTableToolbarProps {
   numSelected: number;
   tableHeader: string;
+  isOpenDrawer: boolean;
+  setIsOpenDrawer: (isOpenDrawer: boolean) => void;
 }
 export type Order = 'asc' | 'desc';
 export interface EnhancedTableProps {

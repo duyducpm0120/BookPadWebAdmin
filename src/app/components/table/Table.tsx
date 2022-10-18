@@ -14,7 +14,7 @@ import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
 import type { TableProps } from './Table.types';
 import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
-import { IconButton } from '@mui/material';
+import { Drawer, IconButton } from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,13 +53,14 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
-  const { tableHeader, tableData } = props;
+  const { tableHeader, tableData, rightDrawerContent } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
   console.log('tableData', tableData);
   const tableDataKeys = Object.keys(tableData[0]);
   console.log('tableDataKeys', tableDataKeys);
@@ -120,7 +121,12 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} tableHeader={tableHeader} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          tableHeader={tableHeader}
+          setIsOpenDrawer={setIsOpenDrawer}
+          isOpenDrawer={isOpenDrawer}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -209,6 +215,9 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
+      <Drawer anchor="right" open={isOpenDrawer} onClose={() => setIsOpenDrawer(false)}>
+        {rightDrawerContent}
+      </Drawer>
     </Box>
   );
 };

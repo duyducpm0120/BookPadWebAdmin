@@ -70,7 +70,8 @@ export const Publisher: React.FC<PublisherPageProps> = (props: PublisherPageProp
       <EnhancedTable
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={publisherData}
-        rightDrawerContent={updatePublisherUI()}
+        rightDrawerAddNewUI={updatePublisherUI()}
+        rightDrawerViewAndEditUI={updatePublisherUI()}
       />
     </div>
   );

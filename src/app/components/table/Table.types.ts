@@ -1,7 +1,8 @@
 export interface TableProps {
   tableHeader: string;
   tableData: any[];
-  rightDrawerContent: JSX.Element;
+  rightDrawerAddNewUI: JSX.Element;
+  rightDrawerViewAndEditUI: JSX.Element;
 }
 
 export interface EnhancedTableToolbarProps {

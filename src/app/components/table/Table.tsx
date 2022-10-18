@@ -13,7 +13,7 @@ import Switch from '@mui/material/Switch';
 import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
 import type { TableProps } from './Table.types';
-import BorderColorRoundedIcon from '@mui/icons-material/BorderColorRounded';
+import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import { Drawer, IconButton } from '@mui/material';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -53,14 +53,15 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
-  const { tableHeader, tableData, rightDrawerContent } = props;
+  const { tableHeader, tableData, rightDrawerAddNewUI, rightDrawerViewAndEditUI } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
+  const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = React.useState(false);
+  const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = React.useState(false);
   console.log('tableData', tableData);
   const tableDataKeys = Object.keys(tableData[0]);
   console.log('tableDataKeys', tableDataKeys);
@@ -124,8 +125,8 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
         <EnhancedTableToolbar
           numSelected={selected.length}
           tableHeader={tableHeader}
-          setIsOpenDrawer={setIsOpenDrawer}
-          isOpenDrawer={isOpenDrawer}
+          setIsOpenDrawer={setIsOpenAddNewDrawer}
+          isOpenDrawer={isOpenAddNewDrawer}
         />
         <TableContainer>
           <Table
@@ -181,10 +182,12 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                           </TableCell>
                         );
                       })}
-
                       <TableCell align="center">
-                        <IconButton>
-                          <BorderColorRoundedIcon />
+                        <IconButton
+                          onClick={() => {
+                            setIsOpenViewAndEditDrawer(true);
+                          }}>
+                          <RemoveRedEyeRoundedIcon color="primary" />
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -215,8 +218,14 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-      <Drawer anchor="right" open={isOpenDrawer} onClose={() => setIsOpenDrawer(false)}>
-        {rightDrawerContent}
+      <Drawer anchor="right" open={isOpenAddNewDrawer} onClose={() => setIsOpenAddNewDrawer(false)}>
+        {rightDrawerAddNewUI}
+      </Drawer>
+      <Drawer
+        anchor="right"
+        open={isOpenViewAndEditDrawer}
+        onClose={() => setIsOpenViewAndEditDrawer(false)}>
+        {rightDrawerViewAndEditUI}
       </Drawer>
     </Box>
   );

@@ -72,6 +72,7 @@ export const Publisher: React.FC<PublisherPageProps> = (props: PublisherPageProp
         tableData={publisherData}
         rightDrawerAddNewUI={updatePublisherUI()}
         rightDrawerViewAndEditUI={updatePublisherUI()}
+        hideColumns={['PublisherDescription']}
       />
     </div>
   );

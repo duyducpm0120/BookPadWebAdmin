@@ -3,6 +3,7 @@ export interface TableProps {
   tableData: any[];
   rightDrawerAddNewUI: JSX.Element;
   rightDrawerViewAndEditUI: JSX.Element;
+  hideColumns?: string[];
 }
 
 export interface EnhancedTableToolbarProps {

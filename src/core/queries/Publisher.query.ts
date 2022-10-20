@@ -5,6 +5,7 @@ export const GET_ALL_PUBLISHER = gql`
     getAllPublishers {
       PublisherName
       PublisherId
+      PublisherDescription
     }
   }
 `;

@@ -14,7 +14,8 @@ import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
 import type { TableProps } from './Table.types';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
-import { Drawer, IconButton } from '@mui/material';
+import { Drawer, IconButton, Tooltip } from '@mui/material';
+import _ from 'lodash';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -53,7 +54,13 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
-  const { tableHeader, tableData, rightDrawerAddNewUI, rightDrawerViewAndEditUI } = props;
+  const {
+    tableHeader,
+    tableData,
+    rightDrawerAddNewUI,
+    rightDrawerViewAndEditUI,
+    hideColumns = []
+  } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -62,9 +69,10 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = React.useState(false);
   const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = React.useState(false);
-  console.log('tableData', tableData);
-  const tableDataKeys = Object.keys(tableData[0]);
-  console.log('tableDataKeys', tableDataKeys);
+  const tableDataKeys = Object.keys(tableData[0]).filter((key) => !hideColumns.includes(key));
+  const getHeaderObject = () => {
+    return _.omit(tableData[0], hideColumns);
+  };
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -139,8 +147,8 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={tableData.length}
-              object={tableData[0]}
+              rowCount={tableDataKeys.length}
+              object={getHeaderObject()}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -183,12 +191,14 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                         );
                       })}
                       <TableCell align="center">
-                        <IconButton
-                          onClick={() => {
-                            setIsOpenViewAndEditDrawer(true);
-                          }}>
-                          <RemoveRedEyeRoundedIcon color="primary" />
-                        </IconButton>
+                        <Tooltip title="View">
+                          <IconButton
+                            onClick={() => {
+                              setIsOpenViewAndEditDrawer(true);
+                            }}>
+                            <RemoveRedEyeRoundedIcon color="primary" />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );

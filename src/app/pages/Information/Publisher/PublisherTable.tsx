@@ -1,7 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
 import { BlankSpacer, ContainedButton, EnhancedTable } from '@app/components';
-import { RADIUS, SPACE, updatePublisher, useGlobalLoading, useGlobalState } from '@core';
+import { RADIUS, SPACE, UpdatePublisher, useGlobalLoading, useGlobalState } from '@core';
 import { Box, TextField, Typography } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
 import { FONT_SIZE } from '@core/const/font';
@@ -17,7 +17,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
   const [selectedPublisherIndex, setSelectedPublisherIndex] = React.useState(-1);
   const selectedPublisherNameRef = useRef(null);
   const selectedPublisherDescriptionRef = useRef(null);
-  const { data, loading, error, updatePublisherFunc } = updatePublisher();
+  const { data, loading, error, updatePublisherFunc } = UpdatePublisher();
   const { IS_LOADING, showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const updatePublisherData = async () => {
     console.log('var', {
@@ -92,8 +92,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
       </Box>
     );
   };
-  const viewAndEditPublisherUI = () => {
-    const [isEdit, setIsEdit] = React.useState(false);
+  const ViewAndEditPublisherUI = () => {
+    const [isEdit, setIsEdit] = useState(false);
     return (
       <Box className={styles.updatePublisherWrapper}>
         <Typography variant="h4" fontSize={FONT_SIZE.fontSize24}>
@@ -176,7 +176,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={publisherData}
         rightDrawerAddNewUI={updatePublisherUI()}
-        rightDrawerViewAndEditUI={viewAndEditPublisherUI()}
+        rightDrawerViewAndEditUI={ViewAndEditPublisherUI()}
         hideColumns={['PublisherDescription']}
         showViewAndEditUICallBack={({ row }) => {
           setSelectedPublisherIndex(row);

@@ -1,4 +1,4 @@
-import { getAllPublisher } from '@core';
+import { GetAllPublisher } from '@core';
 import { useEffect } from 'react';
 
 export const useViewModel = () => {
@@ -6,7 +6,7 @@ export const useViewModel = () => {
     data: publisherData,
     loading: getAllPublisherLoading,
     error: getAllPublisherError
-  } = getAllPublisher();
+  } = GetAllPublisher();
   const isLoading = getAllPublisherLoading;
   useEffect(() => {
     if (!getAllPublisherLoading) console.log('data', publisherData);

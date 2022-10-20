@@ -7,7 +7,8 @@ import type { BookPadWAState } from './types';
 
 export const initState: BookPadWAState = {
   CURRENT_PAGE: BookPadPages[0],
-  CURRENT_PAGE_INDEX: 2
+  CURRENT_PAGE_INDEX: 2,
+  IS_LOADING: false
 };
 export const reducer = createReducer<BookPadWAState, GlobalActionsType>(initState)
   .handleAction(globalActions.setGlobal, (state, action): BookPadWAState => {
@@ -26,5 +27,11 @@ export const reducer = createReducer<BookPadWAState, GlobalActionsType>(initStat
     return {
       ...state,
       CURRENT_PAGE_INDEX: action.payload.index
+    };
+  })
+  .handleAction(globalActions.setGlobalLoading, (state, action): BookPadWAState => {
+    return {
+      ...state,
+      IS_LOADING: action.payload.loading
     };
   });

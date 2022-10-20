@@ -1,1 +1,1 @@
-export * from './Publisher';
+export * from './PublisherTable';

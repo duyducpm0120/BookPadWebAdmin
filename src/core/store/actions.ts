@@ -12,10 +12,15 @@ const setCurrentPage = createAction(
 const setCurrentPageIndex = createAction('global/setCurrentPageIndex', (index: number) => ({
   index
 }))();
+
+const setGlobalLoading = createAction('global/setGlobalLoading', (loading: boolean) => ({
+  loading
+}))();
 export const globalActions = {
   setGlobal,
   setCurrentPage,
-  setCurrentPageIndex
+  setCurrentPageIndex,
+  setGlobalLoading
 };
 
 export type GlobalActionsType = ActionType<typeof globalActions>;

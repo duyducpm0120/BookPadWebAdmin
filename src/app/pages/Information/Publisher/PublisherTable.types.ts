@@ -1,5 +1,5 @@
 import type { PublisherModel } from '@core/models/Publisher';
 
-export interface PublisherPageProps {
+export interface PublisherTableProps {
   publisherData: PublisherModel[];
 }

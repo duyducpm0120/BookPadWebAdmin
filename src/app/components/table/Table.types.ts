@@ -4,6 +4,7 @@ export interface TableProps {
   rightDrawerAddNewUI: JSX.Element;
   rightDrawerViewAndEditUI: JSX.Element;
   hideColumns?: string[];
+  showViewAndEditUICallBack?: ({ row }: { row: number }) => void;
 }
 
 export interface EnhancedTableToolbarProps {

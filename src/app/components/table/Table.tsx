@@ -59,7 +59,8 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
     tableData,
     rightDrawerAddNewUI,
     rightDrawerViewAndEditUI,
-    hideColumns = []
+    hideColumns = [],
+    showViewAndEditUICallBack = () => {}
   } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
@@ -155,9 +156,9 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
               rows.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(tableData, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((row, tableIndex) => {
                   const isItemSelected = isSelected(row[tableDataKeys[0]]);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const labelId = `enhanced-table-checkbox-${tableIndex}`;
 
                   return (
                     <TableRow
@@ -194,6 +195,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
                         <Tooltip title="View">
                           <IconButton
                             onClick={() => {
+                              showViewAndEditUICallBack({ row: tableIndex });
                               setIsOpenViewAndEditDrawer(true);
                             }}>
                             <RemoveRedEyeRoundedIcon color="primary" />

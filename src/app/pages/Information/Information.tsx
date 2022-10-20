@@ -4,7 +4,7 @@ import { SPACE, useGlobalDispatch, useGlobalState } from '@core';
 import { CircularProgress } from '@mui/material';
 import './Information.scss';
 import { useViewModel } from './Information.ViewModel';
-import { Publisher } from './Publisher/Publisher';
+import { PublisherTable } from './Publisher/PublisherTable';
 export interface InformartionContentType {
   name: string;
   value: string;
@@ -20,6 +20,7 @@ export const Information = (): JSX.Element => {
     if (isLoading) {
       return (
         <div className="contentDataWrapper">
+          <BlankSpacer height={SPACE.spacing16} />
           <CircularProgress color="primary" />
         </div>
       );
@@ -29,7 +30,7 @@ export const Information = (): JSX.Element => {
         <BlankSpacer height={SPACE.spacing16} />
         {CURRENT_PAGE_INDEX === 0 && <></>}
         {CURRENT_PAGE_INDEX === 1 && <span>Books</span>}
-        {CURRENT_PAGE_INDEX === 2 && <Publisher publisherData={publisherData} />}
+        {CURRENT_PAGE_INDEX === 2 && <PublisherTable publisherData={publisherData} />}
       </div>
     );
   };

@@ -9,3 +9,20 @@ export const GET_ALL_PUBLISHER = gql`
     }
   }
 `;
+export const UPDATE_PUBLISHER = gql`
+  mutation editPublisher(
+    $PublisherId: Int!
+    $PublisherName: String!
+    $PublisherDescription: String!
+  ) {
+    editPublisher(
+      PublisherId: $PublisherId
+      PublisherName: $PublisherName
+      PublisherDescription: $PublisherDescription
+    ) {
+      PublisherName
+      PublisherId
+      PublisherDescription
+    }
+  }
+`;

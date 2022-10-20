@@ -7,6 +7,8 @@ import { useStyles } from './PublisherTable.styles';
 import { FONT_SIZE } from '@core/const/font';
 import AddIcon from '@mui/icons-material/Add';
 import { safeGetString } from '@core/utils';
+import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
+import { AlertType } from '@core/store';
 
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
   const { publisherData } = props;
@@ -19,6 +21,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
   const selectedPublisherDescriptionRef = useRef(null);
   const { data, loading, error, updatePublisherFunc } = UpdatePublisher();
   const { IS_LOADING, showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
+  const { showAlert } = useGlobalAlert();
   const updatePublisherData = async () => {
     console.log('var', {
       publisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
@@ -37,6 +40,10 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     } catch (err) {
       console.log('err', err);
       hideGlobalLoading();
+      showAlert({
+        message: 'Error',
+        type: AlertType.ERROR
+      });
     }
     hideGlobalLoading();
   };

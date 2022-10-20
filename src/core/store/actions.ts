@@ -1,3 +1,4 @@
+import type { AlertType } from './types';
 import type { BookPadPageItemType } from './../const/pages';
 import type { ActionType } from 'typesafe-actions';
 import { createAction } from 'typesafe-actions';
@@ -16,11 +17,22 @@ const setCurrentPageIndex = createAction('global/setCurrentPageIndex', (index: n
 const setGlobalLoading = createAction('global/setGlobalLoading', (loading: boolean) => ({
   loading
 }))();
+
+const setGlobalAlert = createAction(
+  'global/setGlobalAlert',
+  ({ type, message, isShowAlert }: { type: AlertType; message: string; isShowAlert: boolean }) => ({
+    type,
+    isShowAlert,
+    message
+  })
+)();
+
 export const globalActions = {
   setGlobal,
   setCurrentPage,
   setCurrentPageIndex,
-  setGlobalLoading
+  setGlobalLoading,
+  setGlobalAlert
 };
 
 export type GlobalActionsType = ActionType<typeof globalActions>;

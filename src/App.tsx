@@ -1,6 +1,13 @@
 /* eslint-disable multiline-ternary */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { Backdrop, CircularProgress, createTheme, ThemeProvider } from '@mui/material';
+import {
+  Alert,
+  Backdrop,
+  CircularProgress,
+  createTheme,
+  Snackbar,
+  ThemeProvider
+} from '@mui/material';
 import './App.scss';
 import { appTheme } from './core/const';
 import './core/scss/styles.scss';
@@ -10,12 +17,18 @@ import Layout from '@app/pages/Layouts/Layout';
 import { Books, Home, Information } from '@app/pages';
 import { ApolloProvider } from '@apollo/client';
 import { useAppApolloClient, useAuthToken, useGlobalState } from '@core/hooks';
+import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
 const theme = createTheme(appTheme);
 const App = () => {
   const client = useAppApolloClient();
   const { authToken } = useAuthToken();
   console.log('authToken', authToken);
-  const { IS_LOADING } = useGlobalState();
+  const { IS_LOADING, ALERT } = useGlobalState();
+  const { IS_SHOW_ALERT, MESSAGE, TYPE } = ALERT;
+  const { hideAlert } = useGlobalAlert();
+  const handleClose = () => {
+    hideAlert();
+  };
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>
@@ -43,6 +56,16 @@ const App = () => {
             onClick={() => {}}>
             <CircularProgress color="primary" />
           </Backdrop>
+          <Snackbar open={IS_SHOW_ALERT} autoHideDuration={6000} onClose={handleClose}>
+            <Alert
+              onClose={() => {
+                handleClose();
+              }}
+              severity={TYPE}
+              sx={{ width: '100%' }}>
+              {MESSAGE}
+            </Alert>
+          </Snackbar>
         </div>
       </ThemeProvider>
     </ApolloProvider>

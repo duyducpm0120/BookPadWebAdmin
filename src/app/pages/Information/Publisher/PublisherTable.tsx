@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
 import { BlankSpacer, ContainedButton, EnhancedTable } from '@app/components';
-import { RADIUS, SPACE, UpdatePublisher, useGlobalLoading, useGlobalState } from '@core';
+import { RADIUS, SPACE, useGlobalLoading } from '@core';
 import { Box, TextField, Typography } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
 import { FONT_SIZE } from '@core/const/font';
@@ -10,17 +10,24 @@ import { safeGetString } from '@core/utils';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
 import { AlertType } from '@core/store';
 import { strings } from '@core/assets';
+import { useViewModel } from './PublisherTable.viewModel';
 
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
-  const { publisherData } = props;
   const styles = useStyles();
-  const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
-  const [publisherName, setPublisherName] = React.useState('');
-  const [publisherDescription, setPublisherDescription] = React.useState('');
-  const [selectedPublisherIndex, setSelectedPublisherIndex] = React.useState(-1);
-  const selectedPublisherNameRef = useRef(null);
-  const selectedPublisherDescriptionRef = useRef(null);
-  const { data, loading, error, updatePublisherFunc } = UpdatePublisher();
+  const {
+    publisherData,
+    CURRENT_PAGE_INDEX,
+    CURRENT_PAGE,
+    publisherName,
+    setPublisherName,
+    publisherDescription,
+    setPublisherDescription,
+    selectedPublisherIndex,
+    setSelectedPublisherIndex,
+    selectedPublisherNameRef,
+    selectedPublisherDescriptionRef,
+    updatePublisherFunc
+  } = useViewModel(props);
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
   const updatePublisherData = async () => {

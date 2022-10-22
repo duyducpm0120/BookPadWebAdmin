@@ -11,7 +11,10 @@ const httpLink = new HttpLink({
     if (!DEBUG) return await fetch(...pl);
     const [_, options]: any[] = pl;
     const body: any = JSON.parse(options.body);
-    console.log(`📡${body.operationName || ''}\n${body.query}`, body.variables);
+    console.log(
+      `📡 REQUEST LOG \n OPERATION_NAME: ${body.operationName || ''}\n QUERY: ${body.query}`,
+      `VARIABLES: ${JSON.stringify(body.variables)}`
+    );
     return await fetch(...pl);
   }
 });

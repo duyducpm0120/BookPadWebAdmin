@@ -84,6 +84,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = tableData.map((n) => n[tableDataKeys[0]]);
+      console.log('newSelected', newSelected);
       setSelected(newSelected);
       return;
     }
@@ -148,7 +149,7 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={tableDataKeys.length}
+              rowCount={tableData.length}
               object={getHeaderObject()}
             />
             <TableBody>

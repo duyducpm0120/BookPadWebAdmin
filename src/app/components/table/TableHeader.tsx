@@ -2,6 +2,8 @@ import { TableHead, TableRow, TableCell, Checkbox } from '@mui/material';
 import type { EnhancedTableProps } from './Table.types';
 export const EnhancedTableHeader = (props: EnhancedTableProps) => {
   const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, object } = props;
+  console.log('rowCount', rowCount);
+  console.log('numSelected', numSelected);
   const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };

@@ -24,18 +24,13 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
   const updatePublisherData = async () => {
-    console.log('var', {
-      publisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
-      publisherDescription: safeGetString(selectedPublisherDescriptionRef.current, 'value', ''),
-      publisherId: publisherData[selectedPublisherIndex].PublisherId
-    });
     showGlobalLoading();
     try {
       await updatePublisherFunc({
         variables: {
           PublisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
           PublisherDescription: safeGetString(selectedPublisherDescriptionRef.current, 'value', ''),
-          PublisherId: publisherData[selectedPublisherIndex].PublisherId
+          PublisherId: Number(publisherData[selectedPublisherIndex].PublisherId)
         }
       });
       showAlert({

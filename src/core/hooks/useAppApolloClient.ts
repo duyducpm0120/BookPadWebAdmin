@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-base-to-string */
+/* eslint-disable no-lone-blocks */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { HttpLink, ApolloLink, InMemoryCache, ApolloClient } from '@apollo/client';
+import { HttpLink, ApolloLink, InMemoryCache, ApolloClient, from } from '@apollo/client';
 import { isNil } from 'lodash';
 import { useAuthToken } from './useAuthToken';
+import { onError } from '@apollo/client/link/error';
 
 const DEBUG = true;
 
@@ -18,7 +21,24 @@ const httpLink = new HttpLink({
     return await fetch(...pl);
   }
 });
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    {
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `%c[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+          'color: red'
+        )
+      );
+    }
 
+    if (networkError) {
+      {
+        console.log(`%c[Network error]: ${networkError}`, 'color: red');
+      }
+    }
+  }
+});
 const authMiddleware = (authToken: string) =>
   new ApolloLink((operation, forward) => {
     // add the authorization to the headers
@@ -37,7 +57,7 @@ const cache = new InMemoryCache({});
 export const useAppApolloClient = () => {
   const { authToken } = useAuthToken();
   return new ApolloClient({
-    link: authMiddleware(authToken).concat(httpLink),
+    link: from([errorLink, authMiddleware(authToken).concat(httpLink)]),
     cache
   });
 };

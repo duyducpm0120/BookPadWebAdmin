@@ -29,8 +29,7 @@ export const UPDATE_PUBLISHER = gql`
 
 export const CREATE_PUBLISHER = gql`
   mutation createPublisher($PublisherName: String!, $PublisherDescription: String!) {
-    createPublisher(PublisherName: $PublisherName, PublisherDescription: $PublisherDescription)
-    result {
+    createPublisher(PublisherName: $PublisherName, PublisherDescription: $PublisherDescription) {
       PublisherName
       PublisherId
       PublisherDescription

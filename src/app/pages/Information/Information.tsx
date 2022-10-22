@@ -11,8 +11,9 @@ export interface InformartionContentType {
 }
 
 export const Information = (): JSX.Element => {
-  const { selector } = useViewModel();
+  const { selector, handler } = useViewModel();
   const { publisherData, isLoading } = selector;
+  const { reloadPublisherData } = handler;
   const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
   const globalDispatch = useGlobalDispatch();
 
@@ -30,7 +31,9 @@ export const Information = (): JSX.Element => {
         <BlankSpacer height={SPACE.spacing16} />
         {CURRENT_PAGE_INDEX === 0 && <></>}
         {CURRENT_PAGE_INDEX === 1 && <span>Books</span>}
-        {CURRENT_PAGE_INDEX === 2 && <PublisherTable publisherData={publisherData} />}
+        {CURRENT_PAGE_INDEX === 2 && (
+          <PublisherTable publisherData={publisherData} reloadPublisherData={reloadPublisherData} />
+        )}
       </div>
     );
   };

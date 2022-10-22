@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
 import { BlankSpacer, ContainedButton, EnhancedTable } from '@app/components';
-import { RADIUS, SPACE, useGlobalLoading } from '@core';
+import { RADIUS, SPACE } from '@core';
 import { Box, TextField, Typography } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
 import { FONT_SIZE } from '@core/const/font';
 import AddIcon from '@mui/icons-material/Add';
 import { safeGetString } from '@core/utils';
-import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
-import { AlertType } from '@core/store';
 import { strings } from '@core/assets';
 import { useViewModel } from './PublisherTable.viewModel';
 
@@ -26,42 +24,21 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     setSelectedPublisherIndex,
     selectedPublisherNameRef,
     selectedPublisherDescriptionRef,
-    updatePublisherFunc
+    updatePublisherData,
+    createPublisher,
+    newPublisherNameRef,
+    newPublisherDescriptionRef,
+    reloadPublisherData
   } = useViewModel(props);
-  const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
-  const { showAlert } = useGlobalAlert();
-  const updatePublisherData = async () => {
-    showGlobalLoading();
-    try {
-      await updatePublisherFunc({
-        variables: {
-          PublisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
-          PublisherDescription: safeGetString(selectedPublisherDescriptionRef.current, 'value', ''),
-          PublisherId: Number(publisherData[selectedPublisherIndex].PublisherId)
-        }
-      });
-      showAlert({
-        message: strings.success_update_publisher,
-        type: AlertType.SUCCESS
-      });
-    } catch (err) {
-      const error: any = err;
-      hideGlobalLoading();
-      showAlert({
-        message: error.message,
-        type: AlertType.ERROR
-      });
-    }
-    hideGlobalLoading();
-  };
-  const updatePublisherUI = () => {
+  const AddNewPublisherUI = () => {
     return (
       <Box className={styles.updatePublisherWrapper}>
         <Typography variant="h4" fontSize={FONT_SIZE.fontSize24}>
-          Add new publisher
+          {strings.add_new_publisher}
         </Typography>
         <BlankSpacer height={SPACE.spacing12} />
         <TextField
+          inputRef={newPublisherNameRef}
           margin="normal"
           required
           id="name"
@@ -78,6 +55,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
         />
         <TextField
+          inputRef={newPublisherDescriptionRef}
           margin="normal"
           required
           id="description"
@@ -101,7 +79,9 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
             isShowLeftIcon={true}
             leftIcon={<AddIcon />}
             title={'ADD'}
-            onClick={() => {}}></ContainedButton>
+            onClick={async () => {
+              await createPublisher();
+            }}></ContainedButton>
         </Box>
       </Box>
     );
@@ -189,7 +169,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
       <EnhancedTable
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={publisherData}
-        rightDrawerAddNewUI={updatePublisherUI()}
+        rightDrawerAddNewUI={AddNewPublisherUI()}
         rightDrawerViewAndEditUI={ViewAndEditPublisherUI()}
         hideColumns={['PublisherDescription']}
         showViewAndEditUICallBack={({ row }) => {

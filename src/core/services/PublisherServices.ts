@@ -3,9 +3,9 @@ import { PublisherModel } from '@core/models';
 import { CREATE_PUBLISHER, GET_ALL_PUBLISHER, UPDATE_PUBLISHER } from '@core/queries';
 
 export const GetAllPublisher = () => {
-  const { data, error, loading } = useQuery(GET_ALL_PUBLISHER);
+  const { data, error, loading, refetch } = useQuery(GET_ALL_PUBLISHER);
   const publisherData = PublisherModel.instantiateList(data);
-  return { data: publisherData, error, loading };
+  return { data: publisherData, error, loading, refetch };
 };
 
 export const UpdatePublisher = () => {

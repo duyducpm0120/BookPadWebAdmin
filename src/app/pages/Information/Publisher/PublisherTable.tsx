@@ -33,9 +33,9 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     try {
       await updatePublisherFunc({
         variables: {
-          publisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
-          publisherDescription: safeGetString(selectedPublisherDescriptionRef.current, 'value', ''),
-          publisherId: publisherData[selectedPublisherIndex].PublisherId
+          PublisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
+          PublisherDescription: safeGetString(selectedPublisherDescriptionRef.current, 'value', ''),
+          PublisherId: publisherData[selectedPublisherIndex].PublisherId
         }
       });
       showAlert({

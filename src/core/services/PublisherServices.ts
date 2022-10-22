@@ -1,7 +1,6 @@
-import { UPDATE_PUBLISHER } from './../queries/Publisher.query';
-import { PublisherModel } from './../models/Publisher';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ALL_PUBLISHER } from '@core/queries';
+import { PublisherModel } from '@core/models';
+import { CREATE_PUBLISHER, GET_ALL_PUBLISHER, UPDATE_PUBLISHER } from '@core/queries';
 
 export const GetAllPublisher = () => {
   const { data, error, loading } = useQuery(GET_ALL_PUBLISHER);
@@ -13,4 +12,10 @@ export const UpdatePublisher = () => {
   const [updatePublisherFunc, { data, error, loading }] = useMutation(UPDATE_PUBLISHER);
   const publisherData = PublisherModel.instantiate(data);
   return { data: publisherData, error, loading, updatePublisherFunc };
+};
+
+export const CreatePublisher = () => {
+  const [createPublisherFunc, { data, error, loading }] = useMutation(CREATE_PUBLISHER);
+  const publisherData = PublisherModel.instantiate(data);
+  return { data: publisherData, error, loading, createPublisherFunc };
 };

@@ -19,7 +19,8 @@ export const UPDATE_PUBLISHER = gql`
       PublisherId: $PublisherId
       PublisherName: $PublisherName
       PublisherDescription: $PublisherDescription
-    ) {
+    )
+    result {
       PublisherName
       PublisherId
       PublisherDescription

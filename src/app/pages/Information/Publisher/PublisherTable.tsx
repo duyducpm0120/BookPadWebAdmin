@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { safeGetString } from '@core/utils';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
 import { AlertType } from '@core/store';
+import { strings } from '@core/assets';
 
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
   const { publisherData } = props;
@@ -20,7 +21,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
   const selectedPublisherNameRef = useRef(null);
   const selectedPublisherDescriptionRef = useRef(null);
   const { data, loading, error, updatePublisherFunc } = UpdatePublisher();
-  const { IS_LOADING, showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
+  const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
   const updatePublisherData = async () => {
     console.log('var', {
@@ -37,11 +38,15 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           publisherId: publisherData[selectedPublisherIndex].PublisherId
         }
       });
+      showAlert({
+        message: strings.success_update_publisher,
+        type: AlertType.SUCCESS
+      });
     } catch (err) {
-      console.log('err', err);
+      const error: any = err;
       hideGlobalLoading();
       showAlert({
-        message: 'Error',
+        message: error.message,
         type: AlertType.ERROR
       });
     }

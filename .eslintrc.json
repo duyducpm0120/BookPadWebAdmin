@@ -84,7 +84,8 @@
         "no-undef": "off",
         "import/extensions": "off",
         "multiline-ternary": "off",
-        "react-hooks/rules-of-hooks": "error"
+        "react-hooks/rules-of-hooks": "error",
+        "@typescript-eslint/no-floating-promises": "off"
         // "react/react-in-jsx-scope": [0]
       }
     }

@@ -16,13 +16,13 @@ export const SideBar = (): JSX.Element => {
   const renderSideBarItem = (item: BookPadPageItemType, index: number) => {
     if (size(item.pages) > 0) {
       return (
-        <div className="sideBarItemAcordition" key={-index}>
+        <div className="sideBarItemAcordition" key={`${-index}wrapper`}>
           <Accordion
             elevation={0}
             sx={{
               width: '100%'
             }}
-            key={-index}
+            key={`${-index}accordion`}
             onClick={() => {
               navigate('/');
             }}>
@@ -51,10 +51,10 @@ export const SideBar = (): JSX.Element => {
               }}>
               {item.pages.map((page, index) => {
                 return (
-                  <>
+                  <div key={`${-index} item wrapper`}>
                     <div
                       className="sideBarItemDetail"
-                      key={-index}
+                      key={`${-index}sideBarItemDetail`}
                       onClick={() => {
                         // page !== 'Information' ? navigate(detailItem) : navigate('/');
                         globalDispatch(globalActions.setCurrentPageIndex(index));
@@ -62,7 +62,7 @@ export const SideBar = (): JSX.Element => {
                       <Typography>{page}</Typography>
                     </div>
                     {index < size(item.pages) ? <BlankSpacer height={16} /> : null}
-                  </>
+                  </div>
                 );
               })}
             </AccordionDetails>
@@ -73,7 +73,7 @@ export const SideBar = (): JSX.Element => {
     return (
       <div
         className="sideBarItem"
-        key={-index}
+        key={`${-index}sideBarItem`}
         onClick={() => {
           item.name === 'Information' ? navigate('/') : navigate(item.name);
         }}>

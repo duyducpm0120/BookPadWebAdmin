@@ -43,7 +43,8 @@ module.exports = {
               ],
               '@babel/preset-typescript'
             ],
-            plugins: ['lodash']
+            plugins: ['lodash'],
+            sourceMap: true
           }
         }
       },

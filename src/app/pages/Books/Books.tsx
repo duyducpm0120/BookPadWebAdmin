@@ -1,61 +1,64 @@
 import { Button } from '@mui/material';
 import { useState } from 'react';
+import type { Book } from 'epubjs';
 import ePub from 'epubjs';
 import { useMount } from '@core';
 
-const url =
-  'https://bookpad.s3.ap-northeast-1.amazonaws.com/e23af7a0-1955-437e-bce8-efde9ba93080.epub?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIA6IXNJ7VQIQ6ZXHDY%2F20221023%2Fap-northeast-1%2Fs3%2Faws4_request&X-Amz-Date=20221023T150325Z&X-Amz-Expires=3600&X-Amz-Signature=9f534c0b72843643915588a79a1cfe6531f22591944c6e96cf47e5cbd2bdf8cf&X-Amz-SignedHeaders=host&x-id=GetObject';
 export const Books = (): JSX.Element => {
   ///
+  const reader = new FileReader();
   const [file, setFile] = useState<File>(new File([], ''));
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [coverUrl, setCoverUrl] = useState<any>('');
   const [cover, setCover] = useState('');
-  const Book = ePub(url);
-  const getMetadata = async () => {
-    const metadata = await Book.loaded.metadata;
+  const getMetadata = async (book: Book) => {
+    const metadata = await book.loaded.metadata;
     return metadata;
   };
 
-  const getCover = async () => {
-    const cover = await Book.loaded.cover;
+  const getCover = async (book: Book) => {
+    const cover = await book.loaded.cover;
     return cover;
   };
 
-  const getCoverUrl = async () => {
-    const coverUrl = await Book.coverUrl();
+  const getCoverUrl = async (book: Book) => {
+    const coverUrl = await book.coverUrl();
     return coverUrl;
   };
 
   useMount(async () => {
-    const metadata = await getMetadata();
-    console.log('metadata', metadata);
-    const cover = await getCover();
-    setCover(cover);
-    console.log('cover', cover);
-    const coverUrl = await getCoverUrl();
-    setCoverUrl(coverUrl);
-    console.log('coverUrl', coverUrl);
+    // const metadata = await getMetadata(Book);
+    // console.log('metadata', metadata);
+    // const cover = await getCover(Book);
+    // setCover(cover);
+    // console.log('cover', cover);
+    // const coverUrl = await getCoverUrl(Book);
+    // setCoverUrl(coverUrl);
+    // console.log('coverUrl', coverUrl);
   });
 
-  const reader = new FileReader();
-
+  reader.addEventListener(
+    'load',
+    async (e: any) => {
+      const data = e.target.result;
+      console.log('e', e);
+      console.log('data', data.toString());
+      const book = ePub(data);
+      console.log('Book', book);
+      const cover = await getCover(book);
+      setCover(cover);
+      console.log('cover', cover);
+      const coverUrl = await getCoverUrl(book);
+      setCoverUrl(coverUrl);
+      console.log('coverUrl', coverUrl);
+    },
+    false
+  );
   const handleChange = async (event) => {
-    setFile(event.target.files[0]);
+    const newFile = event.target.files[0];
+    setFile(newFile);
     setIsFilePicked(true);
-    reader.readAsDataURL(file);
-    reader.addEventListener(
-      'load',
-      (e: any) => {
-        const data = e.target.result;
-        console.log('e', e);
-        console.log('data', data.toString());
-        // Book = ePub(data);
-        // // reader.readAsArrayBuffer(file);
-        // console.log('Book', Book);
-      },
-      false
-    );
+    reader.readAsArrayBuffer(newFile);
   };
 
   function handleSubmit(event) {

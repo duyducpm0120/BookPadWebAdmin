@@ -8,3 +8,4 @@ export enum LocalizeStringsType {
   en = 'en',
   vi = 'vi'
 }
+export * from './serverEndpoint';

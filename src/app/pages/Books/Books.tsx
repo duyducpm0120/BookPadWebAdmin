@@ -2,15 +2,19 @@ import { Button } from '@mui/material';
 import { useState } from 'react';
 import type { Book } from 'epubjs';
 import ePub from 'epubjs';
-import { useMount } from '@core';
+import { BookMetadataModel } from '@core/models/BookMetadataModel';
+import { uploadNewBook, useAuthToken } from '@core';
+import { isNil } from 'lodash';
 
 export const Books = (): JSX.Element => {
   ///
   const reader = new FileReader();
   const [file, setFile] = useState<File>(new File([], ''));
   const [isFilePicked, setIsFilePicked] = useState(false);
-  const [coverUrl, setCoverUrl] = useState<any>('');
+  const [coverUrl, setCoverUrl] = useState<string>('');
   const [cover, setCover] = useState('');
+  const [metadata, setMetadata] = useState<BookMetadataModel>(BookMetadataModel.instantiate({}));
+  const { authToken } = useAuthToken();
   const getMetadata = async (book: Book) => {
     const metadata = await book.loaded.metadata;
     return metadata;
@@ -26,31 +30,18 @@ export const Books = (): JSX.Element => {
     return coverUrl;
   };
 
-  useMount(async () => {
-    // const metadata = await getMetadata(Book);
-    // console.log('metadata', metadata);
-    // const cover = await getCover(Book);
-    // setCover(cover);
-    // console.log('cover', cover);
-    // const coverUrl = await getCoverUrl(Book);
-    // setCoverUrl(coverUrl);
-    // console.log('coverUrl', coverUrl);
-  });
-
   reader.addEventListener(
     'load',
     async (e: any) => {
       const data = e.target.result;
-      console.log('e', e);
-      console.log('data', data.toString());
       const book = ePub(data);
-      console.log('Book', book);
+      const metadata = await getMetadata(book);
+      setMetadata(BookMetadataModel.instantiate(metadata));
+      console.log('metadata', metadata);
       const cover = await getCover(book);
       setCover(cover);
-      console.log('cover', cover);
       const coverUrl = await getCoverUrl(book);
-      setCoverUrl(coverUrl);
-      console.log('coverUrl', coverUrl);
+      setCoverUrl(isNil(coverUrl) ? '' : coverUrl);
     },
     false
   );
@@ -61,30 +52,37 @@ export const Books = (): JSX.Element => {
     reader.readAsArrayBuffer(newFile);
   };
 
-  function handleSubmit(event) {
+  const updateBook = async () => {
+    try {
+      await uploadNewBook({
+        bookFile: file,
+        bookMetadata: metadata,
+        coverUrl,
+        token: authToken
+      });
+      console.log('success upload book');
+    } catch (err) {
+      console.log('upload book err', err);
+    }
+  };
+  async function handleSubmit(event) {
     event.preventDefault();
-    // const url = 'http://localhost:3000/uploadFile';
-    // const formData = new FormData();
-    // formData.append('file', file);
-    // formData.append('fileName', file.name);
-    // const config = {
-    //   headers: {
-    //     'content-type': 'multipart/form-data'
-    //   }
-    // };
-    // axios.post(url, formData, config).then((response) => {
-    //   console.log(response.data);
-    // });
+    updateBook();
   }
   return (
     <div>
       {isFilePicked ? (
         <div>
-          <p>Filename: {file.name}</p>
-          <p>Filetype: {file.type}</p>
-          <p>Size in bytes: {file.size}</p>
           {/* <p>lastModifiedDate: {file?.lastModifiedDate?.toLocaleDateString()}</p> */}
           <p>Path: {URL.createObjectURL(file)}</p>
+          {Object.keys(metadata).map((key, index) => {
+            return (
+              <p key={-index}>
+                {key}: {metadata[key]}
+              </p>
+            );
+          })}
+
           <img src={coverUrl} width={300} height={300}></img>
         </div>
       ) : (

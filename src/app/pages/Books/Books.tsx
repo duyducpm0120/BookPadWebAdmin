@@ -3,8 +3,9 @@ import { useState } from 'react';
 import type { Book } from 'epubjs';
 import ePub from 'epubjs';
 import { BookMetadataModel } from '@core/models/BookMetadataModel';
-import { uploadNewBook, useAuthToken } from '@core';
+import { GetAllBooks, uploadNewBook, useAuthToken, useEffectOnceWhen } from '@core';
 import { isNil } from 'lodash';
+import type { BookModel } from '@core/models/BookModel';
 
 export const Books = (): JSX.Element => {
   ///
@@ -15,10 +16,23 @@ export const Books = (): JSX.Element => {
   const [cover, setCover] = useState('');
   const [metadata, setMetadata] = useState<BookMetadataModel>(BookMetadataModel.instantiate({}));
   const { authToken } = useAuthToken();
+  const [books, setBooks] = useState<BookModel[]>([]);
   const getMetadata = async (book: Book) => {
     const metadata = await book.loaded.metadata;
     return metadata;
   };
+
+  const { getAllBooksData, getAllBooksLoading, getAllBooksError, getAllBooksRefetch } =
+    GetAllBooks();
+
+  // useMount(() => {
+  //   console.log('getAllBooksData', getAllBooksData);
+  // });
+
+  useEffectOnceWhen(!getAllBooksLoading, () => {
+    console.log('getAllBooksData', getAllBooksData);
+    setBooks(getAllBooksData);
+  });
 
   const getCover = async (book: Book) => {
     const cover = await book.loaded.cover;
@@ -95,6 +109,11 @@ export const Books = (): JSX.Element => {
       <button type="submit" onClick={handleSubmit}>
         Upload
       </button>
+      {books.map((book, index) => {
+        return (
+          <img src={book.BookCoverImage} width={300} height={300} key={`book ${-index}`}></img>
+        );
+      })}
     </div>
   );
 };

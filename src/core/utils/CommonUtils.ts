@@ -75,3 +75,13 @@ export const safeGetBoolean = (
   }
   return defaultValue;
 };
+
+export const safeGetArray = (object: unknown, path: PropertyPath, defaultValue: any[]): any[] => {
+  let value = _.get(object, path);
+  value = _.defaultTo(value, defaultValue);
+
+  if (_.isArray(value)) {
+    return value;
+  }
+  return defaultValue;
+};

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
-import { BlankSpacer, ContainedButton, EnhancedTable } from '@app/components';
+import { BlankSpacer, BPButton, EnhancedTable } from '@app/components';
 import { RADIUS, SPACE } from '@core';
 import { Box, TextField, Typography } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
@@ -75,13 +75,13 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
         />
         <BlankSpacer height={SPACE.spacing12} />
         <Box className={styles.buttonWrapper}>
-          <ContainedButton
+          <BPButton
             isShowLeftIcon={true}
             leftIcon={<AddIcon />}
             title={'ADD'}
             onClick={async () => {
               await createPublisher();
-            }}></ContainedButton>
+            }}></BPButton>
         </Box>
       </Box>
     );
@@ -141,25 +141,25 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
         <BlankSpacer height={SPACE.spacing12} />
         <Box className={styles.buttonWrapper}>
           {isEdit ? (
-            <ContainedButton
+            <BPButton
               isShowLeftIcon={true}
               leftIcon={<></>}
               title={'Done'}
               onClick={async () => {
                 await updatePublisherData();
                 setIsEdit(false);
-              }}></ContainedButton>
+              }}></BPButton>
           ) : (
             <></>
           )}
           <BlankSpacer width={SPACE.spacing12} />
-          <ContainedButton
+          <BPButton
             isShowLeftIcon={true}
             leftIcon={<></>}
             title={'Edit'}
             onClick={() => {
               setIsEdit(true);
-            }}></ContainedButton>
+            }}></BPButton>
         </Box>
       </Box>
     );

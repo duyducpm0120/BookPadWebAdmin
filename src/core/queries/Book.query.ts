@@ -9,14 +9,19 @@ export const GET_ALL_BOOK = gql`
       PublishedAt
       CreatedAt
       BookCoverImage
-      # BookPublisher {
-      #   PublisherId
-      #   PublisherName
-      #   PublisherDescription
-      # }
-      # Languages {
-      #   LanguageId
-      # }
+      BookPublisher {
+        PublisherId
+        PublisherName
+        PublisherDescription
+      }
+      Languages {
+        LanguageId
+      }
+      Authors {
+        AuthorId
+        AuthorName
+        AuthorDescription
+      }
     }
   }
 `;

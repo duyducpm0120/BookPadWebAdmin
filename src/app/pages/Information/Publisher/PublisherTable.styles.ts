@@ -1,4 +1,4 @@
-import { COMMON_COLOR } from '../../../../core/const/colors';
+import { COMMON_COLOR } from '@core';
 import { makeStyles } from '@mui/styles';
 export const useStyles = makeStyles({
   updatePublisherWrapper: {

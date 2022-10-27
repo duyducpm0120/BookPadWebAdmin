@@ -1,119 +1,98 @@
-import { Button } from '@mui/material';
-import { useState } from 'react';
-import type { Book } from 'epubjs';
-import ePub from 'epubjs';
-import { BookMetadataModel } from '@core/models/BookMetadataModel';
-import { GetAllBooks, uploadNewBook, useAuthToken, useEffectOnceWhen } from '@core';
-import { isNil } from 'lodash';
-import type { BookModel } from '@core/models/BookModel';
+import { BlankSpacer, BookItem, BPButton, BPTextField } from '@app/components';
+import { SPACE, strings } from '@core';
+import { FONT_SIZE } from '@core/const/font';
+import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
+import { useStyles } from './Books.styles';
+import { useViewModel } from './Books.ViewModel';
+import SearchIcon from '@mui/icons-material/Search';
 
 export const Books = (): JSX.Element => {
+  const styles = useStyles();
   ///
-  const reader = new FileReader();
-  const [file, setFile] = useState<File>(new File([], ''));
-  const [isFilePicked, setIsFilePicked] = useState(false);
-  const [coverUrl, setCoverUrl] = useState<string>('');
-  const [cover, setCover] = useState('');
-  const [metadata, setMetadata] = useState<BookMetadataModel>(BookMetadataModel.instantiate({}));
-  const { authToken } = useAuthToken();
-  const [books, setBooks] = useState<BookModel[]>([]);
-  const getMetadata = async (book: Book) => {
-    const metadata = await book.loaded.metadata;
-    return metadata;
+  const { selector, handler } = useViewModel();
+  const { file, filterState, books, getAllBooksLoading } = selector;
+  const { setFilterState } = handler;
+
+  const renderFilterBox = () => {
+    return (
+      <Paper className={styles.filterWrapper}>
+        <Typography fontWeight={'semibold'} fontSize={FONT_SIZE.fontSize24}>
+          {strings.filter}
+        </Typography>
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          label={strings.search}
+          value={filterState.name}
+          onChange={(e) => {
+            setFilterState({ ...filterState, name: e.target.value });
+          }}
+          startIcon={<SearchIcon />}></BPTextField>
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          label={strings.status}
+          value={filterState.status}
+          onChange={(e) => {
+            setFilterState({ ...filterState, status: e.target.value });
+          }}
+          multiSelectParams={{
+            options: [
+              { label: 'aaaaaaa', value: 'aaaaaaa' },
+              { label: 'bbbbbbb', value: 'bbbbbbb' }
+            ]
+          }}></BPTextField>
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          label={strings.author}
+          value={filterState.author}
+          onChange={(e) => {
+            setFilterState({ ...filterState, author: e.target.value });
+          }}
+          multiSelectParams={{
+            options: [
+              { label: 'aaaaaaa', value: 'aaaaaaa' },
+              { label: 'bbbbbbb', value: 'bbbbbbb' }
+            ]
+          }}></BPTextField>
+        <BlankSpacer height={SPACE.spacing16} />
+        <BPButton title={strings.filter.toUpperCase()} onClick={() => {}}></BPButton>
+      </Paper>
+    );
   };
-
-  const { getAllBooksData, getAllBooksLoading, getAllBooksError, getAllBooksRefetch } =
-    GetAllBooks();
-
-  // useMount(() => {
-  //   console.log('getAllBooksData', getAllBooksData);
-  // });
-
-  useEffectOnceWhen(!getAllBooksLoading, () => {
-    console.log('getAllBooksData', getAllBooksData);
-    setBooks(getAllBooksData);
-  });
-
-  const getCover = async (book: Book) => {
-    const cover = await book.loaded.cover;
-    return cover;
-  };
-
-  const getCoverUrl = async (book: Book) => {
-    const coverUrl = await book.coverUrl();
-    return coverUrl;
-  };
-
-  reader.addEventListener(
-    'load',
-    async (e: any) => {
-      const data = e.target.result;
-      const book = ePub(data);
-      const metadata = await getMetadata(book);
-      setMetadata(BookMetadataModel.instantiate(metadata));
-      console.log('metadata', metadata);
-      const cover = await getCover(book);
-      setCover(cover);
-      const coverUrl = await getCoverUrl(book);
-      setCoverUrl(isNil(coverUrl) ? '' : coverUrl);
-    },
-    false
-  );
-  const handleChange = async (event) => {
-    const newFile = event.target.files[0];
-    setFile(newFile);
-    setIsFilePicked(true);
-    reader.readAsArrayBuffer(newFile);
-  };
-
-  const updateBook = async () => {
-    try {
-      await uploadNewBook({
-        bookFile: file,
-        bookMetadata: metadata,
-        coverUrl,
-        token: authToken
-      });
-      console.log('success upload book');
-    } catch (err) {
-      console.log('upload book err', err);
-    }
-  };
-  async function handleSubmit(event) {
-    event.preventDefault();
-    updateBook();
-  }
-  return (
-    <div>
-      {isFilePicked ? (
-        <div>
-          {/* <p>lastModifiedDate: {file?.lastModifiedDate?.toLocaleDateString()}</p> */}
-          <p>Path: {URL.createObjectURL(file)}</p>
-          {Object.keys(metadata).map((key, index) => {
+  const renderBookList = () => {
+    return (
+      <Box className={styles.bookListWrapper}>
+        <Grid container columnSpacing={1} rowSpacing={SPACE.spacing4}>
+          {books.map((book, index) => {
             return (
-              <p key={-index}>
-                {key}: {metadata[key]}
-              </p>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                xl={4}
+                key={(-index).toString() + 'bookItem'}>
+                <BookItem bookData={book}></BookItem>
+              </Grid>
             );
           })}
-
-          <img src={coverUrl} width={300} height={300}></img>
-        </div>
-      ) : (
-        <p>Select a file to show details</p>
-      )}
-      <Button variant="contained" component="label">
-        Upload File
-        <input type="file" hidden onChange={handleChange} accept=".epub" />
-      </Button>
-      <button type="submit" onClick={handleSubmit}>
-        Upload
-      </button>
-      {books.map((book, index) => {
-        return (
-          <img src={book.BookCoverImage} width={300} height={300} key={`book ${-index}`}></img>
-        );
-      })}
-    </div>
+        </Grid>
+      </Box>
+    );
+  };
+  if (getAllBooksLoading) {
+    return (
+      <Box className={styles.loadingWrapper}>
+        <BlankSpacer height={SPACE.spacing16} />
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
+  return (
+    <Box className={styles.wrapper}>
+      {renderFilterBox()}
+      <BlankSpacer width={SPACE.spacing16} />
+      {renderBookList()}
+    </Box>
   );
 };

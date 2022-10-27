@@ -1,6 +1,12 @@
 import { size } from 'lodash';
 import { PublisherModel } from '@core/models';
 import { safeGet, safeGetArray, safeGetString } from '@core/utils';
+
+export interface BookAuthor {
+  AuthorId: string;
+  AuthorName: string;
+  AuthorDescription: string;
+}
 export class BookModel {
   BookId: string;
   BookName: string;
@@ -10,6 +16,7 @@ export class BookModel {
   BookCoverImage: string;
   BookPublisher: PublisherModel;
   Languages: any[];
+  Authors: BookAuthor[];
 
   constructor(
     BookId: string,
@@ -19,7 +26,8 @@ export class BookModel {
     CreatedAt: string,
     BookCoverImage: string,
     BookPublisher: PublisherModel,
-    Languages: any[]
+    Languages: any[],
+    Authors: BookAuthor[]
   ) {
     this.BookId = BookId;
     this.BookName = BookName;
@@ -29,6 +37,7 @@ export class BookModel {
     this.BookCoverImage = BookCoverImage;
     this.BookPublisher = BookPublisher;
     this.Languages = Languages;
+    this.Authors = Authors;
   }
 
   public static instantiate = (json: any) => {
@@ -40,21 +49,23 @@ export class BookModel {
     const bookCoverImage = safeGetString(json, 'BookCoverImage', '');
     const bookPublisher = PublisherModel.instantiate(safeGet(json, 'BookPublisher', {}));
     const languages = safeGet(json, 'Languages', []);
+    const authors = safeGetArray(json, 'Authors', []);
+    console.log('authors', authors);
     return new BookModel(
       bookId,
       bookName,
       bookDescription,
       publishedAt,
       createdAt,
-
       bookCoverImage,
       bookPublisher,
-      languages
+      languages,
+      authors
     );
   };
 
   public static instantiateList = (json: any) => {
-    console.log('json', json);
+    // console.log('json', json);
     if (size(json) === 0) return [];
     const books = safeGetArray(json, 'getAllBooks', []);
     return books.map((book: any) => BookModel.instantiate(book));

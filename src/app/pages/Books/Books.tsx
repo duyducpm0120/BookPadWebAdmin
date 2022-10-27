@@ -64,14 +64,7 @@ export const Books = (): JSX.Element => {
         <Grid container columnSpacing={1} rowSpacing={SPACE.spacing4}>
           {books.map((book, index) => {
             return (
-              <Grid
-                item
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-                xl={4}
-                key={(-index).toString() + 'bookItem'}>
+              <Grid item sm={6} md={4} lg={4} xl={3} key={(-index).toString() + 'bookItem'}>
                 <BookItem bookData={book}></BookItem>
               </Grid>
             );

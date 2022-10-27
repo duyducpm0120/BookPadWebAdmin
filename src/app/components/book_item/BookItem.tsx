@@ -1,7 +1,6 @@
 import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import type { BookItemProps } from './BookItem.types';
 import { useStyles } from './BookItem.style';
-import { SPACE } from '@core';
 import { size } from 'lodash';
 export const BookItem = (props: BookItemProps): JSX.Element => {
   const { bookData } = props;
@@ -14,11 +13,15 @@ export const BookItem = (props: BookItemProps): JSX.Element => {
           height="250"
           image={bookData.BookCoverImage}
           alt="green iguana"
+          style={{
+            objectFit: 'contain'
+          }}
         />
         <CardContent>
           <Typography
             variant="h5"
-            minHeight={SPACE.spacing44}
+            minHeight={60}
+            maxHeight={60}
             lineHeight={1.2}
             sx={{
               display: '-webkit-box',

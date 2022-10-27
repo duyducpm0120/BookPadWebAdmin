@@ -1,10 +1,11 @@
 import { BlankSpacer, BookItem, BPButton, BPTextField } from '@app/components';
-import { SPACE, strings } from '@core';
+import { SPACE, strings, TEXT_COLOR } from '@core';
 import { FONT_SIZE } from '@core/const/font';
 import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useStyles } from './Books.styles';
 import { useViewModel } from './Books.ViewModel';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
 
 export const Books = (): JSX.Element => {
   const styles = useStyles();
@@ -61,6 +62,27 @@ export const Books = (): JSX.Element => {
   const renderBookList = () => {
     return (
       <Box className={styles.bookListWrapper}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%'
+          }}>
+          <Typography
+            fontWeight={'semibold'}
+            fontSize={FONT_SIZE.fontSize24}
+            color={TEXT_COLOR.primary}>
+            {strings.books}
+          </Typography>
+          <BPButton
+            isShowLeftIcon={true}
+            leftIcon={<AddIcon />}
+            onClick={() => {}}
+            title={'Add'}></BPButton>
+        </Box>
+        <BlankSpacer height={SPACE.spacing8} />
         <Grid container columnSpacing={1} rowSpacing={SPACE.spacing4}>
           {books.map((book, index) => {
             return (

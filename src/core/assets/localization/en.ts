@@ -6,5 +6,6 @@ export const enStrings = {
   filter: 'Filter',
   search: 'Search',
   author: 'Author',
-  status: 'Status'
+  status: 'Status',
+  books: 'Books'
 };

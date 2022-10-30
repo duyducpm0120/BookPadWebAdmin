@@ -1,14 +1,25 @@
-import { safeGet } from '@core/utils';
 import { Button } from '@mui/material';
-import type { ContainedButtonProps } from './BPButtons.types';
-import AddIcon from '@mui/icons-material/Add';
+import type { BPButtonProps } from './BPButtons.types';
+import { APP_THEME } from '@core';
 
-export const BPButton = (props: ContainedButtonProps) => {
-  const { onClick, title, isShowLeftIcon = false } = props;
-  const leftIcon = safeGet(props, 'leftIcon', AddIcon);
+export const BPButton = (props: BPButtonProps) => {
+  const {
+    onClick,
+    title,
+    isShowLeftIcon = false,
+    type = 'contained',
+    textColor = APP_THEME.primary.main,
+    leftIcon = null
+  } = props;
 
   return (
-    <Button variant="contained" startIcon={isShowLeftIcon ? leftIcon : null} onClick={onClick}>
+    <Button
+      variant={type}
+      startIcon={isShowLeftIcon ? leftIcon : null}
+      onClick={onClick}
+      style={{
+        color: textColor
+      }}>
       {title}
     </Button>
   );

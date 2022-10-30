@@ -14,8 +14,9 @@ import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
 import type { TableProps } from './Table.types';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
-import { Drawer, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import _ from 'lodash';
+import { BPDrawer } from '../drawer';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -57,8 +58,8 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
   const {
     tableHeader,
     tableData,
-    rightDrawerAddNewUI,
-    rightDrawerViewAndEditUI,
+    rightDrawerAddNewUIParams,
+    rightDrawerViewAndEditUIParams,
     hideColumns = [],
     showViewAndEditUICallBack = () => {}
   } = props;
@@ -231,15 +232,18 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
-      <Drawer anchor="right" open={isOpenAddNewDrawer} onClose={() => setIsOpenAddNewDrawer(false)}>
-        {rightDrawerAddNewUI}
-      </Drawer>
-      <Drawer
-        anchor="right"
+      <BPDrawer
+        open={isOpenAddNewDrawer}
+        onClose={() => setIsOpenAddNewDrawer(false)}
+        title={rightDrawerAddNewUIParams.title}>
+        {rightDrawerViewAndEditUIParams.content}
+      </BPDrawer>
+      <BPDrawer
+        title={rightDrawerViewAndEditUIParams.title}
         open={isOpenViewAndEditDrawer}
         onClose={() => setIsOpenViewAndEditDrawer(false)}>
-        {rightDrawerViewAndEditUI}
-      </Drawer>
+        {rightDrawerViewAndEditUIParams.content}
+      </BPDrawer>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import { BlankSpacer, BookItem, BPButton, BPTextField } from '@app/components';
+import { BlankSpacer, BookItem, BPButton, BPDrawer, BPTextField } from '@app/components';
 import { SPACE, strings, TEXT_COLOR } from '@core';
 import { FONT_SIZE } from '@core/const/font';
 import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
@@ -65,7 +65,10 @@ export const Books = (): JSX.Element => {
             options: getAuthorsDisplayList()
           }}></BPTextField>
         <BlankSpacer height={SPACE.spacing16} />
-        <BPButton title={strings.filter.toUpperCase()} onClick={() => {}}></BPButton>
+        <BPButton
+          title={strings.filter.toUpperCase()}
+          onClick={() => {}}
+          type="outlined"></BPButton>
       </Paper>
     );
   };
@@ -90,7 +93,8 @@ export const Books = (): JSX.Element => {
             isShowLeftIcon={true}
             leftIcon={<AddIcon />}
             onClick={() => {}}
-            title={'Add'}></BPButton>
+            title={'Add'}
+            type="outlined"></BPButton>
         </Box>
         <BlankSpacer height={SPACE.spacing8} />
         <Grid container columnSpacing={1} rowSpacing={SPACE.spacing4}>
@@ -119,6 +123,9 @@ export const Books = (): JSX.Element => {
       {renderFilterBox()}
       <BlankSpacer width={SPACE.spacing16} />
       {renderBookList()}
+      <BPDrawer title="asdasd" open={false} onClose={() => {}}>
+        <div>asdasd</div>
+      </BPDrawer>
     </Box>
   );
 };

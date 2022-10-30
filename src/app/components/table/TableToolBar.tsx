@@ -41,6 +41,7 @@ export const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
           </Tooltip>
         ) : (
           <BPButton
+            type="outlined"
             isShowLeftIcon={true}
             leftIcon={<AddIcon />}
             onClick={() => setIsOpenDrawer(true)}

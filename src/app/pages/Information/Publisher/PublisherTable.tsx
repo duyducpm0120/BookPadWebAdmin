@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
 import { BlankSpacer, BPButton, EnhancedTable } from '@app/components';
 import { RADIUS, SPACE } from '@core';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
-import { FONT_SIZE } from '@core/const/font';
 import AddIcon from '@mui/icons-material/Add';
 import { safeGetString } from '@core/utils';
 import { strings } from '@core/assets';
 import { useViewModel } from './PublisherTable.viewModel';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
   const styles = useStyles();
@@ -30,12 +31,10 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     newPublisherDescriptionRef,
     reloadPublisherData
   } = useViewModel(props);
+  const [isEdit, setIsEdit] = useState(false);
   const AddNewPublisherUI = () => {
     return (
       <Box className={styles.updatePublisherWrapper}>
-        <Typography variant="h4" fontSize={FONT_SIZE.fontSize24}>
-          {strings.add_new_publisher}
-        </Typography>
         <BlankSpacer height={SPACE.spacing12} />
         <TextField
           inputRef={newPublisherNameRef}
@@ -76,6 +75,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
         <BlankSpacer height={SPACE.spacing12} />
         <Box className={styles.buttonWrapper}>
           <BPButton
+            type="outlined"
             isShowLeftIcon={true}
             leftIcon={<AddIcon />}
             title={'ADD'}
@@ -87,12 +87,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     );
   };
   const ViewAndEditPublisherUI = () => {
-    const [isEdit, setIsEdit] = useState(false);
     return (
       <Box className={styles.updatePublisherWrapper}>
-        <Typography variant="h4" fontSize={FONT_SIZE.fontSize24}>
-          {isEdit ? 'Edit publisher' : 'View publisher'}
-        </Typography>
         <BlankSpacer height={SPACE.spacing12} />
         <TextField
           inputRef={selectedPublisherNameRef}
@@ -142,9 +138,10 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
         <Box className={styles.buttonWrapper}>
           {isEdit ? (
             <BPButton
+              type="outlined"
               isShowLeftIcon={true}
-              leftIcon={<></>}
-              title={'Done'}
+              leftIcon={<SaveIcon />}
+              title={'Save'}
               onClick={async () => {
                 await updatePublisherData();
                 setIsEdit(false);
@@ -154,8 +151,9 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           )}
           <BlankSpacer width={SPACE.spacing12} />
           <BPButton
+            type="outlined"
             isShowLeftIcon={true}
-            leftIcon={<></>}
+            leftIcon={<EditIcon />}
             title={'Edit'}
             onClick={() => {
               setIsEdit(true);
@@ -169,8 +167,14 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
       <EnhancedTable
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={publisherData}
-        rightDrawerAddNewUI={AddNewPublisherUI()}
-        rightDrawerViewAndEditUI={ViewAndEditPublisherUI()}
+        rightDrawerAddNewUIParams={{
+          content: AddNewPublisherUI(),
+          title: strings.add_new_publisher
+        }}
+        rightDrawerViewAndEditUIParams={{
+          content: ViewAndEditPublisherUI(),
+          title: isEdit ? 'Edit publisher' : 'View publisher'
+        }}
         hideColumns={['PublisherDescription']}
         showViewAndEditUICallBack={({ row }) => {
           setSelectedPublisherIndex(row);

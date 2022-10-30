@@ -1,8 +1,11 @@
 export interface TableProps {
   tableHeader: string;
   tableData: any[];
-  rightDrawerAddNewUI: JSX.Element;
-  rightDrawerViewAndEditUI: JSX.Element;
+  rightDrawerAddNewUIParams: {
+    content: JSX.Element;
+    title: string;
+  };
+  rightDrawerViewAndEditUIParams: { content: JSX.Element; title: string };
   hideColumns?: string[];
   showViewAndEditUICallBack?: ({ row }: { row: number }) => void;
 }

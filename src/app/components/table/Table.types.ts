@@ -1,11 +1,20 @@
+import type { BPDrawerButtonParams } from '../drawer';
+
 export interface TableProps {
   tableHeader: string;
   tableData: any[];
   rightDrawerAddNewUIParams: {
     content: JSX.Element;
     title: string;
+    primaryButtonParams?: BPDrawerButtonParams;
+    secondaryButtonParams?: BPDrawerButtonParams;
   };
-  rightDrawerViewAndEditUIParams: { content: JSX.Element; title: string };
+  rightDrawerViewAndEditUIParams: {
+    content: JSX.Element;
+    title: string;
+    primaryButtonParams?: BPDrawerButtonParams;
+    secondaryButtonParams?: BPDrawerButtonParams;
+  };
   hideColumns?: string[];
   showViewAndEditUICallBack?: ({ row }: { row: number }) => void;
 }

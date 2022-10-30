@@ -66,9 +66,9 @@ export const Books = (): JSX.Element => {
           }}></BPTextField>
         <BlankSpacer height={SPACE.spacing16} />
         <BPButton
-          title={strings.filter.toUpperCase()}
+          label={strings.filter.toUpperCase()}
           onClick={() => {}}
-          type="outlined"></BPButton>
+          type="contained"></BPButton>
       </Paper>
     );
   };
@@ -90,10 +90,9 @@ export const Books = (): JSX.Element => {
             {strings.books}
           </Typography>
           <BPButton
-            isShowLeftIcon={true}
             leftIcon={<AddIcon />}
             onClick={() => {}}
-            title={'Add'}
+            label={'Add'}
             type="outlined"></BPButton>
         </Box>
         <BlankSpacer height={SPACE.spacing8} />

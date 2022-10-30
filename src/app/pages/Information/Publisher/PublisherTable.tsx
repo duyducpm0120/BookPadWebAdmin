@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
-import { BlankSpacer, BPButton, EnhancedTable } from '@app/components';
-import { RADIUS, SPACE } from '@core';
-import { Box, TextField } from '@mui/material';
+import { BlankSpacer, BPTextField, EnhancedTable } from '@app/components';
+import { SPACE } from '@core';
+import { Box } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
-import AddIcon from '@mui/icons-material/Add';
 import { safeGetString } from '@core/utils';
 import { strings } from '@core/assets';
 import { useViewModel } from './PublisherTable.viewModel';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import Add from '@mui/icons-material/Add';
 
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
   const styles = useStyles();
@@ -36,53 +36,40 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     return (
       <Box className={styles.updatePublisherWrapper}>
         <BlankSpacer height={SPACE.spacing12} />
-        <TextField
-          inputRef={newPublisherNameRef}
-          margin="normal"
-          required
-          id="name"
-          label="Publisher name"
-          name="name"
-          autoComplete="name"
+        <BPTextField
+          ref={newPublisherNameRef}
+          label={strings.publisher_name}
           autoFocus
-          color="primary"
           fullWidth
           value={publisherName}
           onChange={(e) => {
             setPublisherName(e.target.value);
           }}
-          InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
         />
-        <TextField
-          inputRef={newPublisherDescriptionRef}
-          margin="normal"
-          required
-          id="description"
-          label="Publisher description"
-          name="description"
-          autoComplete="description"
+        <BlankSpacer height={SPACE.spacing8} />
+        <BPTextField
+          ref={newPublisherDescriptionRef}
+          label={strings.publisher_description}
           autoFocus
-          color="primary"
           fullWidth
           value={publisherDescription}
           onChange={(e) => {
             setPublisherDescription(e.target.value);
           }}
-          InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
           multiline
           rows={10}
         />
         <BlankSpacer height={SPACE.spacing12} />
-        <Box className={styles.buttonWrapper}>
+        {/* <Box className={styles.buttonWrapper}>
           <BPButton
             type="outlined"
             isShowLeftIcon={true}
             leftIcon={<AddIcon />}
-            title={'ADD'}
+            label={'ADD'}
             onClick={async () => {
               await createPublisher();
             }}></BPButton>
-        </Box>
+        </Box> */}
       </Box>
     );
   };
@@ -90,41 +77,28 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     return (
       <Box className={styles.updatePublisherWrapper}>
         <BlankSpacer height={SPACE.spacing12} />
-        <TextField
-          inputRef={selectedPublisherNameRef}
-          margin="normal"
-          required
-          id="name"
+        <BPTextField
+          ref={selectedPublisherNameRef}
           label="Publisher name"
-          name="name"
-          autoComplete="name"
           autoFocus
-          color="primary"
           fullWidth
           // value={safeGetString(publisherData[selectedPublisherIndex], 'PublisherName', '')}
           onChange={(e) => {
             // setPublisherName(e.target.value);
           }}
-          InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
           disabled={!isEdit}
           defaultValue={safeGetString(publisherData[selectedPublisherIndex], 'PublisherName', '')}
         />
-        <TextField
-          inputRef={selectedPublisherDescriptionRef}
-          margin="normal"
-          required
-          id="description"
+        <BlankSpacer height={SPACE.spacing8} />
+        <BPTextField
+          ref={selectedPublisherDescriptionRef}
           label="Publisher description"
-          name="description"
-          autoComplete="description"
           autoFocus
-          color="primary"
           fullWidth
           // value={safeGetString(publisherData[selectedPublisherIndex], 'PublisherDescription', '')}
           onChange={(e) => {
             // setPublisherDescription(e.target.value);
           }}
-          InputProps={{ style: { borderRadius: RADIUS.radius6 } }}
           multiline
           rows={10}
           disabled={!isEdit}
@@ -135,30 +109,6 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           )}
         />
         <BlankSpacer height={SPACE.spacing12} />
-        <Box className={styles.buttonWrapper}>
-          {isEdit ? (
-            <BPButton
-              type="outlined"
-              isShowLeftIcon={true}
-              leftIcon={<SaveIcon />}
-              title={'Save'}
-              onClick={async () => {
-                await updatePublisherData();
-                setIsEdit(false);
-              }}></BPButton>
-          ) : (
-            <></>
-          )}
-          <BlankSpacer width={SPACE.spacing12} />
-          <BPButton
-            type="outlined"
-            isShowLeftIcon={true}
-            leftIcon={<EditIcon />}
-            title={'Edit'}
-            onClick={() => {
-              setIsEdit(true);
-            }}></BPButton>
-        </Box>
       </Box>
     );
   };
@@ -169,11 +119,40 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
         tableData={publisherData}
         rightDrawerAddNewUIParams={{
           content: AddNewPublisherUI(),
-          title: strings.add_new_publisher
+          title: strings.add_new_publisher,
+          primaryButtonParams: {
+            label: strings.add,
+            onClick: async () => {
+              await createPublisher();
+            },
+            isShow: true,
+            type: 'contained',
+            leftIcon: <Add />
+          }
         }}
         rightDrawerViewAndEditUIParams={{
           content: ViewAndEditPublisherUI(),
-          title: isEdit ? 'Edit publisher' : 'View publisher'
+          title: isEdit ? 'Edit publisher' : 'View publisher',
+          secondaryButtonParams: {
+            label: strings.save,
+            onClick: async () => {
+              if (!isEdit) return;
+              await updatePublisherData();
+              setIsEdit(false);
+            },
+            isShow: true,
+            type: 'outlined',
+            leftIcon: <SaveIcon />
+          },
+          primaryButtonParams: {
+            label: strings.edit,
+            onClick: () => {
+              setIsEdit(true);
+            },
+            isShow: true,
+            type: 'contained',
+            leftIcon: <EditIcon />
+          }
         }}
         hideColumns={['PublisherDescription']}
         showViewAndEditUICallBack={({ row }) => {

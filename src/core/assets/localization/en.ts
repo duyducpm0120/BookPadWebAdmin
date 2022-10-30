@@ -7,5 +7,10 @@ export const enStrings = {
   search: 'Search',
   author: 'Author',
   status: 'Status',
-  books: 'Books'
+  books: 'Books',
+  add: 'Add',
+  save: 'Save',
+  edit: 'Edit',
+  publisher_name: 'Publisher name',
+  publisher_description: 'Publisher description'
 };

@@ -1,8 +1,8 @@
 export interface BPButtonProps {
   onClick: () => void;
-  title: string;
-  isShowLeftIcon?: boolean;
+  label: string;
   leftIcon?: JSX.Element;
   type: 'contained' | 'outlined';
   textColor?: string;
+  style?: React.CSSProperties;
 }

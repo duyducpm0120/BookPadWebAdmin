@@ -8,14 +8,23 @@ export const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    justifyContent: 'center',
-    width: '25vw'
+    justifyContent: 'space-between',
+    width: '25vw',
+    height: '100vh'
   },
-  buttonWrapper: {
+  contentWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: '100%'
+  },
+  buttonsWrapper: {
+    // position: 'absolute',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    width: '100%'
+    justifyContent: 'space-between',
+    width: '100%',
+    bottom: 0
   }
 });

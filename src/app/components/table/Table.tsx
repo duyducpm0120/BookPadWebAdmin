@@ -235,13 +235,17 @@ export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
       <BPDrawer
         open={isOpenAddNewDrawer}
         onClose={() => setIsOpenAddNewDrawer(false)}
-        title={rightDrawerAddNewUIParams.title}>
-        {rightDrawerViewAndEditUIParams.content}
+        title={rightDrawerAddNewUIParams.title}
+        primaryButtonParams={rightDrawerAddNewUIParams.primaryButtonParams}
+        secondaryButtonParams={rightDrawerAddNewUIParams.secondaryButtonParams}>
+        {rightDrawerAddNewUIParams.content}
       </BPDrawer>
       <BPDrawer
         title={rightDrawerViewAndEditUIParams.title}
         open={isOpenViewAndEditDrawer}
-        onClose={() => setIsOpenViewAndEditDrawer(false)}>
+        onClose={() => setIsOpenViewAndEditDrawer(false)}
+        primaryButtonParams={rightDrawerViewAndEditUIParams.primaryButtonParams}
+        secondaryButtonParams={rightDrawerViewAndEditUIParams.secondaryButtonParams}>
         {rightDrawerViewAndEditUIParams.content}
       </BPDrawer>
     </Box>

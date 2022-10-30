@@ -4,7 +4,7 @@ export interface BPTextFieldSelectOptionType {
 }
 export interface BPTextFieldProps {
   label: string;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
   fullWidth?: boolean;
   autoFocus?: boolean;
@@ -15,4 +15,10 @@ export interface BPTextFieldProps {
   multiSelectParams?: {
     options: BPTextFieldSelectOptionType[];
   };
+  error?: boolean;
+  helperText?: string;
+  multiline?: boolean;
+  rows?: number;
+  disabled?: boolean;
+  defaultValue?: string;
 }

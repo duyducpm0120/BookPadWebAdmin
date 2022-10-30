@@ -6,13 +6,26 @@ import { useStyles } from './Books.styles';
 import { useViewModel } from './Books.ViewModel';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+import { useMemo } from 'react';
+import { BookStatusType } from './Books.types';
 
 export const Books = (): JSX.Element => {
   const styles = useStyles();
   ///
   const { selector, handler } = useViewModel();
-  const { file, filterState, books, getAllBooksLoading } = selector;
-  const { setFilterState } = handler;
+  const {
+    file,
+    filterState,
+    getAllBooksLoading,
+    getAllBooksData,
+    getAllAuthorsData,
+    getAllAuthorsLoading
+  } = selector;
+  const { setFilterState, getAuthorsDisplayList, getFilteredData } = handler;
+
+  const bookDataToRender = useMemo(() => {
+    return getFilteredData();
+  }, [getFilteredData]);
 
   const renderFilterBox = () => {
     return (
@@ -37,8 +50,8 @@ export const Books = (): JSX.Element => {
           }}
           multiSelectParams={{
             options: [
-              { label: 'aaaaaaa', value: 'aaaaaaa' },
-              { label: 'bbbbbbb', value: 'bbbbbbb' }
+              { label: 'Active', value: BookStatusType.active },
+              { label: 'Inactive', value: BookStatusType.inactive }
             ]
           }}></BPTextField>
         <BlankSpacer height={SPACE.spacing12} />
@@ -49,10 +62,7 @@ export const Books = (): JSX.Element => {
             setFilterState({ ...filterState, author: e.target.value });
           }}
           multiSelectParams={{
-            options: [
-              { label: 'aaaaaaa', value: 'aaaaaaa' },
-              { label: 'bbbbbbb', value: 'bbbbbbb' }
-            ]
+            options: getAuthorsDisplayList()
           }}></BPTextField>
         <BlankSpacer height={SPACE.spacing16} />
         <BPButton title={strings.filter.toUpperCase()} onClick={() => {}}></BPButton>
@@ -84,7 +94,7 @@ export const Books = (): JSX.Element => {
         </Box>
         <BlankSpacer height={SPACE.spacing8} />
         <Grid container columnSpacing={1} rowSpacing={SPACE.spacing4}>
-          {books.map((book, index) => {
+          {bookDataToRender.map((book, index) => {
             return (
               <Grid item sm={6} md={4} lg={4} xl={3} key={(-index).toString() + 'bookItem'}>
                 <BookItem bookData={book}></BookItem>
@@ -95,7 +105,8 @@ export const Books = (): JSX.Element => {
       </Box>
     );
   };
-  if (getAllBooksLoading) {
+
+  if (getAllBooksLoading || getAllAuthorsLoading) {
     return (
       <Box className={styles.loadingWrapper}>
         <BlankSpacer height={SPACE.spacing16} />

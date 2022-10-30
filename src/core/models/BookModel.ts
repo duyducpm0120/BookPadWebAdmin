@@ -50,7 +50,6 @@ export class BookModel {
     const bookPublisher = PublisherModel.instantiate(safeGet(json, 'BookPublisher', {}));
     const languages = safeGet(json, 'Languages', []);
     const authors = safeGetArray(json, 'Authors', []);
-    console.log('authors', authors);
     return new BookModel(
       bookId,
       bookName,

@@ -8,3 +8,8 @@ export interface BookFilterState {
   status: string;
   author: string;
 }
+
+export enum BookStatusType {
+  active = 'active',
+  inactive = 'inactive'
+}

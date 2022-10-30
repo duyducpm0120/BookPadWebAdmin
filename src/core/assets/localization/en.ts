@@ -12,5 +12,8 @@ export const enStrings = {
   save: 'Save',
   edit: 'Edit',
   publisher_name: 'Publisher name',
-  publisher_description: 'Publisher description'
+  publisher_description: 'Publisher description',
+  publisher_name_required: 'Publisher name is required',
+  publisher_description_required: 'Publisher description is required',
+  missing_required_fields: 'Missing required fields'
 };

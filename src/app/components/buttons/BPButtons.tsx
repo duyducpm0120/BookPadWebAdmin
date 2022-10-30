@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import type { BPButtonProps } from './BPButtons.types';
-import { APP_THEME, COMMON_COLOR } from '@core';
+import { APP_THEME, COMMON_COLOR, TEXT_COLOR } from '@core';
 
 export const BPButton = (props: BPButtonProps) => {
   const {
@@ -9,7 +9,8 @@ export const BPButton = (props: BPButtonProps) => {
     type = 'contained',
     textColor = APP_THEME.primary.main,
     leftIcon = null,
-    style = {}
+    style = {},
+    disabled = false
   } = props;
 
   const refactorTextColor = type === 'contained' ? COMMON_COLOR.white : textColor;
@@ -21,10 +22,11 @@ export const BPButton = (props: BPButtonProps) => {
       onClick={onClick}
       style={{
         ...style,
-        color: refactorTextColor,
+        color: disabled ? TEXT_COLOR.light : refactorTextColor,
         borderWidth: type === 'outlined' ? 2 : 0
         // width: '40%'
-      }}>
+      }}
+      disabled={disabled}>
       {title}
     </Button>
   );

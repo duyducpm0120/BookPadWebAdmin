@@ -5,4 +5,5 @@ export interface BPButtonProps {
   type: 'contained' | 'outlined';
   textColor?: string;
   style?: React.CSSProperties;
+  disabled?: boolean;
 }

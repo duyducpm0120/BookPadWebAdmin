@@ -29,7 +29,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     createPublisher,
     newPublisherNameRef,
     newPublisherDescriptionRef,
-    reloadPublisherData
+    reloadPublisherData,
+    isAddNewPublisherValid
   } = useViewModel(props);
   const [isEdit, setIsEdit] = useState(false);
   const AddNewPublisherUI = () => {
@@ -45,12 +46,13 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           onChange={(e) => {
             setPublisherName(e.target.value);
           }}
+          // error={!isAddNewPublisherValid}
+          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
         />
         <BlankSpacer height={SPACE.spacing8} />
         <BPTextField
           ref={newPublisherDescriptionRef}
           label={strings.publisher_description}
-          autoFocus
           fullWidth
           value={publisherDescription}
           onChange={(e) => {
@@ -58,6 +60,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           }}
           multiline
           rows={10}
+          // error={!isAddNewPublisherValid}
+          // errorText={!isAddNewPublisherValid ? strings.publisher_description_required : ''}
         />
         <BlankSpacer height={SPACE.spacing12} />
         {/* <Box className={styles.buttonWrapper}>
@@ -88,6 +92,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           }}
           disabled={!isEdit}
           defaultValue={safeGetString(publisherData[selectedPublisherIndex], 'PublisherName', '')}
+          // error={!isUpdatePublisherValid()}
+          // errorText={!isUpdatePublisherValid() ? strings.publisher_name_required : ''}
         />
         <BlankSpacer height={SPACE.spacing8} />
         <BPTextField
@@ -107,6 +113,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
             'PublisherDescription',
             ''
           )}
+          // error={!isUpdatePublisherValid()}
+          // errorText={!isUpdatePublisherValid() ? strings.publisher_description_required : ''}
         />
         <BlankSpacer height={SPACE.spacing12} />
       </Box>
@@ -128,6 +136,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
             isShow: true,
             type: 'contained',
             leftIcon: <Add />
+            // disabled: !isAddNewPublisherValid
           }
         }}
         rightDrawerViewAndEditUIParams={{
@@ -142,7 +151,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
             },
             isShow: true,
             type: 'outlined',
-            leftIcon: <SaveIcon />
+            leftIcon: <SaveIcon />,
+            disabled: !isEdit
           },
           primaryButtonParams: {
             label: strings.edit,

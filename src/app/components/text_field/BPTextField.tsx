@@ -4,7 +4,7 @@ import type { ForwardedRef } from 'react';
 import { forwardRef } from 'react';
 import type { BPTextFieldProps } from './BPTextField.types';
 
-const refactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => {
+const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => {
   const {
     label,
     value = null,
@@ -15,15 +15,17 @@ const refactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
     style = {},
     multiSelectParams = null,
     error = false,
-    helperText = null,
+    errorText = null,
     multiline = false,
     rows = 1,
     disabled = false,
     defaultValue = null
   } = props;
+
   return (
     <TextField
       // id="outlined-select-currency-native"
+
       inputRef={ref}
       label={label}
       value={value}
@@ -32,7 +34,7 @@ const refactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
       fullWidth={fullWidth}
       autoFocus={autoFocus}
       error={error}
-      helperText={helperText}
+      helperText={errorText !== null && error ? errorText : ''}
       sx={{
         margin: 0
       }}
@@ -44,7 +46,7 @@ const refactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
       multiline={multiline}
       rows={rows}
       disabled={disabled}
-      defaultValue={defaultValue}>
+      defaultValue={value === null ? defaultValue : null}>
       {!isNil(multiSelectParams) &&
         multiSelectParams.options.map((item) => (
           <MenuItem key={item.label} value={item.value}>
@@ -55,4 +57,4 @@ const refactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
   );
 };
 
-export const BPTextField = forwardRef(refactorTextField);
+export const BPTextField = forwardRef(RefactorTextField);

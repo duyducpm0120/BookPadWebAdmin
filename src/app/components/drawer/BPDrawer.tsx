@@ -28,14 +28,16 @@ export const BPDrawer = (props: BPDrawerProps) => {
       label: '',
       onClick: () => {},
       type: 'contained',
-      leftIcon: null
+      leftIcon: null,
+      disabled: false
     },
     secondaryButtonParams = {
       isShow: false,
       label: '',
       onClick: () => {},
       type: 'contained',
-      leftIcon: null
+      leftIcon: null,
+      disabled: false
     },
     children
   } = props;
@@ -59,6 +61,7 @@ export const BPDrawer = (props: BPDrawerProps) => {
                 width: '45%'
               }}
               leftIcon={secondaryButtonParams.leftIcon}
+              disabled={secondaryButtonParams.disabled}
             />
           ) : null}
           {primaryButtonParams.isShow ? (
@@ -70,6 +73,7 @@ export const BPDrawer = (props: BPDrawerProps) => {
                 width: secondaryButtonParams.isShow ? '45%' : '100%'
               }}
               leftIcon={primaryButtonParams.leftIcon}
+              disabled={primaryButtonParams.disabled}
             />
           ) : null}
         </Box>

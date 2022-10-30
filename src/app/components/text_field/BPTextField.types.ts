@@ -16,7 +16,7 @@ export interface BPTextFieldProps {
     options: BPTextFieldSelectOptionType[];
   };
   error?: boolean;
-  helperText?: string;
+  errorText?: string;
   multiline?: boolean;
   rows?: number;
   disabled?: boolean;

@@ -2,13 +2,13 @@ import { CreatePublisher } from './../../../../core/services/PublisherServices';
 import { useGlobalState, UpdatePublisher, safeGetString, strings, useGlobalLoading } from '@core';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
 import { AlertType } from '@core/store';
-import React, { useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
 export const useViewModel = (props: PublisherTableProps) => {
   const { publisherData, reloadPublisherData } = props;
   const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
-  const [publisherName, setPublisherName] = React.useState('');
-  const [publisherDescription, setPublisherDescription] = React.useState('');
+  const [publisherName, setPublisherName] = useState('');
+  const [publisherDescription, setPublisherDescription] = useState('');
   const [selectedPublisherIndex, setSelectedPublisherIndex] = React.useState(-1);
   const selectedPublisherNameRef = useRef(null);
   const selectedPublisherDescriptionRef = useRef(null);
@@ -20,15 +20,25 @@ export const useViewModel = (props: PublisherTableProps) => {
     error: updatePublisherCallbackError,
     updatePublisherFunc
   } = UpdatePublisher();
-  const {
-    data: createPublisherCallbackData,
-    loading: createPublisherCallbackLoading,
-    error: createPublisherCallbackError,
-    createPublisherFunc
-  } = CreatePublisher();
+  const { createPublisherFunc } = CreatePublisher();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
+
+  const isAddNewPublisherValid = useMemo(() => {
+    return publisherName !== '' && publisherDescription !== '';
+  }, [publisherDescription, publisherName]);
+
   const updatePublisherData = async () => {
+    if (
+      safeGetString(selectedPublisherNameRef.current, 'value', '') === '' ||
+      safeGetString(selectedPublisherDescriptionRef.current, 'value', '') === ''
+    ) {
+      showAlert({
+        type: AlertType.ERROR,
+        message: strings.missing_required_fields
+      });
+      return;
+    }
     showGlobalLoading();
     try {
       await updatePublisherFunc({
@@ -53,6 +63,13 @@ export const useViewModel = (props: PublisherTableProps) => {
     hideGlobalLoading();
   };
   const createPublisher = async () => {
+    if (!isAddNewPublisherValid) {
+      showAlert({
+        message: strings.missing_required_fields,
+        type: AlertType.ERROR
+      });
+      return;
+    }
     showGlobalLoading();
     try {
       await createPublisherFunc({
@@ -94,6 +111,7 @@ export const useViewModel = (props: PublisherTableProps) => {
     createPublisher,
     newPublisherNameRef,
     newPublisherDescriptionRef,
-    reloadPublisherData
+    reloadPublisherData,
+    isAddNewPublisherValid
   };
 };

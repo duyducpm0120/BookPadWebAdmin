@@ -5,7 +5,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Typography } from '@mui/
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { BlankSpacer } from '../BlankSpacer';
 import type { BookPadPageItemType } from '@core';
-import { useGlobalDispatch, BookPadPages } from '@core';
+import { DEFAULT_PAGE_NAME, useGlobalDispatch, BookPadPages } from '@core';
 import { size } from 'lodash';
 import { globalActions } from '@core/store';
 
@@ -24,7 +24,7 @@ export const SideBar = (): JSX.Element => {
             }}
             key={`${-index}accordion`}
             onClick={() => {
-              navigate('/');
+              navigate(`/${item.name}`);
             }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -75,7 +75,7 @@ export const SideBar = (): JSX.Element => {
         className="sideBarItem"
         key={`${-index}sideBarItem`}
         onClick={() => {
-          item.name === 'Information' ? navigate('/') : navigate(item.name);
+          item.name === DEFAULT_PAGE_NAME ? navigate('/') : navigate(item.name);
         }}>
         {item.icon}
         <BlankSpacer width={12} />

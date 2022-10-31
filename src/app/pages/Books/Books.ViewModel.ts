@@ -98,6 +98,7 @@ export const useViewModel = () => {
         type: AlertType.SUCCESS
       });
       getAllBooksRefetch();
+      setMetadata(BookMetadataModel.instantiate({}));
     } catch (err) {
       console.log('upload book err', err);
       hideGlobalLoading();

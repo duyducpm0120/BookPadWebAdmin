@@ -2,6 +2,7 @@ export const enStrings = {
   app_name: 'BookPad',
   success_update_publisher: 'Update publisher successfully',
   add_new_publisher: 'Add new publisher',
+  add_new_book: 'Add new book',
   success_create_publisher: 'Create publisher successfully',
   filter: 'Filter',
   search: 'Search',
@@ -15,5 +16,7 @@ export const enStrings = {
   publisher_description: 'Publisher description',
   publisher_name_required: 'Publisher name is required',
   publisher_description_required: 'Publisher description is required',
-  missing_required_fields: 'Missing required fields'
+  missing_required_fields: 'Missing required fields',
+  title: 'Title',
+  publish_date: 'Publish date'
 };

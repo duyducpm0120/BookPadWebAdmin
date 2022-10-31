@@ -10,7 +10,8 @@ export const useStyles = makeStyles({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     width: '25vw',
-    height: '100vh'
+    height: '100vh',
+    boxSizing: 'border-box'
   },
   contentWrapper: {
     display: 'flex',

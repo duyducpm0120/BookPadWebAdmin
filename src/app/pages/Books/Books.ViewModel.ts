@@ -1,12 +1,16 @@
+import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
+import { BookModel } from './../../../core/models/BookModel';
 import { GetAllAuthors } from './../../../core/services/AuthorServices';
 import type { BookFilterState } from './Books.types';
 import { BookStatusType } from './Books.types';
-import { useAuthToken, GetAllBooks, uploadNewBook } from '@core';
+import type { UploadBookDataType } from '@core';
+import { useGlobalLoading, useAuthToken, GetAllBooks, uploadNewBook } from '@core';
 import { BookMetadataModel } from '@core/models/BookMetadataModel';
 import type { Book } from 'epubjs';
 import ePub from 'epubjs';
 import { isNil, size } from 'lodash';
 import { useState } from 'react';
+import { AlertType } from '@core/store';
 
 const FILTER_ALL_CONST = 'All';
 
@@ -17,7 +21,10 @@ export const useViewModel = () => {
   const [coverUrl, setCoverUrl] = useState<string>('');
   const [cover, setCover] = useState('');
   const [metadata, setMetadata] = useState<BookMetadataModel>(BookMetadataModel.instantiate({}));
+  const [newBookData, setNewBookData] = useState<BookModel>(BookModel.instantiate({}));
   const { authToken } = useAuthToken();
+  const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
+  const { showAlert } = useGlobalAlert();
   const getMetadata = async (book: Book) => {
     const metadata = await book.loaded.metadata;
     return metadata;
@@ -61,29 +68,48 @@ export const useViewModel = () => {
     },
     false
   );
-  const handleChange = async (event) => {
+  const handleInputFileChange = async (event) => {
     const newFile = event.target.files[0];
     setFile(newFile);
     setIsFilePicked(true);
     reader.readAsArrayBuffer(newFile);
   };
 
-  const updateBook = async () => {
+  const uploadBook = async () => {
     try {
+      showGlobalLoading();
+      const data: UploadBookDataType = {
+        BookName: metadata.title,
+        BookDescription: metadata.description,
+        LanguageName: metadata.language,
+        PublisherName: metadata.creator,
+        AuthorName: metadata.creator,
+        BookPublishedAt: metadata.pubdate
+      };
       await uploadNewBook({
         bookFile: file,
-        bookMetadata: metadata,
+        bookData: data,
         coverUrl,
         token: authToken
       });
-      console.log('success upload book');
+      hideGlobalLoading();
+      showAlert({
+        message: 'Upload book successfully',
+        type: AlertType.SUCCESS
+      });
+      getAllBooksRefetch();
     } catch (err) {
       console.log('upload book err', err);
+      hideGlobalLoading();
+      showAlert({
+        message: 'Upload book failed',
+        type: AlertType.ERROR
+      });
     }
   };
   async function handleSubmit(event) {
     event.preventDefault();
-    updateBook();
+    uploadBook();
   }
 
   const getAuthorsDisplayList = () => {
@@ -138,14 +164,16 @@ export const useViewModel = () => {
       getAllAuthorsError
     },
     handler: {
-      handleChange,
+      handleInputFileChange,
       handleSubmit,
       getAllBooksRefetch,
       setFile,
       setFilterState,
       getAllAuthorsRefetch,
       getAuthorsDisplayList,
-      getFilteredData
+      getFilteredData,
+      setMetadata,
+      uploadBook
     }
   };
 };

@@ -39,5 +39,13 @@ export const useStyles = makeStyles({
     alignItems: 'center',
     width: '100%',
     padding: SPACE.spacing16
+  },
+  addNewBookWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: SPACE.spacing16
   }
 });

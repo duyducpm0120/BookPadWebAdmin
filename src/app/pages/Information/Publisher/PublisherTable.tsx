@@ -49,7 +49,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           // error={!isAddNewPublisherValid}
           // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
         />
-        <BlankSpacer height={SPACE.spacing8} />
+        <BlankSpacer height={SPACE.spacing12} />
         <BPTextField
           ref={newPublisherDescriptionRef}
           label={strings.publisher_description}
@@ -95,7 +95,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           // error={!isUpdatePublisherValid()}
           // errorText={!isUpdatePublisherValid() ? strings.publisher_name_required : ''}
         />
-        <BlankSpacer height={SPACE.spacing8} />
+        <BlankSpacer height={SPACE.spacing12} />
         <BPTextField
           ref={selectedPublisherDescriptionRef}
           label="Publisher description"

@@ -21,4 +21,7 @@ export interface BPTextFieldProps {
   rows?: number;
   disabled?: boolean;
   defaultValue?: string;
+  type?: string;
+  InputProps?: {};
+  InputLabelProps?: {};
 }

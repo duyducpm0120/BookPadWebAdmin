@@ -10,7 +10,8 @@ export const BPButton = (props: BPButtonProps) => {
     textColor = APP_THEME.primary.main,
     leftIcon = null,
     style = {},
-    disabled = false
+    disabled = false,
+    children = null
   } = props;
 
   const refactorTextColor = type === 'contained' ? COMMON_COLOR.white : textColor;
@@ -28,6 +29,7 @@ export const BPButton = (props: BPButtonProps) => {
       }}
       disabled={disabled}>
       {title}
+      {children}
     </Button>
   );
 };

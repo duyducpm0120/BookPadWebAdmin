@@ -6,8 +6,9 @@ import { useStyles } from './Books.styles';
 import { useViewModel } from './Books.ViewModel';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { BookStatusType } from './Books.types';
+import BookIcon from '@mui/icons-material/Book';
 
 export const Books = (): JSX.Element => {
   const styles = useStyles();
@@ -19,9 +20,20 @@ export const Books = (): JSX.Element => {
     getAllBooksLoading,
     getAllBooksData,
     getAllAuthorsData,
-    getAllAuthorsLoading
+    getAllAuthorsLoading,
+    metadata,
+    coverUrl
   } = selector;
-  const { setFilterState, getAuthorsDisplayList, getFilteredData } = handler;
+  const {
+    setFilterState,
+    getAuthorsDisplayList,
+    getFilteredData,
+    handleInputFileChange,
+    handleSubmit,
+    setMetadata,
+    uploadBook
+  } = handler;
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
   const bookDataToRender = useMemo(() => {
     return getFilteredData();
@@ -91,7 +103,9 @@ export const Books = (): JSX.Element => {
           </Typography>
           <BPButton
             leftIcon={<AddIcon />}
-            onClick={() => {}}
+            onClick={() => {
+              setIsOpenDrawer(true);
+            }}
             label={'Add'}
             type="outlined"></BPButton>
         </Box>
@@ -117,13 +131,153 @@ export const Books = (): JSX.Element => {
       </Box>
     );
   }
+  const addNewBookUI = () => {
+    return (
+      <Box className={styles.addNewBookWrapper}>
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '100%',
+            height: 250
+          }}>
+          {/* <input type="file" onChange={handleInputFileChange} accept=".epub" title="asdasd" /> */}
+          <input
+            type="file"
+            // hidden
+            onChange={handleInputFileChange}
+            accept=".epub"
+            style={{
+              flex: 1,
+              backgroundColor: 'red',
+              position: 'absolute',
+              zIndex: 1,
+              width: '100%',
+              height: 250,
+              opacity: 0,
+              cursor: 'pointer'
+            }}
+          />
+          {coverUrl !== '' ? (
+            <img
+              style={{
+                width: 'auto',
+                height: 250
+              }}
+              src={coverUrl}></img>
+          ) : (
+            <BookIcon
+              style={{
+                width: 'auto',
+                height: 250,
+                resize: 'vertical'
+              }}
+              cursor="pointer"
+              onClick={() => {}}>
+              <input type="file" hidden onChange={handleInputFileChange} accept=".epub" />
+            </BookIcon>
+          )}
+        </Box>
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          //  ref={newPublisherNameRef}
+          label={strings.title}
+          autoFocus
+          fullWidth
+          value={metadata.title}
+          onChange={(e) => {
+            setMetadata({ ...metadata, title: e.target.value });
+          }}
+          // error={!isAddNewPublisherValid}
+          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
+        />
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          //  ref={newPublisherNameRef}
+          label={strings.author}
+          autoFocus
+          fullWidth
+          value={metadata.creator}
+          onChange={(e) => {
+            setMetadata({ ...metadata, creator: e.target.value });
+          }}
+          // error={!isAddNewPublisherValid}
+          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
+        />
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          //  ref={newPublisherNameRef}
+          label={strings.publisher_name}
+          autoFocus
+          fullWidth
+          value={metadata.publisher}
+          onChange={(e) => {
+            setMetadata({ ...metadata, publisher: e.target.value });
+          }}
+          // error={!isAddNewPublisherValid}
+          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
+        />
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          // id="datetime-local"
+          label={strings.publish_date}
+          type="datetime-local"
+          value={metadata.pubdate.toString()}
+          // sx={{ width: 250 }}
+          InputLabelProps={{
+            shrink: true
+          }}
+          onChange={(e) => {
+            setMetadata({ ...metadata, pubdate: e.target.value });
+          }}
+        />
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
+          //  ref={newPublisherDescriptionRef}
+          label={strings.publisher_description}
+          fullWidth
+          value={metadata.description}
+          onChange={(e) => {
+            setMetadata({ ...metadata, description: e.target.value });
+            //  setPublisherDescription(e.target.value);
+          }}
+          multiline
+          rows={10}
+          // error={!isAddNewPublisherValid}
+          // errorText={!isAddNewPublisherValid ? strings.publisher_description_required : ''}
+        />
+        <BlankSpacer height={SPACE.spacing12} />
+      </Box>
+    );
+  };
   return (
     <Box className={styles.wrapper}>
       {renderFilterBox()}
       <BlankSpacer width={SPACE.spacing16} />
       {renderBookList()}
-      <BPDrawer title="asdasd" open={false} onClose={() => {}}>
-        <div>asdasd</div>
+      <BPDrawer
+        title={strings.add_new_book}
+        open={isOpenDrawer}
+        onClose={() => {
+          setIsOpenDrawer(false);
+        }}
+        primaryButtonParams={{
+          label: strings.add,
+          onClick: () => {
+            const fn = async () => {
+              await uploadBook();
+              setIsOpenDrawer(false);
+            };
+            fn();
+          },
+          isShow: true,
+          leftIcon: <AddIcon />,
+          type: 'contained',
+          disabled: metadata.title === ''
+        }}>
+        {addNewBookUI()}
       </BPDrawer>
     </Box>
   );

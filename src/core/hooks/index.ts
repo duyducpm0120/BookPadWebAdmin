@@ -6,3 +6,4 @@ export * from './useGlobalState';
 export * from './useGlobalDispatch';
 export * from './useGlobalLoading';
 export * from './useEffectOnceWhen';
+export * from './useGlobalAlert';

@@ -19,13 +19,16 @@ const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
     multiline = false,
     rows = 1,
     disabled = false,
-    defaultValue = null
+    defaultValue = null,
+    type = 'text',
+    InputProps = {},
+    InputLabelProps = {}
   } = props;
 
   return (
     <TextField
       // id="outlined-select-currency-native"
-
+      type={type}
       inputRef={ref}
       label={label}
       value={value}
@@ -40,7 +43,11 @@ const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
       }}
       InputProps={{
         startAdornment: startIcon,
-        style
+        style,
+        ...InputProps
+      }}
+      InputLabelProps={{
+        ...InputLabelProps
       }}
       select={multiSelectParams !== null}
       multiline={multiline}

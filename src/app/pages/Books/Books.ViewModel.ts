@@ -69,6 +69,7 @@ export const useViewModel = () => {
     false
   );
   const handleInputFileChange = async (event) => {
+    resetBookData();
     const newFile = event.target.files[0];
     setFile(newFile);
     setIsFilePicked(true);
@@ -149,6 +150,11 @@ export const useViewModel = () => {
     }
     return filteredBookData;
   };
+  const resetBookData = () => {
+    setMetadata(BookMetadataModel.instantiate({}));
+    setCoverUrl('');
+    setFile(new File([], ''));
+  };
   return {
     selector: {
       isFilePicked,
@@ -174,7 +180,8 @@ export const useViewModel = () => {
       getAuthorsDisplayList,
       getFilteredData,
       setMetadata,
-      uploadBook
+      uploadBook,
+      resetBookData
     }
   };
 };

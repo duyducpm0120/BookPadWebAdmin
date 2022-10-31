@@ -31,7 +31,8 @@ export const Books = (): JSX.Element => {
     handleInputFileChange,
     handleSubmit,
     setMetadata,
-    uploadBook
+    uploadBook,
+    resetBookData
   } = handler;
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
@@ -199,7 +200,9 @@ export const Books = (): JSX.Element => {
           label={strings.author}
           autoFocus
           fullWidth
-          value={metadata.creator}
+          value={
+            getAllAuthorsData.find((author) => author.AuthorName === metadata.creator)?.AuthorName
+          }
           onChange={(e) => {
             setMetadata({ ...metadata, creator: e.target.value });
           }}
@@ -262,6 +265,7 @@ export const Books = (): JSX.Element => {
         open={isOpenDrawer}
         onClose={() => {
           setIsOpenDrawer(false);
+          resetBookData();
         }}
         primaryButtonParams={{
           label: strings.add,
@@ -275,7 +279,7 @@ export const Books = (): JSX.Element => {
           isShow: true,
           leftIcon: <AddIcon />,
           type: 'contained',
-          disabled: metadata.title === ''
+          disabled: coverUrl === ''
         }}>
         {addNewBookUI()}
       </BPDrawer>

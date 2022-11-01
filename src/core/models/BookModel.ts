@@ -1,6 +1,7 @@
 import { size } from 'lodash';
 import { PublisherModel } from '@core/models';
 import { safeGet, safeGetArray, safeGetString } from '@core/utils';
+import type { Book } from 'epubjs';
 
 export interface BookAuthor {
   AuthorId: string;
@@ -69,5 +70,50 @@ export class BookModel {
     if (size(json) === 0) return [];
     const books = safeGetArray(json, 'getAllBooks', []);
     return books.map((book: any) => BookModel.instantiate(book));
+  };
+
+  public static getMetadata = async (book: Book) => {
+    const metadata = await book.loaded.metadata;
+    return metadata;
+  };
+
+  public static getCoverUrl = async (book: Book) => {
+    const coverUrl = await book.coverUrl();
+    return coverUrl;
+  };
+
+  public static instantiateFromBook = async (book: Book) => {
+    const metadata = await this.getMetadata(book);
+    console.log('metadata', metadata);
+    const coverUrl = await this.getCoverUrl(book);
+    // setCoverUrl(isNil(coverUrl) ? '' : coverUrl);
+    const bookId = '';
+    const bookName = metadata.title;
+    const bookDescription = metadata.description;
+    const publishedAt = metadata.pubdate;
+    const createdAt = metadata.pubdate;
+    const bookCoverImage = coverUrl ?? '';
+    const bookPublisher = PublisherModel.instantiate({
+      PublisherName: metadata.publisher
+    });
+    const languages = [metadata.language];
+    const authors = [
+      {
+        AuthorId: '',
+        AuthorName: metadata.creator,
+        AuthorDescription: ''
+      }
+    ];
+    return new BookModel(
+      bookId,
+      bookName,
+      bookDescription,
+      publishedAt,
+      createdAt,
+      bookCoverImage,
+      bookPublisher,
+      languages,
+      authors
+    );
   };
 }

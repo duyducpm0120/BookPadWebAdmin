@@ -18,5 +18,7 @@ export const enStrings = {
   publisher_description_required: 'Publisher description is required',
   missing_required_fields: 'Missing required fields',
   title: 'Title',
-  publish_date: 'Publish date'
+  publish_date: 'Publish date',
+  view_and_edit_book: 'View and edit book',
+  book_description: 'Book description'
 };

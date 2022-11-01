@@ -5,8 +5,6 @@ import type { BookFilterState } from './Books.types';
 import { BookStatusType } from './Books.types';
 import type { UploadBookDataType } from '@core';
 import { useGlobalLoading, useAuthToken, GetAllBooks, uploadNewBook } from '@core';
-import { BookMetadataModel } from '@core/models/BookMetadataModel';
-import type { Book } from 'epubjs';
 import ePub from 'epubjs';
 import { isNil, size } from 'lodash';
 import { useState } from 'react';
@@ -18,17 +16,10 @@ export const useViewModel = () => {
   const reader = new FileReader();
   const [file, setFile] = useState<File>(new File([], ''));
   const [isFilePicked, setIsFilePicked] = useState(false);
-  const [coverUrl, setCoverUrl] = useState<string>('');
-  const [cover, setCover] = useState('');
-  const [metadata, setMetadata] = useState<BookMetadataModel>(BookMetadataModel.instantiate({}));
-  const [newBookData, setNewBookData] = useState<BookModel>(BookModel.instantiate({}));
+  const [bookData, setBookData] = useState<BookModel>(BookModel.instantiate({}));
   const { authToken } = useAuthToken();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
-  const getMetadata = async (book: Book) => {
-    const metadata = await book.loaded.metadata;
-    return metadata;
-  };
 
   const [filterState, setFilterState] = useState<BookFilterState>({
     name: '',
@@ -36,6 +27,7 @@ export const useViewModel = () => {
     author: ''
   });
 
+  const [isEditBookData, setIsEditBookData] = useState(false);
   const { getAllBooksData, getAllBooksLoading, getAllBooksError, getAllBooksRefetch } =
     GetAllBooks();
   const { getAllAuthorsData, getAllAuthorsLoading, getAllAuthorsError, getAllAuthorsRefetch } =
@@ -43,28 +35,14 @@ export const useViewModel = () => {
   // useMount(() => {
   //   console.log('getAllBooksData', getAllBooksData);
   // });
-  const getCover = async (book: Book) => {
-    const cover = await book.loaded.cover;
-    return cover;
-  };
-
-  const getCoverUrl = async (book: Book) => {
-    const coverUrl = await book.coverUrl();
-    return coverUrl;
-  };
 
   reader.addEventListener(
     'load',
     async (e: any) => {
       const data = e.target.result;
       const book = ePub(data);
-      const metadata = await getMetadata(book);
-      setMetadata(BookMetadataModel.instantiate(metadata));
-      console.log('metadata', metadata);
-      const cover = await getCover(book);
-      setCover(cover);
-      const coverUrl = await getCoverUrl(book);
-      setCoverUrl(isNil(coverUrl) ? '' : coverUrl);
+      const bookData = await BookModel.instantiateFromBook(book);
+      setBookData(bookData);
     },
     false
   );
@@ -80,17 +58,17 @@ export const useViewModel = () => {
     try {
       showGlobalLoading();
       const data: UploadBookDataType = {
-        BookName: metadata.title,
-        BookDescription: metadata.description,
-        LanguageName: metadata.language,
-        PublisherName: metadata.creator,
-        AuthorName: metadata.creator,
-        BookPublishedAt: metadata.pubdate
+        BookName: bookData.BookName,
+        BookDescription: bookData.BookDescription,
+        LanguageName: bookData.Languages[0],
+        PublisherName: bookData.BookPublisher.PublisherName,
+        AuthorName: size(bookData.Authors) > 0 ? bookData.Authors[0].AuthorName : '',
+        BookPublishedAt: bookData.PublishedAt
       };
       await uploadNewBook({
         bookFile: file,
         bookData: data,
-        coverUrl,
+        coverUrl: bookData.BookCoverImage,
         token: authToken
       });
       hideGlobalLoading();
@@ -99,7 +77,8 @@ export const useViewModel = () => {
         type: AlertType.SUCCESS
       });
       getAllBooksRefetch();
-      setMetadata(BookMetadataModel.instantiate({}));
+      // setMetadata(BookMetadataModel.instantiate({}));
+      setBookData(BookModel.instantiate({}));
     } catch (err) {
       console.log('upload book err', err);
       hideGlobalLoading();
@@ -120,14 +99,12 @@ export const useViewModel = () => {
     authorsList = getAllAuthorsData.map((author) => {
       return {
         label: author.AuthorName,
-        value: author.AuthorId,
-        key: author.AuthorId
+        value: author.AuthorName
       };
     });
     authorsList.unshift({
       label: FILTER_ALL_CONST,
-      value: FILTER_ALL_CONST,
-      key: FILTER_ALL_CONST
+      value: FILTER_ALL_CONST
     });
     return authorsList;
   };
@@ -151,16 +128,19 @@ export const useViewModel = () => {
     return filteredBookData;
   };
   const resetBookData = () => {
-    setMetadata(BookMetadataModel.instantiate({}));
-    setCoverUrl('');
+    setBookData(BookModel.instantiate({}));
     setFile(new File([], ''));
+  };
+  const checkIfAuthorExist = () => {
+    if (size(bookData.Authors) === 0) return false;
+    return (
+      getAllAuthorsData.find((author) => author.AuthorName === bookData.Authors[0].AuthorName) !==
+      undefined
+    );
   };
   return {
     selector: {
       isFilePicked,
-      metadata,
-      cover,
-      coverUrl,
       getAllBooksLoading,
       getAllBooksError,
       file,
@@ -168,7 +148,9 @@ export const useViewModel = () => {
       getAllBooksData,
       getAllAuthorsData,
       getAllAuthorsLoading,
-      getAllAuthorsError
+      getAllAuthorsError,
+      bookData,
+      isEditBookData
     },
     handler: {
       handleInputFileChange,
@@ -179,9 +161,11 @@ export const useViewModel = () => {
       getAllAuthorsRefetch,
       getAuthorsDisplayList,
       getFilteredData,
-      setMetadata,
       uploadBook,
-      resetBookData
+      resetBookData,
+      setBookData,
+      checkIfAuthorExist,
+      setIsEditBookData
     }
   };
 };

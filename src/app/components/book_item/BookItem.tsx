@@ -3,10 +3,10 @@ import type { BookItemProps } from './BookItem.types';
 import { useStyles } from './BookItem.style';
 import { size } from 'lodash';
 export const BookItem = (props: BookItemProps): JSX.Element => {
-  const { bookData } = props;
+  const { bookData, onClick = () => {} } = props;
   const styles = useStyles();
   return (
-    <Card className={styles.wrapper}>
+    <Card className={styles.wrapper} onClick={onClick}>
       <CardActionArea>
         <CardMedia
           component="img"

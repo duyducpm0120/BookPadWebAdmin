@@ -8,7 +8,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import { useMemo, useState } from 'react';
 import { BookStatusType } from './Books.types';
-import BookIcon from '@mui/icons-material/Book';
+import { AddNewBookUI, ViewAndEditBookUI } from './items';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 
 export const Books = (): JSX.Element => {
   const styles = useStyles();
@@ -21,20 +23,22 @@ export const Books = (): JSX.Element => {
     getAllBooksData,
     getAllAuthorsData,
     getAllAuthorsLoading,
-    metadata,
-    coverUrl
+    bookData,
+    isEditBookData
   } = selector;
   const {
     setFilterState,
     getAuthorsDisplayList,
     getFilteredData,
     handleInputFileChange,
-    handleSubmit,
-    setMetadata,
     uploadBook,
-    resetBookData
+    resetBookData,
+    setBookData,
+    checkIfAuthorExist,
+    setIsEditBookData
   } = handler;
-  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+  const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = useState(false);
+  const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = useState(false);
 
   const bookDataToRender = useMemo(() => {
     return getFilteredData();
@@ -105,7 +109,7 @@ export const Books = (): JSX.Element => {
           <BPButton
             leftIcon={<AddIcon />}
             onClick={() => {
-              setIsOpenDrawer(true);
+              setIsOpenAddNewDrawer(true);
             }}
             label={'Add'}
             type="outlined"></BPButton>
@@ -115,7 +119,12 @@ export const Books = (): JSX.Element => {
           {bookDataToRender.map((book, index) => {
             return (
               <Grid item sm={6} md={4} lg={4} xl={3} key={(-index).toString() + 'bookItem'}>
-                <BookItem bookData={book}></BookItem>
+                <BookItem
+                  bookData={book}
+                  onClick={() => {
+                    setIsOpenViewAndEditDrawer(true);
+                    setBookData(book);
+                  }}></BookItem>
               </Grid>
             );
           })}
@@ -134,127 +143,30 @@ export const Books = (): JSX.Element => {
   }
   const addNewBookUI = () => {
     return (
-      <Box className={styles.addNewBookWrapper}>
-        <Box
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '100%',
-            height: 250
-          }}>
-          {/* <input type="file" onChange={handleInputFileChange} accept=".epub" title="asdasd" /> */}
-          <input
-            type="file"
-            // hidden
-            onChange={handleInputFileChange}
-            accept=".epub"
-            style={{
-              flex: 1,
-              backgroundColor: 'red',
-              position: 'absolute',
-              zIndex: 1,
-              width: '100%',
-              height: 250,
-              opacity: 0,
-              cursor: 'pointer'
-            }}
-          />
-          {coverUrl !== '' ? (
-            <img
-              style={{
-                width: 'auto',
-                height: 250
-              }}
-              src={coverUrl}></img>
-          ) : (
-            <BookIcon
-              style={{
-                width: 'auto',
-                height: 250,
-                resize: 'vertical'
-              }}
-              cursor="pointer"
-              onClick={() => {}}>
-              <input type="file" hidden onChange={handleInputFileChange} accept=".epub" />
-            </BookIcon>
-          )}
-        </Box>
-        <BlankSpacer height={SPACE.spacing12} />
-        <BPTextField
-          //  ref={newPublisherNameRef}
-          label={strings.title}
-          autoFocus
-          fullWidth
-          value={metadata.title}
-          onChange={(e) => {
-            setMetadata({ ...metadata, title: e.target.value });
-          }}
-          // error={!isAddNewPublisherValid}
-          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
-        />
-        <BlankSpacer height={SPACE.spacing12} />
-        <BPTextField
-          //  ref={newPublisherNameRef}
-          label={strings.author}
-          autoFocus
-          fullWidth
-          value={
-            getAllAuthorsData.find((author) => author.AuthorName === metadata.creator)?.AuthorName
-          }
-          onChange={(e) => {
-            setMetadata({ ...metadata, creator: e.target.value });
-          }}
-          // error={!isAddNewPublisherValid}
-          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
-        />
-        <BlankSpacer height={SPACE.spacing12} />
-        <BPTextField
-          //  ref={newPublisherNameRef}
-          label={strings.publisher_name}
-          autoFocus
-          fullWidth
-          value={metadata.publisher}
-          onChange={(e) => {
-            setMetadata({ ...metadata, publisher: e.target.value });
-          }}
-          // error={!isAddNewPublisherValid}
-          // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
-        />
-        <BlankSpacer height={SPACE.spacing12} />
-        <BPTextField
-          // id="datetime-local"
-          label={strings.publish_date}
-          type="datetime-local"
-          value={metadata.pubdate.toString()}
-          // sx={{ width: 250 }}
-          InputLabelProps={{
-            shrink: true
-          }}
-          onChange={(e) => {
-            setMetadata({ ...metadata, pubdate: e.target.value });
-          }}
-        />
-        <BlankSpacer height={SPACE.spacing12} />
-        <BPTextField
-          //  ref={newPublisherDescriptionRef}
-          label={strings.publisher_description}
-          fullWidth
-          value={metadata.description}
-          onChange={(e) => {
-            setMetadata({ ...metadata, description: e.target.value });
-            //  setPublisherDescription(e.target.value);
-          }}
-          multiline
-          rows={10}
-          // error={!isAddNewPublisherValid}
-          // errorText={!isAddNewPublisherValid ? strings.publisher_description_required : ''}
-        />
-        <BlankSpacer height={SPACE.spacing12} />
-      </Box>
+      <AddNewBookUI
+        getAllAuthorsData={getAllAuthorsData}
+        bookData={bookData}
+        handleInputFileChange={handleInputFileChange}
+        setBookData={setBookData}
+        getAuthorsDisplayList={getAuthorsDisplayList}
+        checkIfAuthorExist={checkIfAuthorExist}
+      />
     );
   };
+  const viewAndEditBookUI = () => {
+    return (
+      <ViewAndEditBookUI
+        getAllAuthorsData={getAllAuthorsData}
+        bookData={bookData}
+        handleInputFileChange={handleInputFileChange}
+        setBookData={setBookData}
+        getAuthorsDisplayList={getAuthorsDisplayList}
+        checkIfAuthorExist={checkIfAuthorExist}
+        isEditBookData={isEditBookData}
+      />
+    );
+  };
+
   return (
     <Box className={styles.wrapper}>
       {renderFilterBox()}
@@ -262,9 +174,9 @@ export const Books = (): JSX.Element => {
       {renderBookList()}
       <BPDrawer
         title={strings.add_new_book}
-        open={isOpenDrawer}
+        open={isOpenAddNewDrawer}
         onClose={() => {
-          setIsOpenDrawer(false);
+          setIsOpenAddNewDrawer(false);
           resetBookData();
         }}
         primaryButtonParams={{
@@ -272,16 +184,55 @@ export const Books = (): JSX.Element => {
           onClick: () => {
             const fn = async () => {
               await uploadBook();
-              setIsOpenDrawer(false);
+              setIsOpenAddNewDrawer(false);
             };
             fn();
           },
           isShow: true,
           leftIcon: <AddIcon />,
           type: 'contained',
-          disabled: coverUrl === ''
+          disabled: bookData.BookCoverImage === ''
         }}>
         {addNewBookUI()}
+      </BPDrawer>
+      <BPDrawer
+        title={strings.view_and_edit_book}
+        open={isOpenViewAndEditDrawer}
+        onClose={() => {
+          setIsOpenViewAndEditDrawer(false);
+          resetBookData();
+        }}
+        primaryButtonParams={{
+          label: strings.edit,
+          onClick: () => {
+            const fn = async () => {
+              // await uploadBook();
+              // setIsOpenViewAndEditDrawer(false);
+              setIsEditBookData(true);
+            };
+            fn();
+          },
+          isShow: true,
+          leftIcon: <EditIcon />,
+          type: 'contained',
+          disabled: false
+        }}
+        secondaryButtonParams={{
+          label: strings.save,
+          onClick: () => {
+            const fn = async () => {
+              // await uploadBook();
+              setIsOpenViewAndEditDrawer(false);
+              setIsEditBookData(false);
+            };
+            fn();
+          },
+          isShow: true,
+          leftIcon: <SaveIcon />,
+          type: 'contained',
+          disabled: !isEditBookData
+        }}>
+        {viewAndEditBookUI()}
       </BPDrawer>
     </Box>
   );

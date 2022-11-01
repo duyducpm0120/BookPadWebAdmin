@@ -200,6 +200,7 @@ export const Books = (): JSX.Element => {
         open={isOpenViewAndEditDrawer}
         onClose={() => {
           setIsOpenViewAndEditDrawer(false);
+          setIsEditBookData(false);
           resetBookData();
         }}
         primaryButtonParams={{

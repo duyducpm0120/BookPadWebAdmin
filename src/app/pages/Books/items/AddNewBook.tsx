@@ -65,9 +65,7 @@ export const AddNewBookUI = (props: {
               resize: 'vertical'
             }}
             cursor="pointer"
-            onClick={() => {}}>
-            <input type="file" hidden onChange={handleInputFileChange} accept=".epub" />
-          </BookIcon>
+            onClick={() => {}}></BookIcon>
         )}
       </Box>
       <BlankSpacer height={SPACE.spacing12} />

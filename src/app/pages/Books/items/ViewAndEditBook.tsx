@@ -3,7 +3,6 @@ import type { AuthorModel, BookModel } from '@core';
 import { SPACE, strings } from '@core';
 import { Box } from '@mui/material';
 import { useStyles } from '../Books.styles';
-import BookIcon from '@mui/icons-material/Book';
 
 export const ViewAndEditBookUI = (props: {
   bookData: BookModel;
@@ -36,41 +35,12 @@ export const ViewAndEditBookUI = (props: {
           height: 250
         }}>
         {/* <input type="file" onChange={handleInputFileChange} accept=".epub" title="asdasd" /> */}
-        <input
-          type="file"
-          // hidden
-          onChange={handleInputFileChange}
-          accept=".epub"
+        <img
           style={{
-            flex: 1,
-            backgroundColor: 'red',
-            position: 'absolute',
-            zIndex: 1,
-            width: '100%',
-            height: 250,
-            opacity: 0,
-            cursor: 'pointer'
+            width: 'auto',
+            height: 250
           }}
-        />
-        {bookData.BookCoverImage !== '' ? (
-          <img
-            style={{
-              width: 'auto',
-              height: 250
-            }}
-            src={bookData.BookCoverImage}></img>
-        ) : (
-          <BookIcon
-            style={{
-              width: 'auto',
-              height: 250,
-              resize: 'vertical'
-            }}
-            cursor="pointer"
-            onClick={() => {}}>
-            <input type="file" hidden onChange={handleInputFileChange} accept=".epub" />
-          </BookIcon>
-        )}
+          src={bookData.BookCoverImage}></img>
       </Box>
       <BlankSpacer height={SPACE.spacing12} />
       <BPTextField

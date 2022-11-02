@@ -1,6 +1,6 @@
 import type { BPDrawerButtonParams } from '../drawer';
 
-export interface TableProps {
+export interface BPTableProps {
   tableHeader: string;
   tableData: any[];
   rightDrawerAddNewUIParams: {
@@ -8,12 +8,14 @@ export interface TableProps {
     title: string;
     primaryButtonParams?: BPDrawerButtonParams;
     secondaryButtonParams?: BPDrawerButtonParams;
+    onClose?: () => void;
   };
   rightDrawerViewAndEditUIParams: {
     content: JSX.Element;
     title: string;
     primaryButtonParams?: BPDrawerButtonParams;
     secondaryButtonParams?: BPDrawerButtonParams;
+    onClose?: () => void;
   };
   hideColumns?: string[];
   showViewAndEditUICallBack?: ({ row }: { row: number }) => void;

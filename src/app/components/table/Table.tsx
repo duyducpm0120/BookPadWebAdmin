@@ -12,7 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { EnhancedTableToolbar } from './TableToolBar';
 import { EnhancedTableHeader } from './TableHeader';
-import type { TableProps } from './Table.types';
+import type { BPTableProps } from './Table.types';
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import { IconButton, Tooltip } from '@mui/material';
 import _ from 'lodash';
@@ -54,7 +54,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   return stabilizedThis.map((el) => el[0]);
 }
 
-export const BPTable: React.FC<TableProps> = (props: TableProps) => {
+export const BPTable: React.FC<BPTableProps> = (props: BPTableProps) => {
   const {
     tableHeader,
     tableData,
@@ -75,6 +75,10 @@ export const BPTable: React.FC<TableProps> = (props: TableProps) => {
   const getHeaderObject = () => {
     return _.omit(tableData[0], hideColumns);
   };
+
+  const { onClose: onRightDrawerAddNewUIParamsOnClose = () => {} } = rightDrawerAddNewUIParams;
+  const { onClose: onRightDrawerViewAndEditUIParamsOnClose = () => {} } =
+    rightDrawerViewAndEditUIParams;
 
   const handleRequestSort = (event: React.MouseEvent<unknown>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -234,7 +238,10 @@ export const BPTable: React.FC<TableProps> = (props: TableProps) => {
       />
       <BPDrawer
         open={isOpenAddNewDrawer}
-        onClose={() => setIsOpenAddNewDrawer(false)}
+        onClose={() => {
+          setIsOpenAddNewDrawer(false);
+          onRightDrawerAddNewUIParamsOnClose();
+        }}
         title={rightDrawerAddNewUIParams.title}
         primaryButtonParams={rightDrawerAddNewUIParams.primaryButtonParams}
         secondaryButtonParams={rightDrawerAddNewUIParams.secondaryButtonParams}>
@@ -243,7 +250,10 @@ export const BPTable: React.FC<TableProps> = (props: TableProps) => {
       <BPDrawer
         title={rightDrawerViewAndEditUIParams.title}
         open={isOpenViewAndEditDrawer}
-        onClose={() => setIsOpenViewAndEditDrawer(false)}
+        onClose={() => {
+          setIsOpenViewAndEditDrawer(false);
+          onRightDrawerViewAndEditUIParamsOnClose();
+        }}
         primaryButtonParams={rightDrawerViewAndEditUIParams.primaryButtonParams}
         secondaryButtonParams={rightDrawerViewAndEditUIParams.secondaryButtonParams}>
         {rightDrawerViewAndEditUIParams.content}

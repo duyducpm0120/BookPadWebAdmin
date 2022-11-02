@@ -47,6 +47,10 @@ export const useViewModel = (props: AuthorTableProps) => {
     }
     hideGlobalLoading();
   };
+
+  const resetAuthorData = () => {
+    setAuthorData(AuthorModel.instantiate({}));
+  };
   return {
     selectors: {
       CURRENT_PAGE,
@@ -55,7 +59,8 @@ export const useViewModel = (props: AuthorTableProps) => {
     },
     handlers: {
       setAuthorData,
-      createAuthor
+      createAuthor,
+      resetAuthorData
     }
   };
 };

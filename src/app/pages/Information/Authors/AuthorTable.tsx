@@ -10,7 +10,7 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
   const { authorsData } = props;
   const { selectors, handlers } = useViewModel(props);
   const { CURRENT_PAGE, CURRENT_PAGE_INDEX, authorData } = selectors;
-  const { setAuthorData, createAuthor } = handlers;
+  const { setAuthorData, createAuthor, resetAuthorData } = handlers;
   const [isEdit, setIsEdit] = useState(false);
   const styles = useStyles();
   const AddNewAuthorUI = () => {
@@ -164,6 +164,9 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
             type: 'contained',
             leftIcon: <Add />
             // disabled: !isAddNewPublisherValid
+          },
+          onClose: () => {
+            setIsEdit(false);
           }
         }}
         rightDrawerViewAndEditUIParams={{
@@ -189,6 +192,9 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
             isShow: true,
             type: 'contained',
             leftIcon: <EditIcon />
+          },
+          onClose: () => {
+            setIsEdit(false);
           }
         }}
         hideColumns={['AuthorDescription']}

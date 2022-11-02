@@ -1,4 +1,4 @@
-import { CreatePublisher } from './../../../../core/services/PublisherServices';
+import { CreatePublisher } from '../../../../core/services/PublisherServices';
 import { useGlobalState, UpdatePublisher, safeGetString, strings, useGlobalLoading } from '@core';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
 import { AlertType } from '@core/store';
@@ -79,7 +79,7 @@ export const useViewModel = (props: PublisherTableProps) => {
         }
       });
       showAlert({
-        message: strings.success_update_publisher,
+        message: strings.success_create_publisher,
         type: AlertType.SUCCESS
       });
       await reloadPublisherData();

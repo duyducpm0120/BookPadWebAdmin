@@ -20,5 +20,13 @@ export const enStrings = {
   title: 'Title',
   publish_date: 'Publish date',
   view_and_edit_book: 'View and edit book',
-  book_description: 'Book description'
+  book_description: 'Book description',
+  add_new_author: 'Add new author',
+  view_author: 'View author',
+  edit_author: 'Edit author',
+  author_date_of_birth: 'Author date of birth',
+  author_date_of_death: 'Author date of death',
+  author_description: 'Author description',
+  author_name: 'Author name',
+  success_create_author: 'Create author successfully'
 };

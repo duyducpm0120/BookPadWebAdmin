@@ -107,9 +107,6 @@ export const ViewAndEditBookUI = (props: {
         type="datetime-local"
         value={bookData.PublishedAt}
         // sx={{ width: 250 }}
-        InputLabelProps={{
-          shrink: true
-        }}
         onChange={(e) => {
           setBookData({ ...bookData, PublishedAt: e.target.value });
         }}
@@ -126,7 +123,7 @@ export const ViewAndEditBookUI = (props: {
           //  setPublisherDescription(e.target.value);
         }}
         multiline
-        rows={10}
+        numberOfLines={10}
         // error={!isAddNewPublisherValid}
         // errorText={!isAddNewPublisherValid ? strings.publisher_description_required : ''}
       />

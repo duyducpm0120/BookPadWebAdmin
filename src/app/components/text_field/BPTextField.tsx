@@ -17,7 +17,7 @@ const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
     error = false,
     errorText = null,
     multiline = false,
-    rows = 1,
+    numberOfLines = 1,
     disabled = false,
     defaultValue = null,
     type = 'text',
@@ -46,12 +46,12 @@ const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
         style,
         ...InputProps
       }}
-      InputLabelProps={{
-        ...InputLabelProps
-      }}
+      InputLabelProps={
+        type === 'datetime-local' ? { shrink: true, ...InputLabelProps } : InputLabelProps
+      }
       select={multiSelectParams !== null}
       multiline={multiline}
-      rows={rows}
+      rows={numberOfLines}
       disabled={disabled}
       defaultValue={value === null ? defaultValue : null}>
       {!isNil(multiSelectParams) &&

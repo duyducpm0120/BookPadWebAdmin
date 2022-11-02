@@ -8,7 +8,7 @@ import { AlertType } from './types';
 
 export const initState: BookPadWAState = {
   CURRENT_PAGE: BookPadPages[0],
-  CURRENT_PAGE_INDEX: 2,
+  CURRENT_PAGE_INDEX: 0,
   IS_LOADING: false,
   ALERT: {
     IS_SHOW_ALERT: false,

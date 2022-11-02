@@ -1,6 +1,6 @@
 import { AuthorModel } from '@core';
 import { delay } from 'lodash';
-export const mockAuthorServices = async (): Promise<{
+export const GetAllAuthors = async (): Promise<{
   data: AuthorModel[];
   loading: boolean;
   error: null;

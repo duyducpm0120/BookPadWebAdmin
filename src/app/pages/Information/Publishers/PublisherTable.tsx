@@ -5,12 +5,8 @@ import { SPACE } from '@core';
 import { Box } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
 import { safeGetString } from '@core/utils';
-import { strings } from '@core/assets';
+import { Add, EditIcon, SaveIcon, strings } from '@core/assets';
 import { useViewModel } from './PublisherTable.viewModel';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import Add from '@mui/icons-material/Add';
-
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
   const styles = useStyles();
   const {
@@ -61,7 +57,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
             setPublisherDescription(e.target.value);
           }}
           multiline
-          rows={10}
+          numberOfLines={10}
           // error={!isAddNewPublisherValid}
           // errorText={!isAddNewPublisherValid ? strings.publisher_description_required : ''}
         />
@@ -108,7 +104,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
             // setPublisherDescription(e.target.value);
           }}
           multiline
-          rows={10}
+          numberOfLines={10}
           disabled={!isEdit}
           defaultValue={safeGetString(
             publisherData[selectedPublisherIndex],
@@ -123,7 +119,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     );
   };
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div style={{ height: 'auto', width: '100%' }}>
       <BPTable
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={publisherData}

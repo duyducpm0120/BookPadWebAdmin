@@ -18,10 +18,10 @@ export interface BPTextFieldProps {
   error?: boolean;
   errorText?: string;
   multiline?: boolean;
-  rows?: number;
+  numberOfLines?: number;
   disabled?: boolean;
   defaultValue?: string;
-  type?: string;
+  type?: 'text' | 'datetime-local';
   InputProps?: {};
   InputLabelProps?: {};
 }

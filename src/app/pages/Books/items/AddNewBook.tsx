@@ -126,13 +126,13 @@ export const AddNewBookUI = (props: {
         // id="datetime-local"
         label={strings.publish_date}
         type="datetime-local"
-        value={bookData.CreatedAt.toString()}
+        value={bookData.PublishedAt}
         // sx={{ width: 250 }}
         InputLabelProps={{
           shrink: true
         }}
         onChange={(e) => {
-          setBookData({ ...bookData, CreatedAt: new Date(e.target.value).toDateString() });
+          setBookData({ ...bookData, PublishedAt: e.target.value });
         }}
       />
       <BlankSpacer height={SPACE.spacing12} />

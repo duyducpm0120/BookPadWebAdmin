@@ -83,6 +83,7 @@ export class BookModel {
   };
 
   public static instantiateFromBook = async (book: Book) => {
+    console.log('instantiate book asdasd', book);
     const metadata = await this.getMetadata(book);
     console.log('metadata', metadata);
     const coverUrl = await this.getCoverUrl(book);
@@ -90,8 +91,8 @@ export class BookModel {
     const bookId = '';
     const bookName = metadata.title;
     const bookDescription = metadata.description;
-    const publishedAt = metadata.pubdate;
-    const createdAt = metadata.pubdate;
+    const publishedAt = new Date(metadata.pubdate).getDate();
+    const createdAt = new Date(new Date(metadata.pubdate).getDate()).toString();
     const bookCoverImage = coverUrl ?? '';
     const bookPublisher = PublisherModel.instantiate({
       PublisherName: metadata.publisher

@@ -24,6 +24,7 @@ export const SideBar = (): JSX.Element => {
             }}
             key={`${-index}accordion`}
             onClick={() => {
+              globalDispatch(globalActions.setCurrentPage(item));
               navigate(`/${item.name}`);
             }}>
             <AccordionSummary
@@ -76,7 +77,8 @@ export const SideBar = (): JSX.Element => {
         key={`${-index}sideBarItem`}
         onClick={() => {
           item.name === DEFAULT_PAGE_NAME ? navigate('/') : navigate(item.name);
-        }}>
+        }}
+        style={{ cursor: 'pointer' }}>
         {item.icon}
         <BlankSpacer width={12} />
         <span className="sideBarItemText">{item.name}</span>

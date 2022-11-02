@@ -54,7 +54,7 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
   return stabilizedThis.map((el) => el[0]);
 }
 
-export const EnhancedTable: React.FC<TableProps> = (props: TableProps) => {
+export const BPTable: React.FC<TableProps> = (props: TableProps) => {
   const {
     tableHeader,
     tableData,

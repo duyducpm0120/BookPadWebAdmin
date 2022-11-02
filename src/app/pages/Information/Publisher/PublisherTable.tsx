@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { PublisherTableProps } from './PublisherTable.types';
-import { BlankSpacer, BPTextField, EnhancedTable } from '@app/components';
+import { BlankSpacer, BPTextField, BPTable } from '@app/components';
 import { SPACE } from '@core';
 import { Box } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
@@ -32,6 +32,8 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     reloadPublisherData,
     isAddNewPublisherValid
   } = useViewModel(props);
+  console.log('CURREN_PAGE', CURRENT_PAGE);
+  console.log('CURRENT_PAGE_INDEX', CURRENT_PAGE_INDEX);
   const [isEdit, setIsEdit] = useState(false);
   const AddNewPublisherUI = () => {
     return (
@@ -122,7 +124,7 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
   };
   return (
     <div style={{ height: 400, width: '100%' }}>
-      <EnhancedTable
+      <BPTable
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={publisherData}
         rightDrawerAddNewUIParams={{

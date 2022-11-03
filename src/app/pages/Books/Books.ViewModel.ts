@@ -138,6 +138,8 @@ export const useViewModel = () => {
       undefined
     );
   };
+  const isLoading = getAllBooksLoading || getAllAuthorsLoading;
+  const isError = getAllBooksError != null || getAllAuthorsError != null;
   return {
     selector: {
       isFilePicked,
@@ -150,7 +152,9 @@ export const useViewModel = () => {
       getAllAuthorsLoading,
       getAllAuthorsError,
       bookData,
-      isEditBookData
+      isEditBookData,
+      isLoading,
+      isError
     },
     handler: {
       handleInputFileChange,

@@ -6,3 +6,4 @@ export * from './buttons';
 export * from './text_field';
 export * from './book_item';
 export * from './drawer';
+export * from './empty_view';

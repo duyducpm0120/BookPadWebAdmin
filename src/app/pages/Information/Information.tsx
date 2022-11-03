@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-undef */
-import { BlankSpacer } from '@app/components';
+import { BlankSpacer, EmptyView } from '@app/components';
 import { SPACE, useGlobalDispatch, useGlobalState } from '@core';
 import { CircularProgress } from '@mui/material';
 import { AuthorTable } from './Authors';
@@ -14,7 +14,13 @@ export interface InformartionContentType {
 
 export const Information = (): JSX.Element => {
   const { selector, handler } = useViewModel();
-  const { publisherData = [], isLoading, authorsData = [], categoriesData = [] } = selector;
+  const {
+    publisherData = [],
+    isLoading,
+    authorsData = [],
+    categoriesData = [],
+    isError
+  } = selector;
   const { getAllCategoriesRefetch, getAllPublisherRefetch, getAllAuthorsRefetch } = handler;
   const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
   const globalDispatch = useGlobalDispatch();
@@ -27,6 +33,7 @@ export const Information = (): JSX.Element => {
         </div>
       );
     }
+    if (isError === true) return <EmptyView />;
     return (
       <div className="contentDataWrapper">
         <BlankSpacer height={SPACE.spacing16} />

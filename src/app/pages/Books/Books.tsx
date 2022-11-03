@@ -1,4 +1,4 @@
-import { BlankSpacer, BookItem, BPButton, BPDrawer, BPTextField } from '@app/components';
+import { BlankSpacer, BookItem, BPButton, BPDrawer, BPTextField, EmptyView } from '@app/components';
 import { SPACE, strings, TEXT_COLOR } from '@core';
 import { FONT_SIZE } from '@core/const/font';
 import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
@@ -24,7 +24,11 @@ export const Books = (): JSX.Element => {
     getAllAuthorsData,
     getAllAuthorsLoading,
     bookData,
-    isEditBookData
+    isEditBookData,
+    getAllBooksError,
+    getAllAuthorsError,
+    isLoading,
+    isError
   } = selector;
   const {
     setFilterState,
@@ -132,15 +136,6 @@ export const Books = (): JSX.Element => {
       </Box>
     );
   };
-
-  if (getAllBooksLoading || getAllAuthorsLoading) {
-    return (
-      <Box className={styles.loadingWrapper}>
-        <BlankSpacer height={SPACE.spacing16} />
-        <CircularProgress color="primary" />
-      </Box>
-    );
-  }
   const addNewBookUI = () => {
     return (
       <AddNewBookUI
@@ -166,6 +161,19 @@ export const Books = (): JSX.Element => {
       />
     );
   };
+
+  if (isLoading) {
+    return (
+      <Box className={styles.loadingWrapper}>
+        <BlankSpacer height={SPACE.spacing16} />
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return <EmptyView />;
+  }
 
   return (
     <Box className={styles.wrapper}>

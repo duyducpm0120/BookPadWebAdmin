@@ -26,12 +26,16 @@ export const useViewModel = () => {
 
   const isLoading = getAllPublisherLoading || getAllAuthorsLoading || getAllCategoriesLoading;
 
+  const isError =
+    getAllPublisherError != null || getAllAuthorsError != null || getAllCategoriesError;
+
   return {
     selector: {
       publisherData,
       isLoading,
       authorsData,
-      categoriesData
+      categoriesData,
+      isError
     },
     handler: {
       getAllPublisherRefetch,

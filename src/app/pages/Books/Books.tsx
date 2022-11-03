@@ -16,20 +16,7 @@ export const Books = (): JSX.Element => {
   const styles = useStyles();
   ///
   const { selector, handler } = useViewModel();
-  const {
-    file,
-    filterState,
-    getAllBooksLoading,
-    getAllBooksData,
-    getAllAuthorsData,
-    getAllAuthorsLoading,
-    bookData,
-    isEditBookData,
-    getAllBooksError,
-    getAllAuthorsError,
-    isLoading,
-    isError
-  } = selector;
+  const { filterState, getAllAuthorsData, bookData, isEditBookData, isLoading, isError } = selector;
   const {
     setFilterState,
     getAuthorsDisplayList,
@@ -39,7 +26,8 @@ export const Books = (): JSX.Element => {
     resetBookData,
     setBookData,
     checkIfAuthorExist,
-    setIsEditBookData
+    setIsEditBookData,
+    editBook
   } = handler;
   const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = useState(false);
   const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = useState(false);
@@ -217,13 +205,16 @@ export const Books = (): JSX.Element => {
             if (!isEditBookData) setIsEditBookData(true);
             else {
               //   // await uploadBook();
+              editBook();
               resetBookData();
+              setIsEditBookData(false);
               setIsOpenViewAndEditDrawer(false);
             }
           },
           isShow: true,
           type: 'contained',
-          leftIcon: isEditBookData ? <SaveIcon /> : <EditIcon />
+          leftIcon: isEditBookData ? <SaveIcon /> : <EditIcon />,
+          disabled: bookData.BookName === '' || bookData.BookPublisher.PublisherName === ''
         }}
         secondaryButtonParams={{
           label: strings.delete,

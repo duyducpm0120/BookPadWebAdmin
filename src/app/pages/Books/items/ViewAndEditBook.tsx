@@ -22,7 +22,6 @@ export const ViewAndEditBookUI = (props: {
     checkIfAuthorExist,
     isEditBookData
   } = props;
-  console.log('bookdata asdasd', bookData);
   const styles = useStyles();
   return (
     <Box className={styles.addNewBookWrapper}>
@@ -59,7 +58,7 @@ export const ViewAndEditBookUI = (props: {
       />
       <BlankSpacer height={SPACE.spacing12} />
       <BPTextField
-        disabled={!isEditBookData}
+        disabled
         label={strings.author}
         value={checkIfAuthorExist() ? bookData.Authors[0].AuthorName : ''}
         onChange={(e) => {
@@ -80,7 +79,7 @@ export const ViewAndEditBookUI = (props: {
 
       <BlankSpacer height={SPACE.spacing12} />
       <BPTextField
-        disabled={!isEditBookData}
+        disabled
         //  ref={newPublisherNameRef}
         label={strings.publisher_name}
         autoFocus

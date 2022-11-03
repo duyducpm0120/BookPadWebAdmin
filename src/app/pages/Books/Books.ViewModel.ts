@@ -4,7 +4,7 @@ import { GetAllAuthors } from './../../../core/services/AuthorServices';
 import type { BookFilterState } from './Books.types';
 import { BookStatusType } from './Books.types';
 import type { UploadBookDataType } from '@core';
-import { useGlobalLoading, useAuthToken, GetAllBooks, uploadNewBook } from '@core';
+import { UpdateBook, useGlobalLoading, useAuthToken, GetAllBooks, uploadNewBook } from '@core';
 import ePub from 'epubjs';
 import { isNil, size } from 'lodash';
 import { useState } from 'react';
@@ -35,6 +35,7 @@ export const useViewModel = () => {
   // useMount(() => {
   //   console.log('getAllBooksData', getAllBooksData);
   // });
+  const { updateBook } = UpdateBook();
 
   reader.addEventListener(
     'load',
@@ -139,6 +140,30 @@ export const useViewModel = () => {
   };
   const isLoading = getAllBooksLoading || getAllAuthorsLoading;
   const isError = getAllBooksError != null || getAllAuthorsError != null;
+
+  const editBook = async () => {
+    try {
+      showGlobalLoading();
+      await updateBook({
+        BookDescription: bookData.BookDescription,
+        BookId: Number(bookData.BookId),
+        BookName: bookData.BookName,
+        PublishedAt: bookData.PublishedAt
+      });
+      hideGlobalLoading();
+      showAlert({
+        message: 'Update book successfully',
+        type: AlertType.SUCCESS
+      });
+      getAllBooksRefetch();
+    } catch (error) {
+      hideGlobalLoading();
+      showAlert({
+        message: 'Update book failed',
+        type: AlertType.ERROR
+      });
+    }
+  };
   return {
     selector: {
       isFilePicked,
@@ -168,7 +193,8 @@ export const useViewModel = () => {
       resetBookData,
       setBookData,
       checkIfAuthorExist,
-      setIsEditBookData
+      setIsEditBookData,
+      editBook
     }
   };
 };

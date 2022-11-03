@@ -12,7 +12,7 @@ export class BookModel {
   BookId: string;
   BookName: string;
   BookDescription: string;
-  PublishedAt: any;
+  PublishedAt: string;
   CreatedAt: string;
   BookCoverImage: string;
   BookPublisher: PublisherModel;
@@ -23,7 +23,7 @@ export class BookModel {
     BookId: string,
     BookName: string,
     BookDescription: string,
-    PublishedAt: any,
+    PublishedAt: string,
     CreatedAt: string,
     BookCoverImage: string,
     BookPublisher: PublisherModel,
@@ -66,7 +66,6 @@ export class BookModel {
   };
 
   public static instantiateList = (json: any) => {
-    // console.log('json', json);
     if (size(json) === 0) return [];
     const books = safeGetArray(json, 'getAllBooks', []);
     return books.map((book: any) => BookModel.instantiate(book));
@@ -89,7 +88,7 @@ export class BookModel {
     const bookId = '';
     const bookName = metadata.title;
     const bookDescription = metadata.description;
-    const publishedAt = new Date(metadata.pubdate).getDate();
+    const publishedAt = metadata.pubdate;
     const createdAt = new Date(new Date(metadata.pubdate).getDate()).toString();
     const bookCoverImage = coverUrl ?? '';
     const bookPublisher = PublisherModel.instantiate({

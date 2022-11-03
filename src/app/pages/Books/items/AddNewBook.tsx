@@ -126,7 +126,7 @@ export const AddNewBookUI = (props: {
         // id="datetime-local"
         label={strings.publish_date}
         type="datetime-local"
-        value={bookData.PublishedAt}
+        value={bookData.PublishedAt.toString()}
         // sx={{ width: 250 }}
         onChange={(e) => {
           setBookData({ ...bookData, PublishedAt: e.target.value });

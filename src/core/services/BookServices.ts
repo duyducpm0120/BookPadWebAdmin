@@ -27,8 +27,6 @@ export const uploadNewBook = async (params: {
   formData.append('book', bookFile, bookData.BookName.trim() + '.epub');
   const json = bookData;
   formData.append('json', JSON.stringify(json));
-
-  console.log('formData', formData);
   const config: AxiosRequestConfig = {
     headers: {
       // 'content-type': 'multipart/form-data',
@@ -49,14 +47,30 @@ export const GetAllBooks = () => {
   };
 };
 
-export const EditBook = () => {
+export const UpdateBook = () => {
   const [editBookFunc, { data, error, loading }] = useMutation(EDIT_BOOK);
   // const { data, error, loading, refetch } = useQuery(CREATE_AUTHOR);
   const bookModel = BookModel.instantiate(data);
+  const updateBook = async (params: {
+    BookDescription: string;
+    BookId: number;
+    BookName: string;
+    PublishedAt: string;
+  }) => {
+    const { BookDescription, BookId, BookName, PublishedAt } = params;
+    await editBookFunc({
+      variables: {
+        BookDescription,
+        BookId,
+        BookName,
+        PublishedAt
+      }
+    });
+  };
   return {
     editBookData: bookModel,
     editBookError: error,
     editBookLoading: loading,
-    editBookFunc
+    updateBook
   };
 };

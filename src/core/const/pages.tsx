@@ -23,7 +23,7 @@ export const BookPadPages: BookPadPageType = [
   {
     name: 'Information',
     icon: <InfoOutlinedIcon sx={ICON_STYLE} />,
-    pages: ['Authors', 'Books', 'Publishers']
+    pages: ['Authors', 'Categories', 'Publishers']
   },
   {
     name: 'Users',

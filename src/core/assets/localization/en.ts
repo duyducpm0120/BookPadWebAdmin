@@ -28,5 +28,15 @@ export const enStrings = {
   author_date_of_death: 'Author date of death',
   author_description: 'Author description',
   author_name: 'Author name',
-  success_create_author: 'Create author successfully'
+  success_create_author: 'Create author successfully',
+  success_create_Category: 'Create Category successfully',
+  category_name: 'Category name',
+  category_description: 'Category description',
+  add_new_category: 'Add new category',
+  edit_category: 'Edit category',
+  view_category: 'View category',
+  category_id: 'Category id',
+  publisher_id: 'Publisher id',
+  author_id: 'Author id',
+  delete: 'Delete'
 };

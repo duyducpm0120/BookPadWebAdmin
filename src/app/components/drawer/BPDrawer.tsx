@@ -1,5 +1,7 @@
+import { SPACE } from '@core';
 import { FONT_SIZE } from '@core/const/font';
 import { Box, Drawer, Typography } from '@mui/material';
+import { BlankSpacer } from '../BlankSpacer';
 import { BPButton } from '../buttons';
 import type { BPButtonProps } from '../buttons/BPButtons.types';
 import { useStyles } from './BPDrawer.style';
@@ -49,6 +51,7 @@ export const BPDrawer = (props: BPDrawerProps) => {
           <Typography variant="h4" fontSize={FONT_SIZE.fontSize24}>
             {title}
           </Typography>
+          <BlankSpacer height={SPACE.spacing16} />
           {children}
         </Box>
         <Box className={styles.buttonsWrapper}>

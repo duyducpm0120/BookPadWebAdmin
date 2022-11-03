@@ -1,8 +1,7 @@
 import { alpha, Box, IconButton, Toolbar, Tooltip, Typography } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import type { EnhancedTableToolbarProps } from './Table.types';
 import { BPButton } from '../buttons';
+import { Add, DeleteIcon } from '@core';
 export const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected, tableHeader, setIsOpenDrawer, isOpenDrawer } = props;
 
@@ -42,7 +41,7 @@ export const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         ) : (
           <BPButton
             type="outlined"
-            leftIcon={<AddIcon />}
+            leftIcon={<Add />}
             onClick={() => setIsOpenDrawer(true)}
             label={'Add'}></BPButton>
         )}

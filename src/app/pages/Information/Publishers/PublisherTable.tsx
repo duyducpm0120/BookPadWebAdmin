@@ -5,7 +5,7 @@ import { SPACE } from '@core';
 import { Box } from '@mui/material';
 import { useStyles } from './PublisherTable.styles';
 import { safeGetString } from '@core/utils';
-import { Add, EditIcon, SaveIcon, strings } from '@core/assets';
+import { Add, DeleteIcon, EditIcon, SaveIcon, strings } from '@core/assets';
 import { useViewModel } from './PublisherTable.viewModel';
 export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTableProps) => {
   const styles = useStyles();
@@ -62,16 +62,6 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           // errorText={!isAddNewPublisherValid ? strings.publisher_description_required : ''}
         />
         <BlankSpacer height={SPACE.spacing12} />
-        {/* <Box className={styles.buttonWrapper}>
-          <BPButton
-            type="outlined"
-            isShowLeftIcon={true}
-            leftIcon={<AddIcon />}
-            label={'ADD'}
-            onClick={async () => {
-              await createPublisher();
-            }}></BPButton>
-        </Box> */}
       </Box>
     );
   };
@@ -141,30 +131,35 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
           content: ViewAndEditPublisherUI(),
           title: isEdit ? 'Edit publisher' : 'View publisher',
           secondaryButtonParams: {
-            label: strings.save,
+            label: strings.delete,
             onClick: async () => {
-              if (!isEdit) return;
-              await updatePublisherData();
-              setIsEdit(false);
+              // if (!isEdit) return;
+              // await updatePublisherData();
+              // setIsEdit(false);
             },
             isShow: true,
             type: 'outlined',
-            leftIcon: <SaveIcon />,
-            disabled: !isEdit
+            leftIcon: <DeleteIcon />
+            // disabled: !isEdit
           },
           primaryButtonParams: {
-            label: strings.edit,
-            onClick: () => {
-              setIsEdit(true);
+            label: isEdit ? strings.save : strings.edit,
+            onClick: async () => {
+              if (!isEdit) setIsEdit(true);
+              else {
+                await updatePublisherData();
+                setIsEdit(false);
+              }
             },
             isShow: true,
             type: 'contained',
-            leftIcon: <EditIcon />
+            leftIcon: isEdit ? <SaveIcon /> : <EditIcon />
           }
         }}
         hideColumns={['PublisherDescription']}
         showViewAndEditUICallBack={({ row }) => {
           setSelectedPublisherIndex(row);
+          setIsEdit(false);
         }}
       />
     </div>

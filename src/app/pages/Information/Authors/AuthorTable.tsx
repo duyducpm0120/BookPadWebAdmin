@@ -83,6 +83,18 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
       <Box className={styles.updatePublisherWrapper}>
         <BlankSpacer height={SPACE.spacing12} />
         <BPTextField
+          label={strings.author_id}
+          autoFocus
+          fullWidth
+          value={authorData.AuthorId}
+          onChange={(e) => {
+            // setAuthorData({ ...authorData, AuthorId: e.target.value });
+          }}
+          type="text"
+          disabled
+        />
+        <BlankSpacer height={SPACE.spacing12} />
+        <BPTextField
           label={strings.author_name}
           autoFocus
           fullWidth
@@ -134,16 +146,6 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
           // errorText={!isAddNewPublisherValid ? strings.publisher_name_required : ''}
         />
         <BlankSpacer height={SPACE.spacing12} />
-        {/* <Box className={styles.buttonWrapper}>
-          <BPButton
-            type="outlined"
-            isShowLeftIcon={true}
-            leftIcon={<AddIcon />}
-            label={'ADD'}
-            onClick={async () => {
-              await createPublisher();
-            }}></BPButton>
-        </Box> */}
       </Box>
     );
   };
@@ -173,7 +175,7 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
           content: <ViewAndEditAuthorUI />,
           title: isEdit ? strings.edit_author : strings.view_author,
           secondaryButtonParams: {
-            label: strings.save,
+            label: strings.delete,
             onClick: async () => {
               //   if (!isEdit) return;
               //   await updatePublisherData();
@@ -185,13 +187,16 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
             disabled: !isEdit
           },
           primaryButtonParams: {
-            label: strings.edit,
+            label: isEdit ? strings.save : strings.edit,
             onClick: () => {
-              setIsEdit(true);
+              if (!isEdit) setIsEdit(true);
+              else {
+                //
+              }
             },
             isShow: true,
             type: 'contained',
-            leftIcon: <EditIcon />
+            leftIcon: isEdit ? <SaveIcon /> : <EditIcon />
           },
           onClose: () => {
             setIsEdit(false);

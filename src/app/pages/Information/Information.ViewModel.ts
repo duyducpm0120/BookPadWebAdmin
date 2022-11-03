@@ -1,6 +1,6 @@
 import { GetAllAuthors } from './../../../core/services/AuthorServices';
 import { useAppApolloClient } from '@core/hooks';
-import { GetAllPublisher } from '@core';
+import { GetAllCategories, GetAllPublisher } from '@core';
 
 export const useViewModel = () => {
   const client = useAppApolloClient();
@@ -11,26 +11,32 @@ export const useViewModel = () => {
     refetch: getAllPublisherRefetch
   } = GetAllPublisher();
   const {
-    getAllAuthorsData: authorData,
+    getAllAuthorsData: authorsData,
     getAllAuthorsLoading,
     getAllAuthorsError,
     getAllAuthorsRefetch
   } = GetAllAuthors();
 
-  const reloadPublisherData = async () => {
-    await getAllPublisherRefetch();
-  };
-  const isLoading = getAllPublisherLoading || getAllAuthorsLoading;
+  const {
+    getAllCategoriesData: categoriesData,
+    getAllCategoriesLoading,
+    getAllCategoriesError,
+    getAllCategoriesRefetch
+  } = GetAllCategories();
+
+  const isLoading = getAllPublisherLoading || getAllAuthorsLoading || getAllCategoriesLoading;
 
   return {
     selector: {
       publisherData,
       isLoading,
-      authorData
+      authorsData,
+      categoriesData
     },
     handler: {
-      reloadPublisherData,
-      getAllAuthorsRefetch
+      getAllPublisherRefetch,
+      getAllAuthorsRefetch,
+      getAllCategoriesRefetch
     }
   };
 };

@@ -42,3 +42,10 @@ export const EDIT_BOOK = gql`
     }
   }
 `;
+export const DELETE_BOOK = gql`
+  mutation deleteBook($BookId: Int!) {
+    deleteBook(BookId: $BookId) {
+      BookName
+    }
+  }
+`;

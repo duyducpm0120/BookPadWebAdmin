@@ -4,7 +4,14 @@ import { GetAllAuthors } from './../../../core/services/AuthorServices';
 import type { BookFilterState } from './Books.types';
 import { BookStatusType } from './Books.types';
 import type { UploadBookDataType } from '@core';
-import { UpdateBook, useGlobalLoading, useAuthToken, GetAllBooks, uploadNewBook } from '@core';
+import {
+  DeleteBook,
+  UpdateBook,
+  useGlobalLoading,
+  useAuthToken,
+  GetAllBooks,
+  uploadNewBook
+} from '@core';
 import ePub from 'epubjs';
 import { isNil, size } from 'lodash';
 import { useState } from 'react';
@@ -36,6 +43,7 @@ export const useViewModel = () => {
   //   console.log('getAllBooksData', getAllBooksData);
   // });
   const { updateBook } = UpdateBook();
+  const { deleteBook } = DeleteBook();
 
   reader.addEventListener(
     'load',
@@ -164,6 +172,26 @@ export const useViewModel = () => {
       });
     }
   };
+  const deleteBookById = async (bookId: number) => {
+    try {
+      showGlobalLoading();
+      await deleteBook({
+        BookId: bookId
+      });
+      hideGlobalLoading();
+      showAlert({
+        message: 'Delete book successfully',
+        type: AlertType.SUCCESS
+      });
+      getAllBooksRefetch();
+    } catch (error) {
+      hideGlobalLoading();
+      showAlert({
+        message: 'Delete book failed',
+        type: AlertType.ERROR
+      });
+    }
+  };
   return {
     selector: {
       isFilePicked,
@@ -194,7 +222,8 @@ export const useViewModel = () => {
       setBookData,
       checkIfAuthorExist,
       setIsEditBookData,
-      editBook
+      editBook,
+      deleteBookById
     }
   };
 };

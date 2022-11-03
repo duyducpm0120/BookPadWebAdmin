@@ -27,7 +27,8 @@ export const Books = (): JSX.Element => {
     setBookData,
     checkIfAuthorExist,
     setIsEditBookData,
-    editBook
+    editBook,
+    deleteBookById
   } = handler;
   const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = useState(false);
   const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = useState(false);
@@ -220,6 +221,7 @@ export const Books = (): JSX.Element => {
           label: strings.delete,
           onClick: async () => {
             // await deleteBook();
+            deleteBookById(Number(bookData.BookId));
             resetBookData();
             setIsOpenViewAndEditDrawer(false);
           },

@@ -1,4 +1,4 @@
-import { EDIT_BOOK } from './../queries/Book.query';
+import { EDIT_BOOK, DELETE_BOOK } from './../queries/Book.query';
 import { BookModel } from './../models/BookModel';
 import type { AxiosRequestConfig } from 'axios';
 import axios from 'axios';
@@ -72,5 +72,24 @@ export const UpdateBook = () => {
     editBookError: error,
     editBookLoading: loading,
     updateBook
+  };
+};
+export const DeleteBook = () => {
+  const [deleteBookFunc, { data, error, loading }] = useMutation(DELETE_BOOK);
+  // const { data, error, loading, refetch } = useQuery(CREATE_AUTHOR);
+  const bookModel = BookModel.instantiate(data);
+  const deleteBook = async (params: { BookId: number }) => {
+    const { BookId } = params;
+    await deleteBookFunc({
+      variables: {
+        BookId
+      }
+    });
+  };
+  return {
+    deleteBookData: bookModel,
+    deleteBookError: error,
+    deleteBookLoading: loading,
+    deleteBook
   };
 };

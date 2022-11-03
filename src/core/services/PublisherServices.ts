@@ -10,12 +10,33 @@ export const GetAllPublisher = () => {
 
 export const UpdatePublisher = () => {
   const [updatePublisherFunc, { data, error, loading }] = useMutation(UPDATE_PUBLISHER);
+  const updatePublisher = async (
+    publisherId: number,
+    publisherName: string,
+    publisherDescription: string
+  ) => {
+    await updatePublisherFunc({
+      variables: {
+        PublisherId: publisherId,
+        PublisherName: publisherName,
+        PublisherDescription: publisherDescription
+      }
+    });
+  };
   const publisherData = PublisherModel.instantiate(data);
-  return { data: publisherData, error, loading, updatePublisherFunc };
+  return { data: publisherData, error, loading, updatePublisher };
 };
 
 export const CreatePublisher = () => {
   const [createPublisherFunc, { data, error, loading }] = useMutation(CREATE_PUBLISHER);
+  const createNewPublisher = async (publisherName: string, publisherDescription: string) => {
+    await createPublisherFunc({
+      variables: {
+        PublisherName: publisherName,
+        PublisherDescription: publisherDescription
+      }
+    });
+  };
   const publisherData = PublisherModel.instantiate(data);
-  return { data: publisherData, error, loading, createPublisherFunc };
+  return { data: publisherData, error, loading, createNewPublisher };
 };

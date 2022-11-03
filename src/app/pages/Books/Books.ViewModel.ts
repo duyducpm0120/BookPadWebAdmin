@@ -80,7 +80,6 @@ export const useViewModel = () => {
       // setMetadata(BookMetadataModel.instantiate({}));
       setBookData(BookModel.instantiate({}));
     } catch (err) {
-      console.log('upload book err', err);
       hideGlobalLoading();
       showAlert({
         message: 'Upload book failed',
@@ -122,7 +121,7 @@ export const useViewModel = () => {
     if (filterState.author !== '') {
       filteredBookData = filteredBookData.filter((book) => {
         if (size(book.Authors) === 0) return false;
-        return book.Authors[0].AuthorId === filterState.author;
+        return book.Authors[0].AuthorName === filterState.author;
       });
     }
     return filteredBookData;

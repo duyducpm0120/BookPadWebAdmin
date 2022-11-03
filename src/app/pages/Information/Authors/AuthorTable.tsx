@@ -1,5 +1,5 @@
 import { BlankSpacer, BPTable, BPTextField } from '@app/components';
-import { EditIcon, SaveIcon, SPACE, strings } from '@core';
+import { DeleteIcon, EditIcon, SaveIcon, SPACE, strings } from '@core';
 import Add from '@mui/icons-material/Add';
 import { Box } from '@mui/material';
 import { useState } from 'react';
@@ -183,8 +183,7 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
             },
             isShow: true,
             type: 'outlined',
-            leftIcon: <SaveIcon />,
-            disabled: !isEdit
+            leftIcon: <DeleteIcon />
           },
           primaryButtonParams: {
             label: isEdit ? strings.save : strings.edit,

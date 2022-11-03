@@ -1,5 +1,5 @@
 import { BlankSpacer, BookItem, BPButton, BPDrawer, BPTextField, EmptyView } from '@app/components';
-import { SPACE, strings, TEXT_COLOR } from '@core';
+import { DeleteIcon, SPACE, strings, TEXT_COLOR } from '@core';
 import { FONT_SIZE } from '@core/const/font';
 import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useStyles } from './Books.styles';
@@ -212,34 +212,29 @@ export const Books = (): JSX.Element => {
           resetBookData();
         }}
         primaryButtonParams={{
-          label: strings.edit,
+          label: isEditBookData ? strings.save : strings.edit,
           onClick: () => {
-            const fn = async () => {
-              // await uploadBook();
-              // setIsOpenViewAndEditDrawer(false);
-              setIsEditBookData(true);
-            };
-            fn();
+            if (!isEditBookData) setIsEditBookData(true);
+            else {
+              //   // await uploadBook();
+              resetBookData();
+              setIsOpenViewAndEditDrawer(false);
+            }
           },
           isShow: true,
-          leftIcon: <EditIcon />,
           type: 'contained',
-          disabled: false
+          leftIcon: isEditBookData ? <SaveIcon /> : <EditIcon />
         }}
         secondaryButtonParams={{
-          label: strings.save,
-          onClick: () => {
-            const fn = async () => {
-              // await uploadBook();
-              setIsOpenViewAndEditDrawer(false);
-              setIsEditBookData(false);
-            };
-            fn();
+          label: strings.delete,
+          onClick: async () => {
+            // await deleteBook();
+            resetBookData();
+            setIsOpenViewAndEditDrawer(false);
           },
           isShow: true,
-          leftIcon: <SaveIcon />,
-          type: 'contained',
-          disabled: !isEditBookData
+          type: 'outlined',
+          leftIcon: <DeleteIcon />
         }}>
         {viewAndEditBookUI()}
       </BPDrawer>

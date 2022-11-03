@@ -28,8 +28,6 @@ export const PublisherTable: React.FC<PublisherTableProps> = (props: PublisherTa
     reloadPublisherData,
     isAddNewPublisherValid
   } = useViewModel(props);
-  console.log('CURREN_PAGE', CURRENT_PAGE);
-  console.log('CURRENT_PAGE_INDEX', CURRENT_PAGE_INDEX);
   const [isEdit, setIsEdit] = useState(false);
   const AddNewPublisherUI = () => {
     return (

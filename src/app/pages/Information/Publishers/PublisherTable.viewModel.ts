@@ -18,9 +18,9 @@ export const useViewModel = (props: PublisherTableProps) => {
     data: updatePublisherCallbackData,
     loading: updatePublisherCallbackLoading,
     error: updatePublisherCallbackError,
-    updatePublisherFunc
+    updatePublisher
   } = UpdatePublisher();
-  const { createPublisherFunc } = CreatePublisher();
+  const { createNewPublisher } = CreatePublisher();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
 
@@ -41,13 +41,11 @@ export const useViewModel = (props: PublisherTableProps) => {
     }
     showGlobalLoading();
     try {
-      await updatePublisherFunc({
-        variables: {
-          PublisherName: safeGetString(selectedPublisherNameRef.current, 'value', ''),
-          PublisherDescription: safeGetString(selectedPublisherDescriptionRef.current, 'value', ''),
-          PublisherId: Number(publisherData[selectedPublisherIndex].PublisherId)
-        }
-      });
+      await updatePublisher(
+        Number(publisherData[selectedPublisherIndex].PublisherId),
+        safeGetString(selectedPublisherNameRef.current, 'value', ''),
+        safeGetString(selectedPublisherDescriptionRef.current, 'value', '')
+      );
       showAlert({
         message: strings.success_update_publisher,
         type: AlertType.SUCCESS
@@ -72,12 +70,10 @@ export const useViewModel = (props: PublisherTableProps) => {
     }
     showGlobalLoading();
     try {
-      await createPublisherFunc({
-        variables: {
-          PublisherName: safeGetString(newPublisherNameRef.current, 'value', ''),
-          PublisherDescription: safeGetString(newPublisherDescriptionRef.current, 'value', '')
-        }
-      });
+      await createNewPublisher(
+        safeGetString(newPublisherNameRef.current, 'value', ''),
+        safeGetString(newPublisherDescriptionRef.current, 'value', '')
+      );
       showAlert({
         message: strings.success_create_publisher,
         type: AlertType.SUCCESS

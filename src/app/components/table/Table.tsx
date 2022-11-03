@@ -89,7 +89,6 @@ export const BPTable: React.FC<BPTableProps> = (props: BPTableProps) => {
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = tableData.map((n) => n[tableDataKeys[0]]);
-      console.log('newSelected', newSelected);
       setSelected(newSelected);
       return;
     }

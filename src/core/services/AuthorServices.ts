@@ -17,10 +17,25 @@ export const CreateAuthor = () => {
   const [createAuthorFunc, { data, error, loading }] = useMutation(CREATE_AUTHOR);
   // const { data, error, loading, refetch } = useQuery(CREATE_AUTHOR);
   const authorsData = AuthorModel.instantiateArray(data);
+  const createNewAuthor = async (
+    authorName: string,
+    authorDescription: string,
+    authorDOB: string,
+    authorDOD: string
+  ) => {
+    await createAuthorFunc({
+      variables: {
+        AuthorName: authorName,
+        AuthorDescription: authorDescription,
+        AuthorDOB: authorDOB,
+        AuthorDOD: authorDOD
+      }
+    });
+  };
   return {
     createAuthorData: authorsData,
     createAuthorError: error,
     createAuthorLoading: loading,
-    createAuthorFunc
+    createNewAuthor
   };
 };

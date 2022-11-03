@@ -8,7 +8,7 @@ export const useViewModel = (props: AuthorTableProps) => {
   const { refetchAuthorsData } = props;
   const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
   const [authorData, setAuthorData] = useState<AuthorModel>(AuthorModel.instantiate({}));
-  const { createAuthorFunc } = CreateAuthor();
+  const { createNewAuthor } = CreateAuthor();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
   const isAddNewAuthorValid = useMemo(() => {
@@ -25,14 +25,12 @@ export const useViewModel = (props: AuthorTableProps) => {
     }
     showGlobalLoading();
     try {
-      await createAuthorFunc({
-        variables: {
-          AuthorName: authorData.AuthorName,
-          AuthorDescription: authorData.AuthorDescription,
-          AuthorDOB: authorData.AuthorDOB,
-          AuthorDOD: authorData.AuthorDOD
-        }
-      });
+      await createNewAuthor(
+        authorData.AuthorName,
+        authorData.AuthorDescription,
+        authorData.AuthorDOB,
+        authorData.AuthorDOD
+      );
       showAlert({
         message: strings.success_create_author,
         type: AlertType.SUCCESS

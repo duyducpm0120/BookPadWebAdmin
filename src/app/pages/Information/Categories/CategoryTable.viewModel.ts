@@ -8,7 +8,7 @@ export const useViewModel = (props: CategoryTableProps) => {
   const { refetchCategoriesData } = props;
   const { CURRENT_PAGE_INDEX, CURRENT_PAGE } = useGlobalState();
   const [categoryData, setCategoryData] = useState<CategoryModel>(CategoryModel.instantiate({}));
-  const { createCategoryFunc } = CreateCategory();
+  const { createNewCategory } = CreateCategory();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
   const isAddNewCategoryValid = useMemo(() => {
@@ -25,12 +25,7 @@ export const useViewModel = (props: CategoryTableProps) => {
     }
     showGlobalLoading();
     try {
-      await createCategoryFunc({
-        variables: {
-          CategoryName: categoryData.CategoryName,
-          CategoryDescription: categoryData.CategoryDescription
-        }
-      });
+      await createNewCategory(categoryData.CategoryName, categoryData.CategoryDescription);
       showAlert({
         message: strings.success_create_Category,
         type: AlertType.SUCCESS

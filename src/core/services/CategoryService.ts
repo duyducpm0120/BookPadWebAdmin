@@ -16,10 +16,18 @@ export const CreateCategory = () => {
   const [createCategoryFunc, { data, error, loading }] = useMutation(CREATE_CATEGORY);
   // const { data, error, loading, refetch } = useQuery(CREATE_AUTHOR);
   const categoriesData = CategoryModel.instantiateArray(data);
+  const createNewCategory = async (categoryName: string, categoryDescription: string) => {
+    await createCategoryFunc({
+      variables: {
+        CategoryName: categoryName,
+        CategoryDescription: categoryDescription
+      }
+    });
+  };
   return {
     createCategoryData: categoriesData,
     createCategoryError: error,
     createCategoryLoading: loading,
-    createCategoryFunc
+    createNewCategory
   };
 };

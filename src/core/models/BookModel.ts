@@ -83,9 +83,7 @@ export class BookModel {
   };
 
   public static instantiateFromBook = async (book: Book) => {
-    console.log('instantiate book asdasd', book);
     const metadata = await this.getMetadata(book);
-    console.log('metadata', metadata);
     const coverUrl = await this.getCoverUrl(book);
     // setCoverUrl(isNil(coverUrl) ? '' : coverUrl);
     const bookId = '';

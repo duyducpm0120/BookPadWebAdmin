@@ -19,6 +19,7 @@ export const uploadNewBook = async (params: {
   bookFile: File;
   token: string;
 }) => {
+  console.log('uploadNewBook params asdasd', params);
   const { coverUrl, bookData, bookFile, token } = params;
   const imageBlob = await fetch(coverUrl).then(async (r) => await r.blob());
   const url = END_POINT + '/book/upload';

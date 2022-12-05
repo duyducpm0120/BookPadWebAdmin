@@ -28,7 +28,9 @@ export const Books = (): JSX.Element => {
     checkIfAuthorExist,
     setIsEditBookData,
     editBook,
-    deleteBookById
+    deleteBookById,
+    handleMultiInputFileChange,
+    uploadMultipleBook
   } = handler;
   const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = useState(false);
   const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = useState(false);
@@ -79,6 +81,42 @@ export const Books = (): JSX.Element => {
           label={strings.filter.toUpperCase()}
           onClick={() => {}}
           type="contained"></BPButton>
+        <BlankSpacer height={SPACE.spacing16} />
+        <div
+          style={{
+            width: '100%',
+            backgroundColor: 'red'
+          }}>
+          <input
+            type="file"
+            // hidden
+            onChange={handleMultiInputFileChange}
+            accept=".epub"
+            style={{
+              flex: 1,
+              backgroundColor: 'red',
+              position: 'absolute',
+              zIndex: 1,
+              width: '100%',
+              opacity: 0,
+              cursor: 'pointer'
+            }}
+            multiple
+          />
+          <BPButton
+            label={'add multiple'}
+            onClick={() => {}}
+            type="contained"
+            style={{ width: '100%' }}></BPButton>
+        </div>
+        <BlankSpacer height={SPACE.spacing16} />
+        <BPButton
+          label={'submit multiple book'}
+          onClick={() => {
+            uploadMultipleBook();
+          }}
+          type="contained"
+          style={{ width: '100%' }}></BPButton>
       </Paper>
     );
   };

@@ -1,3 +1,4 @@
+import { useMultipleInputFileHandle } from './../../../core/hooks/useMultipleInputFileHandle';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
 import { BookModel } from './../../../core/models/BookModel';
 import { GetAllAuthors } from './../../../core/services/AuthorServices';
@@ -14,6 +15,7 @@ import {
 } from '@core';
 import ePub from 'epubjs';
 import { isNil, size } from 'lodash';
+import type { ChangeEvent } from 'react';
 import { useState } from 'react';
 import { AlertType } from '@core/store';
 
@@ -27,6 +29,11 @@ export const useViewModel = () => {
   const { authToken } = useAuthToken();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
+  const { getAllBooksData, getAllBooksLoading, getAllBooksError, getAllBooksRefetch } =
+    GetAllBooks();
+  const { handleMultiInputFileChange, uploadMultipleBook } = useMultipleInputFileHandle({
+    getAllBooksRefetch
+  });
 
   const [filterState, setFilterState] = useState<BookFilterState>({
     name: '',
@@ -35,8 +42,7 @@ export const useViewModel = () => {
   });
 
   const [isEditBookData, setIsEditBookData] = useState(false);
-  const { getAllBooksData, getAllBooksLoading, getAllBooksError, getAllBooksRefetch } =
-    GetAllBooks();
+
   const { getAllAuthorsData, getAllAuthorsLoading, getAllAuthorsError, getAllAuthorsRefetch } =
     GetAllAuthors();
   // useMount(() => {
@@ -50,14 +56,18 @@ export const useViewModel = () => {
     async (e: any) => {
       const data = e.target.result;
       const book = ePub(data);
+      console.log('book asdasd', book);
       const bookData = await BookModel.instantiateFromBook(book);
       setBookData(bookData);
     },
     false
   );
-  const handleInputFileChange = async (event) => {
+  const handleInputFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     resetBookData();
-    const newFile = event.target.files[0];
+    const newFile = event.target.files?.[0];
+    if (isNil(newFile)) {
+      return;
+    }
     setFile(newFile);
     setIsFilePicked(true);
     reader.readAsArrayBuffer(newFile);
@@ -223,7 +233,9 @@ export const useViewModel = () => {
       checkIfAuthorExist,
       setIsEditBookData,
       editBook,
-      deleteBookById
+      deleteBookById,
+      handleMultiInputFileChange,
+      uploadMultipleBook
     }
   };
 };

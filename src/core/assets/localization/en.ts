@@ -38,5 +38,6 @@ export const enStrings = {
   category_id: 'Category id',
   publisher_id: 'Publisher id',
   author_id: 'Author id',
-  delete: 'Delete'
+  delete: 'Delete',
+  success_ban_user: 'Ban user successfully'
 };

@@ -4,3 +4,4 @@ export * from './BookMetadataModel';
 export * from './AuthorModel';
 export * from './BookModel';
 export * from './CategoryModel';
+export * from './UserProfileModel';

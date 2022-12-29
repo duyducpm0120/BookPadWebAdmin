@@ -199,7 +199,18 @@ export const Books = (): JSX.Element => {
   }
 
   if (isError) {
-    return <EmptyView />;
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+        <EmptyView />
+      </div>
+    );
   }
 
   return (

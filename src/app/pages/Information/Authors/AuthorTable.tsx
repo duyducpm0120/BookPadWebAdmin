@@ -155,7 +155,7 @@ export const AuthorTable: React.FC<AuthorTableProps> = (props: AuthorTableProps)
         tableHeader={CURRENT_PAGE.pages[CURRENT_PAGE_INDEX]}
         tableData={authorsData}
         rightDrawerAddNewUIParams={{
-          content: AddNewAuthorUI(),
+          content: <AddNewAuthorUI />,
           title: strings.add_new_author,
           primaryButtonParams: {
             label: strings.add,

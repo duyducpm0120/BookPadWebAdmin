@@ -19,6 +19,8 @@ export interface BPTableProps {
   };
   hideColumns?: string[];
   showViewAndEditUICallBack?: ({ row }: { row: number }) => void;
+  hideHeader?: boolean;
+  hideCheckbox?: boolean;
 }
 
 export interface EnhancedTableToolbarProps {
@@ -36,4 +38,5 @@ export interface EnhancedTableProps {
   orderBy: string;
   rowCount: number;
   object: Object;
+  hideCheckbox?: boolean;
 }

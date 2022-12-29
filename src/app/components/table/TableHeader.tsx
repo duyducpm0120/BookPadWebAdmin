@@ -1,7 +1,16 @@
 import { TableHead, TableRow, TableCell, Checkbox } from '@mui/material';
 import type { EnhancedTableProps } from './Table.types';
 export const EnhancedTableHeader = (props: EnhancedTableProps) => {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, object } = props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+    object,
+    hideCheckbox = false
+  } = props;
   const createSortHandler = (property: string) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
@@ -28,15 +37,17 @@ export const EnhancedTableHeader = (props: EnhancedTableProps) => {
     <TableHead>
       <TableRow>
         <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts'
-            }}
-          />
+          {!hideCheckbox ? (
+            <Checkbox
+              color="primary"
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={rowCount > 0 && numSelected === rowCount}
+              onChange={onSelectAllClick}
+              inputProps={{
+                'aria-label': 'select all desserts'
+              }}
+            />
+          ) : null}
         </TableCell>
         {objectToHeaderCells(object).map((headCell) => (
           <TableCell

@@ -17,6 +17,8 @@ import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import { IconButton, Tooltip } from '@mui/material';
 import _ from 'lodash';
 import { BPDrawer } from '../drawer';
+import { BlankSpacer } from '../BlankSpacer';
+import { SPACE } from '@core';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -61,7 +63,9 @@ export const BPTable: React.FC<BPTableProps> = (props: BPTableProps) => {
     rightDrawerAddNewUIParams,
     rightDrawerViewAndEditUIParams,
     hideColumns = [],
-    showViewAndEditUICallBack = () => {}
+    showViewAndEditUICallBack = () => {},
+    hideHeader = false,
+    hideCheckbox = false
   } = props;
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<string>('name');
@@ -136,15 +140,22 @@ export const BPTable: React.FC<BPTableProps> = (props: BPTableProps) => {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          tableHeader={tableHeader}
-          setIsOpenDrawer={setIsOpenAddNewDrawer}
-          isOpenDrawer={isOpenAddNewDrawer}
-        />
+        {!hideHeader ? (
+          <EnhancedTableToolbar
+            numSelected={selected.length}
+            tableHeader={tableHeader}
+            setIsOpenDrawer={setIsOpenAddNewDrawer}
+            isOpenDrawer={isOpenAddNewDrawer}
+          />
+        ) : (
+          <BlankSpacer height={SPACE.spacing12} />
+        )}
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
+            style={{
+              marginLeft: hideCheckbox ? -20 : 0
+            }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}>
             <EnhancedTableHeader
@@ -155,6 +166,7 @@ export const BPTable: React.FC<BPTableProps> = (props: BPTableProps) => {
               onRequestSort={handleRequestSort}
               rowCount={tableData.length}
               object={getHeaderObject()}
+              hideCheckbox={hideCheckbox}
             />
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
@@ -175,14 +187,16 @@ export const BPTable: React.FC<BPTableProps> = (props: BPTableProps) => {
                       key={row[tableDataKeys[0]]}
                       selected={isItemSelected}>
                       <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId
-                          }}
-                          onClick={(event) => handleClick(event, row[tableDataKeys[0]])}
-                        />
+                        {!hideCheckbox ? (
+                          <Checkbox
+                            color="primary"
+                            checked={isItemSelected}
+                            inputProps={{
+                              'aria-labelledby': labelId
+                            }}
+                            onClick={(event) => handleClick(event, row[tableDataKeys[0]])}
+                          />
+                        ) : null}
                       </TableCell>
                       {tableDataKeys.map((key, index) => {
                         return (

@@ -14,7 +14,7 @@ import './core/scss/styles.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SignIn } from '@app/pages/SignIn';
 import Layout from '@app/pages/Layouts/Layout';
-import { Books, Home, Information } from '@app/pages';
+import { Books, Home, Information, UserPage } from '@app/pages';
 import { ApolloProvider } from '@apollo/client';
 import { useAppApolloClient, useAuthToken, useGlobalState } from '@core/hooks';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
@@ -46,7 +46,7 @@ const App = () => {
                 <Route path="/" element={<Home />}>
                   <Route index element={<Books />}></Route>
                   <Route path="/Information" element={<Information />} />
-                  <Route path="/Users" element={<></>} />
+                  <Route path="/Users" element={<UserPage />} />
                   <Route path="/Recommendation" element={<></>} />
                   <Route path="/Analytics" element={<></>} />
                   <Route path="/Rating" element={<></>} />

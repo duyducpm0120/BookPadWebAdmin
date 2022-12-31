@@ -58,7 +58,9 @@ export const BPDrawer = (props: BPDrawerProps) => {
           {secondaryButtonParams.isShow ? (
             <BPButton
               label={secondaryButtonParams.label}
-              onClick={secondaryButtonParams.onClick}
+              onClick={() => {
+                secondaryButtonParams.onClick();
+              }}
               type={secondaryButtonParams.type}
               style={{
                 width: '45%'

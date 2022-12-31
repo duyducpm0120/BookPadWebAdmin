@@ -4,7 +4,7 @@ import { AlertType } from '@core/store';
 import ePub from 'epubjs';
 import { isNil, size } from 'lodash';
 import type { ChangeEvent } from 'react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useAuthToken } from './useAuthToken';
 import { useGlobalAlert } from './useGlobalAlert';
 import { useGlobalLoading } from './useGlobalLoading';
@@ -15,7 +15,7 @@ export const useMultipleInputFileHandle = (params: { getAllBooksRefetch: () => v
   const [files, setFiles] = useState<File[]>([]);
   const [isFilePicked, setIsFilePicked] = useState(false);
 
-  const bookList = useRef<BookModel[]>([]);
+  const [bookList, setBookList] = useState<BookModel[]>([]);
   const { authToken } = useAuthToken();
   const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
   const { showAlert } = useGlobalAlert();
@@ -47,7 +47,7 @@ export const useMultipleInputFileHandle = (params: { getAllBooksRefetch: () => v
           const book = ePub(data);
           console.log('book asdasd', book);
           const bookData = await BookModel.instantiateFromBook(book);
-          bookList.current.push(bookData);
+          setBookList((prev) => [...prev, bookData]);
         },
         false
       );
@@ -90,13 +90,13 @@ export const useMultipleInputFileHandle = (params: { getAllBooksRefetch: () => v
     }
   };
   async function uploadMultipleBook() {
-    console.log('bookList.current', bookList.current);
+    console.log('bookList.current', bookList);
     console.log('files[0]', files[0]);
-    console.log('bookList.current[0]', bookList.current[0]);
+    console.log('bookList.current[0]', bookList[0]);
     // uploadBook();
     // await uploadBook(files[0], bookList.current[0]);
     for (let i = 0; i < files.length; i++) {
-      await uploadBook(files[i], bookList.current[i]);
+      await uploadBook(files[i], bookList[i]);
     }
     getAllBooksRefetch();
   }
@@ -104,6 +104,8 @@ export const useMultipleInputFileHandle = (params: { getAllBooksRefetch: () => v
   return {
     handleMultiInputFileChange,
     isFilePicked,
-    uploadMultipleBook
+    uploadMultipleBook,
+    bookList,
+    setBookList
   };
 };

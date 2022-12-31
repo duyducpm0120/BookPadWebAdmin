@@ -39,5 +39,6 @@ export const enStrings = {
   publisher_id: 'Publisher id',
   author_id: 'Author id',
   delete: 'Delete',
-  success_ban_user: 'Ban user successfully'
+  success_ban_user: 'Ban user successfully',
+  success_unban_user: 'Unban user successfully'
 };

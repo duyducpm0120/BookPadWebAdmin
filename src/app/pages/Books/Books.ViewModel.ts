@@ -31,9 +31,10 @@ export const useViewModel = () => {
   const { showAlert } = useGlobalAlert();
   const { getAllBooksData, getAllBooksLoading, getAllBooksError, getAllBooksRefetch } =
     GetAllBooks();
-  const { handleMultiInputFileChange, uploadMultipleBook } = useMultipleInputFileHandle({
-    getAllBooksRefetch
-  });
+  const { handleMultiInputFileChange, uploadMultipleBook, bookList, setBookList } =
+    useMultipleInputFileHandle({
+      getAllBooksRefetch
+    });
 
   const [filterState, setFilterState] = useState<BookFilterState>({
     name: '',
@@ -216,7 +217,8 @@ export const useViewModel = () => {
       bookData,
       isEditBookData,
       isLoading,
-      isError
+      isError,
+      bookList
     },
     handler: {
       handleInputFileChange,
@@ -235,7 +237,8 @@ export const useViewModel = () => {
       editBook,
       deleteBookById,
       handleMultiInputFileChange,
-      uploadMultipleBook
+      uploadMultipleBook,
+      setBookList
     }
   };
 };

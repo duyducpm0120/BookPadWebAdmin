@@ -40,3 +40,8 @@ export interface EnhancedTableProps {
   object: Object;
   hideCheckbox?: boolean;
 }
+
+export interface TableRefHandle {
+  closeAddNewDrawer: () => void;
+  closeViewAndEditDrawer: () => void;
+}

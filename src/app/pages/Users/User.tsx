@@ -5,13 +5,16 @@ import { Add, EditIcon, SPACE, SearchIcon, strings } from '@core';
 import { BPButton, BPTable, BPTextField, BlankSpacer } from '@app/components';
 import { FONT_SIZE } from '@core/const/font';
 import { BookStatusType } from '../Books/Books.types';
-import React from 'react';
+import React, { useRef } from 'react';
+import type { TableRefHandle } from '@app/components/table/Table.types';
 
 export const UserPage: React.FC<any> = React.memo(() => {
   const styles = useStyles();
   const { selectors, handlers } = useViewModel();
   const { isLoading, userList, selectedUser } = selectors;
-  const { setSelectedUser, ban } = handlers;
+  const { setSelectedUser, banSelectedUser, unbanSelectedUser } = handlers;
+
+  const tableRef = useRef<TableRefHandle>(null);
   const renderFilterBox = () => {
     return (
       <Paper className={styles.filterWrapper}>
@@ -179,6 +182,7 @@ export const UserPage: React.FC<any> = React.memo(() => {
   const renderUserList = () => {
     return (
       <BPTable
+        ref={tableRef}
         tableHeader={''}
         tableData={userList}
         rightDrawerAddNewUIParams={{
@@ -203,12 +207,13 @@ export const UserPage: React.FC<any> = React.memo(() => {
           title: '',
           primaryButtonParams: {
             label: selectedUser.IsNotLocked ? 'Ban' : 'Unban',
-            onClick: () => {
-              //   if (!isEdit) setIsEdit(true);
-              //   else {
-              //     //
-              //   }
-              ban();
+            onClick: async () => {
+              if (selectedUser.IsNotLocked) {
+                await banSelectedUser();
+              } else {
+                await unbanSelectedUser();
+              }
+              tableRef.current?.closeViewAndEditDrawer();
             },
             isShow: true,
             type: 'outlined',

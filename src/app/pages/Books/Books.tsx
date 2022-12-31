@@ -1,5 +1,5 @@
 import { BlankSpacer, BookItem, BPButton, BPDrawer, BPTextField, EmptyView } from '@app/components';
-import { DeleteIcon, SPACE, strings, TEXT_COLOR } from '@core';
+import { DeleteIcon, SPACE, strings, TEXT_COLOR, useGlobalLoading } from '@core';
 import { FONT_SIZE } from '@core/const/font';
 import { Box, CircularProgress, Grid, Paper, Typography } from '@mui/material';
 import { useStyles } from './Books.styles';
@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import { useMemo, useState } from 'react';
 import { BookStatusType } from './Books.types';
-import { AddNewBookUI, ViewAndEditBookUI } from './items';
+import { AddNewBooksUI, ViewAndEditBookUI } from './items';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 
@@ -16,7 +16,8 @@ export const Books = (): JSX.Element => {
   const styles = useStyles();
   ///
   const { selector, handler } = useViewModel();
-  const { filterState, getAllAuthorsData, bookData, isEditBookData, isLoading, isError } = selector;
+  const { filterState, getAllAuthorsData, bookData, isEditBookData, isLoading, isError, bookList } =
+    selector;
   const {
     setFilterState,
     getAuthorsDisplayList,
@@ -30,10 +31,13 @@ export const Books = (): JSX.Element => {
     editBook,
     deleteBookById,
     handleMultiInputFileChange,
-    uploadMultipleBook
+    uploadMultipleBook,
+    getAllBooksRefetch,
+    setBookList
   } = handler;
   const [isOpenAddNewDrawer, setIsOpenAddNewDrawer] = useState(false);
   const [isOpenViewAndEditDrawer, setIsOpenViewAndEditDrawer] = useState(false);
+  const { showGlobalLoading, hideGlobalLoading } = useGlobalLoading();
 
   const bookDataToRender = useMemo(() => {
     return getFilteredData();
@@ -82,41 +86,6 @@ export const Books = (): JSX.Element => {
           onClick={() => {}}
           type="contained"></BPButton>
         <BlankSpacer height={SPACE.spacing16} />
-        <div
-          style={{
-            width: '100%',
-            backgroundColor: 'red'
-          }}>
-          <input
-            type="file"
-            // hidden
-            onChange={handleMultiInputFileChange}
-            accept=".epub"
-            style={{
-              flex: 1,
-              backgroundColor: 'red',
-              position: 'absolute',
-              zIndex: 1,
-              width: '100%',
-              opacity: 0,
-              cursor: 'pointer'
-            }}
-            multiple
-          />
-          <BPButton
-            label={'add multiple'}
-            onClick={() => {}}
-            type="contained"
-            style={{ width: '100%' }}></BPButton>
-        </div>
-        <BlankSpacer height={SPACE.spacing16} />
-        <BPButton
-          label={'submit multiple book'}
-          onClick={() => {
-            uploadMultipleBook();
-          }}
-          type="contained"
-          style={{ width: '100%' }}></BPButton>
       </Paper>
     );
   };
@@ -165,13 +134,17 @@ export const Books = (): JSX.Element => {
   };
   const addNewBookUI = () => {
     return (
-      <AddNewBookUI
+      <AddNewBooksUI
         getAllAuthorsData={getAllAuthorsData}
         bookData={bookData}
         handleInputFileChange={handleInputFileChange}
         setBookData={setBookData}
         getAuthorsDisplayList={getAuthorsDisplayList}
         checkIfAuthorExist={checkIfAuthorExist}
+        getAllBooksRefetch={getAllBooksRefetch}
+        bookList={bookList}
+        setBookList={setBookList}
+        handleMultiInputFileChange={handleMultiInputFileChange}
       />
     );
   };
@@ -219,7 +192,7 @@ export const Books = (): JSX.Element => {
       <BlankSpacer width={SPACE.spacing16} />
       {renderBookList()}
       <BPDrawer
-        title={strings.add_new_book}
+        title={strings.add_new_book + 's'}
         open={isOpenAddNewDrawer}
         onClose={() => {
           setIsOpenAddNewDrawer(false);
@@ -227,17 +200,17 @@ export const Books = (): JSX.Element => {
         }}
         primaryButtonParams={{
           label: strings.add,
-          onClick: () => {
-            const fn = async () => {
-              await uploadBook();
-              setIsOpenAddNewDrawer(false);
-            };
-            fn();
+          onClick: async () => {
+            showGlobalLoading();
+            await uploadMultipleBook();
+            setIsOpenAddNewDrawer(false);
+            resetBookData();
+            hideGlobalLoading();
           },
           isShow: true,
           leftIcon: <AddIcon />,
           type: 'contained',
-          disabled: bookData.BookCoverImage === ''
+          disabled: bookList.length === 0
         }}>
         {addNewBookUI()}
       </BPDrawer>
@@ -251,11 +224,11 @@ export const Books = (): JSX.Element => {
         }}
         primaryButtonParams={{
           label: isEditBookData ? strings.save : strings.edit,
-          onClick: () => {
+          onClick: async () => {
             if (!isEditBookData) setIsEditBookData(true);
             else {
               //   // await uploadBook();
-              editBook();
+              await editBook();
               resetBookData();
               setIsEditBookData(false);
               setIsOpenViewAndEditDrawer(false);

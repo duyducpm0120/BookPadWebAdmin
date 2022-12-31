@@ -6,7 +6,7 @@ import {
   useGlobalLoading,
   useMount
 } from '@core';
-import { banUser, getUserList } from '@core/services/UserService';
+import { banUser, getUserList, unbanUser } from '@core/services/UserService';
 import { AlertType } from '@core/store';
 import { useState } from 'react';
 
@@ -27,12 +27,30 @@ export const useViewModel = () => {
       console.log('fetch User data failed', err);
     }
   };
-  const ban = async () => {
+  const banSelectedUser = async () => {
     showGlobalLoading();
     try {
       await banUser(authToken, selectedUser.UserId);
       showAlert({
         message: strings.success_ban_user,
+        type: AlertType.SUCCESS
+      });
+      await fetchData();
+    } catch (err) {
+      const error: any = err;
+      showAlert({
+        message: error.message,
+        type: AlertType.ERROR
+      });
+    }
+    hideGlobalLoading();
+  };
+  const unbanSelectedUser = async () => {
+    showGlobalLoading();
+    try {
+      await unbanUser(authToken, selectedUser.UserId);
+      showAlert({
+        message: strings.success_unban_user,
         type: AlertType.SUCCESS
       });
       await fetchData();
@@ -61,7 +79,8 @@ export const useViewModel = () => {
       setUserList,
       setIsLoading,
       setSelectedUser,
-      ban
+      banSelectedUser,
+      unbanSelectedUser
     }
   };
 };

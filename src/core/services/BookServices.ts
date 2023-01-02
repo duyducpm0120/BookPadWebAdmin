@@ -94,3 +94,60 @@ export const DeleteBook = () => {
     deleteBook
   };
 };
+
+export const getAllRating = async (params: { token: string; limit: number; last: number }) => {
+  const { token, limit, last } = params;
+  const url = END_POINT + '/bookReview/getAllReviews';
+
+  const res = await axios.post(
+    url,
+    {
+      limit,
+      last
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  console.log('getAllRating res', res);
+  return res.data;
+};
+export const hideRating = async (params: { token: string; ratingId: number }) => {
+  const { token, ratingId } = params;
+  const url = END_POINT + '/bookReview/hideReview';
+
+  const res = await axios.post(
+    url,
+    {
+      reviewId: ratingId
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  console.log('hideRating res', res);
+  return res;
+};
+
+export const unhideRating = async (params: { token: string; ratingId: number }) => {
+  const { token, ratingId } = params;
+  const url = END_POINT + '/bookReview/unhideReview';
+
+  const res = await axios.post(
+    url,
+    {
+      reviewId: ratingId
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  console.log('unhideRating res', res);
+  return res;
+};

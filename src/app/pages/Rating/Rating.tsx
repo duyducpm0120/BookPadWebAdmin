@@ -52,8 +52,8 @@ export const RatingPage: React.FC<any> = React.memo(() => {
           multiSelectParams={{
             options: [
               {
-                label: 'asdasdasdasdasdasd',
-                value: 'asdasdasdasdasdasdasdasdasdasdasdasdas'
+                label: 'asd',
+                value: 'asd'
               }
             ]
           }}></BPTextField>

@@ -18,6 +18,7 @@ import { Books, Home, Information, RatingPage, UserPage } from '@app/pages';
 import { ApolloProvider } from '@apollo/client';
 import { useAppApolloClient, useAuthToken, useGlobalState } from '@core/hooks';
 import { useGlobalAlert } from '@core/hooks/useGlobalAlert';
+import { AnalyticPage } from '@app/pages/Analytics';
 const theme = createTheme(appTheme);
 const App = () => {
   const client = useAppApolloClient();
@@ -48,7 +49,7 @@ const App = () => {
                   <Route path="/Information" element={<Information />} />
                   <Route path="/Users" element={<UserPage />} />
                   <Route path="/Recommendation" element={<></>} />
-                  <Route path="/Analytics" element={<></>} />
+                  <Route path="/Analytics" element={<AnalyticPage></AnalyticPage>} />
                   <Route path="/Rating" element={<RatingPage />} />
                 </Route>
               )}

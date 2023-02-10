@@ -1,7 +1,6 @@
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { TEXT_COLOR } from './colors';
@@ -30,11 +29,11 @@ export const BookPadPages: BookPadPageType = [
     pages: [],
     icon: <PeopleAltOutlinedIcon sx={ICON_STYLE} />
   },
-  {
-    name: 'Recommendation',
-    pages: [],
-    icon: <FavoriteBorderOutlinedIcon sx={ICON_STYLE} />
-  },
+  // {
+  //   name: 'Recommendation',
+  //   pages: [],
+  //   icon: <FavoriteBorderOutlinedIcon sx={ICON_STYLE} />
+  // },
   {
     name: 'Analytics',
     pages: [],

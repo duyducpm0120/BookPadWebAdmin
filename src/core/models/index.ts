@@ -6,3 +6,4 @@ export * from './BookModel';
 export * from './CategoryModel';
 export * from './UserProfileModel';
 export * from './RatingModel';
+export * from './ReportModel';

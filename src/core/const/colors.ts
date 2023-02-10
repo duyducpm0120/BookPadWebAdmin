@@ -12,7 +12,7 @@ export const COMMON_COLOR = {
 export const APP_THEME = {
   primary: {
     main: '#67be23',
-    light: 'AEDB8E',
+    light: '#AEDB8E',
     dark: '#509817'
   },
   secondary: {

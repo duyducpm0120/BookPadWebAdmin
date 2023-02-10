@@ -12,7 +12,7 @@ const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
     fullWidth = true,
     autoFocus = false,
     startIcon = null,
-    style = {},
+    inputStyle: style = {},
     multiSelectParams = null,
     error = false,
     errorText = null,
@@ -53,7 +53,8 @@ const RefactorTextField = (props: BPTextFieldProps, ref: ForwardedRef<null>) => 
       multiline={multiline}
       rows={numberOfLines}
       disabled={disabled}
-      defaultValue={value === null ? defaultValue : null}>
+      defaultValue={value === null ? defaultValue : null}
+      style={{ ...style }}>
       {!isNil(multiSelectParams) &&
         multiSelectParams.options.map((item) => (
           <MenuItem key={item.label} value={item.value}>

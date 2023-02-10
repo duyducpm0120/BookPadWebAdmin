@@ -9,8 +9,8 @@ export interface BPTextFieldProps {
   fullWidth?: boolean;
   autoFocus?: boolean;
   startIcon?: JSX.Element;
-  style?: {
-    borderRadius: number;
+  inputStyle?: React.CSSProperties & {
+    borderRadius?: number;
   };
   multiSelectParams?: {
     options: BPTextFieldSelectOptionType[];
@@ -24,4 +24,5 @@ export interface BPTextFieldProps {
   type?: 'text' | 'datetime-local';
   InputProps?: {};
   InputLabelProps?: {};
+  containerStyle?: React.CSSProperties;
 }
